@@ -1,12 +1,20 @@
 import { useState } from 'react'
 import './App.css'
+import ChatSection from "./components/Chatsectioncopy";
+import Orb from "./components/Orb";
+
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-    <P>hello world</P>
+    <div style={{position:"absolute", inset:0 ,zIndex:0}}>
+      <Orb/>  
+    </div>
+      <div style={{zIndex:10}}>
+        <ChatSection/>
+      </div>
     </>
   )
 }
