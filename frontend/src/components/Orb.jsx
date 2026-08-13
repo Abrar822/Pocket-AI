@@ -154,7 +154,7 @@ export default function Orb({
                 style={{ display: "block", overflow: "visible" }}>
                 
                 {/* starfield */}
-                {stars.map((s) => (
+                {/* {stars.map((s) => (
                     <circle key={s.key} cx={s.x} cy={s.y} r={s.r} fill="#ffffff" opacity={0.}>
                         <animate
                             attributeName="opacity"
@@ -164,7 +164,7 @@ export default function Orb({
                             repeatCount="indefinite"
                         />
                     </circle>
-                ))}
+                ))} */}
                     <svg
                 viewBox={`-400 -250 ${vw} ${vh}`}
                 

@@ -39,17 +39,19 @@ function ChatSection() {
        <button onClick={toggle} className={open?'btn-open':'btn-close'} style={{backgroundColor:"transparent", border:"none"}}>
           <MessageCircleMore color="#ffffff"/>
         </button>
-        <div className={`chat-box ${open?'open':'close'}`}>
+        <div className={`chat-X ${open?"open":"close"}`}>
+          <button onClick={toggle} style={{backgroundColor:"transparent", border:"none"}}>
+          <X color="#ffffff"/>
+        </button>
+        </div>
+        <div className={`chat-box ${open?"open":"close"} `}>
         {/* <button onClick={toggle} className={open?'btn-open':'btn-close'} style={{backgroundColor:"transparent", border:"none"}}>
           <MessageCircleMore color="#ffffff"/>
         </button> */}
-        <button onClick={toggle} style={{backgroundColor:"transparent", border:"none"}}>
-          <X color="#ffffff"/>
-        </button>
-        <div ref={bottomRef} style={{backgroundColor:"transparent"}}>
+        <div ref={bottomRef} className="messages">
         {messages.map((msg, index) => (
           <div key={index} className={`${msg.sender === "user" ? "messageuser" : "messagebot"}`}>
-            {msg.text}
+            {msg.text}  
           </div>
         ))}
         </div>
