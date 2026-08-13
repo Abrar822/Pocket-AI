@@ -1,0 +1,12 @@
+:root {
+    --sidebar-bg:#11111b;
+    --violet-select: #835eff;
+    --violet-hover: #8b6bff;
+    --text: #ffffff;
+    --cyan: #00d4ff;
+    --pink: #ff2d92;
+    --violet: #6f3cff;
+    --text-mute: #6f6f82;
+    --grad-brand: linear-gradient(135deg, var(--violet), var(--cyan));
+    --bg: #090913;
+}

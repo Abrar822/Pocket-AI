@@ -1,0 +1,9 @@
+.nav-timer{
+    color: white;
+    /* padding: 10px; */
+    /* cursor: pointer; */
+}
+.nav-timer:hover{
+    /* transition: transform 0.5s ease;
+    transform:scale(1.1) */
+}

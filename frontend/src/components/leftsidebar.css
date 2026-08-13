@@ -1,0 +1,22 @@
+.left-sidebar-btn{
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 1px;
+
+}
+
+.left-sidebar-btn:hover{
+    transition: transform 0.5s ease;
+    transform:scale(1.2);
+    /* background-color: #8b6bff; */
+}
+
+.left-sidebar-icon{
+    color: white;
+    
+}

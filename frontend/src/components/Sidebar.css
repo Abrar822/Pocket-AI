@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.side-bar,.side-bar-collapsed {
+    margin-top: 70px;
+    border: 1px solid black;
+    height: 100vh;
+    background-color: var(--sidebar-bg);
+    overflow: hidden;
+    transition: width 0.7s ease;
+        position: fixed;
+}
+
+.side-bar {
+    width: 200px;
+
+}
+
+.side-bar-collapsed {
+    width: 65px;
+}
