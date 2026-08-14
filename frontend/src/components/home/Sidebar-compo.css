@@ -1,0 +1,56 @@
+.container,.sidebar-collapsed  {
+    height: 50px;
+    margin: 0 10px 10px 10px;
+    display: flex;
+    align-items: center;
+    color: var(--text);
+    border: 1px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    /* transition: transform 0.5s ease; */
+    transition:
+        background-color 0.3s ease,
+        transform 0.3s ease;
+    
+}
+
+.container {
+    width: calc(100% - 20px);
+    gap: 16px;
+    justify-content: flex-start;
+    padding: 12.5px;
+}
+
+.sidebar-collapsed {
+    width: 50px;
+    justify-content: center;
+    padding: 0;
+}
+
+.container:hover,
+.sidebar-collapsed:hover {
+    background-color: var(--violet-hover);
+    color: var(--text);
+    /* transform: translate(5px);
+    transition-timing-function: ease; */
+}
+
+.container:hover {
+    transform: translateX(5px);
+}
+
+.logo,
+.logo-collapsed {
+    flex-shrink: 0;
+}
+
+.sidebar-text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+
+    transition:
+        opacity 0.7s ease,
+        width 0.7s ease;
+}
