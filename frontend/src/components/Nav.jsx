@@ -2,8 +2,7 @@ import "./Nav.css";
 import Timer from "./Timer";
 import Setting from "./Setting_logo";
 import Logo from "./Logo";
-import Left_sidebar from "./leftsidebar";
-
+import Left_sidebar from "./Menu";
 
 function Navbar({onMenuClick}) {
   return (

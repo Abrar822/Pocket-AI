@@ -1,5 +1,5 @@
 import {Menu} from "lucide-react";
-import "./leftsidebar.css";
+import "./Menu.css";
 
 export default function left_sidebar({onMenuClick}){
     return(

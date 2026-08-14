@@ -3,21 +3,25 @@
   padding: 0;
   box-sizing: border-box;
 }
-.side-bar,.side-bar-collapsed {
-    margin-top: 70px;
-    border: 1px solid black;
-    height: 100vh;
-    background-color: var(--sidebar-bg);
+.side-bar {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    /* border: 1px solid black; */
+    height: calc(100vh - 70px);
+    /* background-color: var(--sidebar-bg); */
+    background-color: var((--bg));
     overflow: hidden;
     transition: width 0.7s ease;
-        position: fixed;
+    z-index: 20;
+
+}
+
+.side-bar.collapsed {
+    width: 65px;
 }
 
 .side-bar {
     width: 200px;
 
-}
-
-.side-bar-collapsed {
-    width: 65px;
 }
