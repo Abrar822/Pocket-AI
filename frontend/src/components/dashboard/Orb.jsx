@@ -1,9 +1,8 @@
 import { startTransition, useEffect, useId, useMemo, useRef, useState } from "react";
 
 /**
- * Orb — glowing ring + center audio-equalizer + mirrored flowing sound
- * waves + starfield backdrop, matching the reference "Pocket AI" voice
- * orb (Listening.../Thinking... states).
+ * Orb — glowing ring + mirrored flowing sound waves, matching the
+ * reference "Pocket AI" voice orb (Listening.../Thinking... states).
  *
  * Props:
  *   size      - number, ring diameter in px (default 220)
@@ -11,15 +10,13 @@ import { startTransition, useEffect, useId, useMemo, useRef, useState } from "re
  *   state     - "listening" | "thinking" | "idle", overrides `listening` if set
  *   label     - override the state text shown under the ring
  *   hint      - optional secondary line under the label (e.g. wake word hint)
- *   showStars - boolean, render the twinkling starfield behind the orb (default true)
  */
-export default function Orb({
+    export default function Orb({
     size = 220,
     listening = true,
     state,
     label,
     hint,
-    showStars = true,
 }) {
     const resolvedState = state || (listening ? "listening" : "idle");
     const animate = resolvedState !== "idle";
@@ -126,48 +123,13 @@ export default function Orb({
     const barGap = (ringR * 1.5) / barCount;
     const barStartX = cx - (barGap * (barCount - 1)) / 2;
 
-    // ---- starfield ----
-    const stars = useMemo(() => {
-        if (!showStars) return [];
-        return Array.from({ length: 1000 }, (_, i) => ({
-            key: `star-${i}`,
-            x: Math.random() * 1500,
-            y: Math.random() * 800,
-            r: Math.random() * 1.1 + 0.3,
-            dur: 2 + Math.random() * 3,
-            delay: Math.random() * 3,
-        }));
-    }, [showStars, vw, vh]);
-
     const resolvedLabel =
         label || (resolvedState === "thinking" ? "Thinking..." : resolvedState === "listening" ? "Listening..." : "Idle");
 
     return (
-        <div style={{ width: "100%", maxWidth: vw, margin: 0,padding:0, textAlign: "center" }}>
-        
-            <div style={{ width: "100%", maxWidth: vw, margin: 0,padding:0, textAlign: "center" }}>
+        <div style={{ width: "60%", maxWidth: vw, margin: "0 auto", textAlign: "center" }}>
             <svg
                 viewBox={`0 0 ${vw} ${vh}`}
-                width="100%"
-                height="auto"
-                role="img"
-                style={{ display: "block", overflow: "visible" }}>
-                
-                {/* starfield */}
-                {/* {stars.map((s) => (
-                    <circle key={s.key} cx={s.x} cy={s.y} r={s.r} fill="#ffffff" opacity={0.}>
-                        <animate
-                            attributeName="opacity"
-                            values="0.15;0.9;0.15"
-                            dur={`${s.dur}s`}
-                            begin={`${s.delay}s`}
-                            repeatCount="indefinite"
-                        />
-                    </circle>
-                ))} */}
-                    <svg
-                viewBox={`-400 -250 ${vw} ${vh}`}
-                
                 width="100%"
                 height="auto"
                 role="img"
@@ -218,8 +180,6 @@ export default function Orb({
                         </feMerge>
                     </filter>
                 </defs>
-
-                
 
                 {/* mirrored flowing sound-wave lines */}
                 <g filter={`url(#${waveGlowId})`}>
@@ -314,15 +274,9 @@ export default function Orb({
                     </g>
                 )} */}
             </svg>
-                
-            </svg>
-            </div>
 
             <div
                 style={{
-                    position:"relative",
-                    top:250,
-                    left:400,
                     marginTop: size * 0.08,
                     color: "#e7e6fb",
                     fontSize: Math.max(13, size * 0.075),
@@ -343,6 +297,7 @@ export default function Orb({
                 >
                     {hint}
                 </div>
+                
             )}
 
             <style>{`
