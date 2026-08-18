@@ -4,7 +4,7 @@ import Setting from "./Setting_logo";
 import Logo from "./Logo";
 import Left_sidebar from "./Menu";
 
-function Navbar({onMenuClick}) {
+function Navbar({onMenuClick, onSettingClick}) {
   return (
     <nav className="navbar">
       <div className="nav-left">
@@ -21,7 +21,7 @@ function Navbar({onMenuClick}) {
         </div>
 
         <div className="nav-setting-logo">
-          <Setting />
+          <Setting onClick={onSettingClick}/>
         </div>
       </div>
     </nav>

@@ -1,10 +1,16 @@
 import { LayoutDashboard,Database,Settings } from 'lucide-react';
-import './sidebar-compo.css'
+import './Sidebar-compo.css'
 
-function Sidebar_Compo({compo,collapsed}) {
+function Sidebar_Compo({compo,collapsed,onClick}) {
+    const handleClick = () =>{
+            if (onClick) {
+                onClick();
+            }
+        
+    };
     return (
         compo === 'dashboard' ?
-        <div className={collapsed ? 'sidebar-collapsed' :'container'}>
+        <div onClick={handleClick} className={collapsed ? 'sidebar-collapsed' :'container'}>
             <LayoutDashboard className={collapsed ? 'logo-collapsed' :'logo'} />
             <p className={collapsed ? 'sidebar-text' : ''}>Dashboard</p>
         </div>
@@ -16,7 +22,7 @@ function Sidebar_Compo({compo,collapsed}) {
         </div>
         :
         compo === 'setting' &&
-        <div className={collapsed ? 'sidebar-collapsed' :'container'}>
+        <div onClick={handleClick} className={collapsed ? 'sidebar-collapsed' :'container'}>
             <Settings className={collapsed ? 'logo-collapsed' :'logo'}/>
             <p className={collapsed ? 'sidebar-text' : ''}>Settings</p>
         </div>

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
 body { font-family: 'Inter', sans-serif; }
-.pai-logo-text h2 { font-family: 'Space Grotesk', sans-serif; }
+.pai-logo-text h2 { font-family: 'Inter', sans-serif; }
 
 .navbar{
     position: relative;

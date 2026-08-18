@@ -1,5 +1,5 @@
   import { useState,useRef,useEffect } from "react";
-import "./Chatsectioncopy.css";
+import "./Chatsection.css";
 import {MessageCircleMore} from "lucide-react";
 import {X} from "lucide-react";
 
@@ -35,13 +35,14 @@ function ChatSection() {
   
 
   return (
-    <div className="chat-container">
-       <button onClick={toggle} className={open?'btn-open':'btn-close'} style={{backgroundColor:"transparent", border:"none"}}>
+    <>
+    <button onClick={toggle} className={open?'btn-open':'btn-close'} style={{backgroundColor:"transparent", border:"none"}}>
           <MessageCircleMore className="chat-icon" color="#ffffff"/>
-        </button>
+    </button>
+    <div className={`chat-container ${open?"open":"close"} `}>
         <div className={`chat-X ${open?"open":"close"}`}>
           <button onClick={toggle} style={{backgroundColor:"transparent", border:"none"}}>
-          <X color="#ffffff"/>
+              <X color="#ffffff"/>
         </button>
         </div>
         <div className={`chat-box ${open?"open":"close"} `}>
@@ -71,6 +72,7 @@ function ChatSection() {
       </div>
       </div>
     </div>
+    </>
   );
 }
 

@@ -2,11 +2,16 @@ import {useState} from "react";
 import { Settings } from "lucide-react";
 import "./Setting_logo.css";
 
-function Setting(){
+function Setting({onClick}){
     const [rotate, setRotate] = useState(false);
 
     const handleClick = () =>{
-        setRotate(!rotate);
+        setRotate(prev => !prev);
+        setTimeout(() => {
+            if (onClick) {
+                onClick();
+            }
+        }, 500);
     };
     return(
         <button className="setting-btn" onClick={handleClick}>

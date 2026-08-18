@@ -1,0 +1,417 @@
+/* ================================
+   SETTINGS PAGE
+================================ */
+
+.settings-page {
+  width: 85%;
+  margin-left: 10%;
+  min-height: 100%;
+  /* padding: 40px 50px; */
+  box-sizing: border-box;
+  color: white;
+  background: #080812;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.settings-title h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 700;
+
+  background: linear-gradient(90deg, #ffffff, #b78cff, #5bbcff);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.settings-title p {
+  margin: 8px 0 0;
+  color: #9292a5;
+  font-size: 15px;
+}
+
+/* Decorative wave */
+
+/* .settings-wave {
+  color: #a855f7;
+  font-size: 28px;
+  opacity: 0.7;
+  text-shadow:
+    0 0 10px #a855f7,
+    0 0 25px #6366f1;
+} */
+
+/* ================================
+   SETTINGS CARD
+================================ */
+
+.settings-card {
+  width: 100%;
+  background: rgba(15, 15, 28, 0.85);
+  border: 1px solid rgba(150, 120, 220, 0.2);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(100, 60, 180, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+/* ================================
+   EACH SETTING
+================================ */
+
+.setting-row {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 10px 40px;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Last row */
+
+.setting-row:last-child {
+  border-bottom: none;
+}
+
+/* ================================
+   LEFT SIDE
+================================ */
+
+.setting-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 280px;
+}
+
+/* Icon circle */
+
+.setting-icon {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #b66cff;
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.22),
+    rgba(80, 50, 130, 0.08)
+  );
+  border: 1px solid rgba(168, 85, 247, 0.15);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.08);
+}
+
+/* Setting title */
+
+.setting-info h2 {
+  margin: 0 0 6px;
+  color: #ffffff;
+  font-size: 23px;
+  font-weight: 600;
+}
+
+/* Setting description */
+
+.setting-info p {
+  margin: 0;
+  color: #89899b;
+  font-size: 14px;
+}
+
+/* ================================
+   OPTION CONTAINER
+================================ */
+
+.setting-options {
+  margin-right:50px ;
+  width: 45%;
+  display: flex;
+  gap: 15px;
+}
+
+/* ================================
+   OPTION BUTTON
+================================ */
+
+.option-button {
+  position: relative;
+  flex: 1;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #a6a6b7;
+  background: rgba(25, 25, 40, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  font-size: 20px;
+  cursor: pointer;
+  transition:
+    border 0.25s ease,
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Hover */
+
+.option-button:hover {
+  color: white;
+  background: rgba(35, 30, 55, 0.9);
+  border-color: rgba(168, 85, 247, 0.5);
+  /* transform: translateY(-1px); */
+  transform: scale(1.05);
+}
+
+/* Selected */
+
+.option-button.selected {
+  color: white;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(#11111d, #11111d) padding-box,
+    linear-gradient(90deg, #c026ff, #7c3aed, #22b9ff) border-box;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.12);
+}
+
+/* ================================
+   CHECK MARK
+================================ */
+
+.check {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 19px;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #ffffff;
+  background: linear-gradient(135deg, #c026ff, #38bdf8);
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* ================================
+   INPUT
+================================ */
+
+.input-container {
+  width: 50%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+  box-sizing: border-box;
+  color: #9292a5;
+  background: rgba(10, 10, 20, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition:
+    border 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Input focus */
+
+.input-container:focus-within {
+  border-color: #9b5cff;
+  box-shadow: 0 0 15px rgba(155, 92, 255, 0.15);
+}
+
+/* Input */
+
+.input-container input {
+  width: 100%;
+  color: white;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 20px;
+}
+
+/* Placeholder */
+
+.input-container input::placeholder {
+  color: #707083;
+}
+
+/* ================================
+   WAKE WORD
+================================ */
+
+.input-wrapper {
+  width: 50%;
+}
+
+.input-wrapper .input-container {
+  width: 100%;
+}
+
+.input-description {
+  display: block;
+  margin-top: 8px;
+  color: #747487;
+  font-size: 12px;
+}
+
+/* ================================
+   VOICE SYMBOL
+================================ */
+
+.voice-symbol {
+  color: #b66cff;
+  font-size: 21px;
+}
+
+/* ================================
+   SAVE BUTTON
+================================ */
+
+.save-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 18px 35px;
+  background: rgba(10, 10, 20, 0.35);
+}
+
+.save-button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 25px;
+  color: white;
+  background: linear-gradient(90deg, #c026ff, #8b5cf6, #22b9ff);
+  border: none;
+  border-radius: 11px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.22);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
+}
+
+.save-button:hover {
+  /* transform: translateY(-2px); */
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+}
+
+.save-button:active {
+  transform: scale(0.97);
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1100px) {
+  .settings-page {
+    padding: 30px;
+  }
+
+  .setting-row {
+    gap: 25px;
+  }
+
+  .setting-options,
+  .input-container,
+  .input-wrapper {
+    width: 50%;
+  }
+}
+
+@media (max-width: 800px) {
+  .settings-page {
+    padding: 25px 20px;
+  }
+
+  .setting-row {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 20px;
+  }
+
+  .setting-info {
+    min-width: 0;
+  }
+
+  .setting-options,
+  .input-container,
+  .input-wrapper {
+    width: 100%;
+  }
+
+  .settings-wave {
+    display: none;
+  }
+}
+
+@media (max-width: 550px) {
+  .settings-page {
+    padding: 20px 15px;
+  }
+
+  .settings-title h1 {
+    font-size: 30px;
+  }
+
+  .settings-title p {
+    font-size: 13px;
+  }
+
+  .setting-row {
+    padding: 20px;
+  }
+
+  .setting-options {
+    flex-direction: column;
+  }
+
+  .setting-icon {
+    width: 52px;
+    height: 52px;
+  }
+
+  .setting-info {
+    gap: 14px;
+  }
+
+  .setting-info h2 {
+    font-size: 17px;
+  }
+
+  .save-container {
+    padding: 20px;
+  }
+
+  .save-button {
+    width: 100%;
+
+    justify-content: center;
+  }
+}
