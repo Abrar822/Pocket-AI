@@ -8,6 +8,33 @@ function ChatSection() {
   const [input, setInput] = useState("");
   const [open,setIsOpen] = useState(false);
   const bottomRef = useRef(null);
+  const [chatWidth, setChatWidth] = useState(400);
+  const isResizing = useRef(false);
+
+  const startResize = (e) => {
+    isResizing.current = true;
+
+    document.addEventListener("mousemove", resize);
+    document.addEventListener("mouseup", stopResize);
+  };
+
+  const resize = (e) => {
+    if (!isResizing.current) return;
+
+    const newWidth = window.innerWidth - e.clientX;
+
+    // minimum and maximum width
+    if (newWidth >= 300 && newWidth <= 700) {
+      setChatWidth(newWidth);
+    }
+  };
+
+  const stopResize = () => {
+    isResizing.current = false;
+
+    document.removeEventListener("mousemove", resize);
+    document.removeEventListener("mouseup", stopResize);
+  };
   
   const sendMessage = () => {
     if (input.trim() === "") return;
@@ -39,7 +66,8 @@ function ChatSection() {
     <button onClick={toggle} className={open?'btn-open':'btn-close'} style={{backgroundColor:"transparent", border:"none"}}>
           <MessageCircleMore className="chat-icon" color="#ffffff"/>
     </button>
-    <div className={`chat-container ${open?"open":"close"} `}>
+    <div className={`chat-container ${open?"open":"close"}`} style={{width:`${chatWidth}px`}}>
+        <div className="resize-handle" onMouseDown={startResize}/>
         <div className={`chat-X ${open?"open":"close"}`}>
           <button onClick={toggle} style={{backgroundColor:"transparent", border:"none"}}>
               <X color="#ffffff"/>
@@ -58,14 +86,17 @@ function ChatSection() {
         </div>
       
       <div className="chat-input">
-        <input
-          type="text"
+        <textarea
           value={input}
+          rows={4}
+          wrap="soft"
+          // cols={5}
           placeholder="Type a message..."
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
-            sendMessage();
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              sendMessage();
           }}}
         />
         <button onClick={sendMessage}>Send</button>

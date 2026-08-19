@@ -21,7 +21,6 @@ body{
 .chat-icon {
   width: 40px;
   height: 40px;
-  margin-left: 3700%;
 }
 /* .btn{
   position: sticky;
@@ -36,8 +35,8 @@ body{
   
 }
 .btn-close{
-  position: absolute;
-  /* top: 5%; */
+  position: fixed;
+  right: 0;
   margin: 5px;
   visibility: visible;
   transform: translateX(0%);
@@ -48,7 +47,7 @@ body{
   display: flex;
   align-items: center;
   position: sticky;
-  width: 400px;
+  width: 100%;
   height: auto;
   padding: 10px;
   background-color:  rgba(255, 255, 255, 0.09);
@@ -67,7 +66,7 @@ body{
   flex: 1;
   margin-left: auto;
   padding: 15px;
-  width: 400px;
+  width: 100%;
   max-height: 90%;
   overflow-y: auto;
   background-color: rgba(255, 255, 255, 0.09);
@@ -124,7 +123,7 @@ body{
   align-items: center;
   position: sticky;
   top: 90%;
-  width: 350px;
+  width: 100%;
   padding: 10px;
   background-color:  rgba(255, 255, 255, 0.15);
   /* border-top: 1px solid #ccc; */
@@ -134,8 +133,8 @@ body{
   border-radius: 10px;
 }
 
-/* Input field */
-.chat-input input {
+/* textarea field */
+.chat-input textarea {
   flex: 1;
   padding: 10px;
   border: 1px solid #ccc;
@@ -143,6 +142,8 @@ body{
   outline: none;
   background-color: black;
   color: #ffffff;
+  resize: none;
+  box-sizing: border-box;
 }
 
 /* Button */
@@ -182,4 +183,17 @@ body{
 
 .chat-box::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.7);
+}
+
+.resize-handle {
+  position: absolute;
+  left: -5px;
+  top: 0;
+  width: 10px;
+  height: 100%;
+
+  cursor: ew-resize;
+
+  z-index: 100;
+  transition: all 0.15s ease;
 }
