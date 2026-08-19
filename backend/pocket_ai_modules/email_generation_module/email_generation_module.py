@@ -2,34 +2,38 @@ import webbrowser
 import pyautogui
 import pyperclip
 import time
+import json
+from .mail_generator import mail_generator
+from ...pydantic_models.email_generation_models import MailStructure
+from ...pocket_ai_modules.text_to_speech_module.Piper_TTS.tts import TextToSpeechModule
 
 
 class EmailGenerationModule:
 
     def compose_email(self, task):
-        subject = "Request for 7 Days Leave"
-        body = """Dear Manager,
+        email_speaker = TextToSpeechModule()
 
-I hope you are doing well.
-
-I would like to request leave for seven days, from 12 August 2026 to 18 August 2026, due to personal reasons. I have completed my current tasks and will ensure that any pending work is handed over appropriately before my leave begins.
-
-I would be grateful if you could approve my leave request. Please let me know if you need any additional information.
-
-Thank you for your understanding.
-
-Kind regards,
-Abrar"""
-        webbrowser.open("https://mail.google.com/mail/u/0/#inbox?compose=new")
-        time.sleep(10)
-
-        pyautogui.press('tab')
-        pyperclip.copy(subject)
-        pyautogui.hotkey('ctrl', 'v')
-
-        pyautogui.press('tab')
-        pyperclip.copy(body)
-        pyautogui.hotkey('ctrl', 'v')
+        try:
+            data = mail_generator(task.parameters.prompt)
+            data = json.loads(data)
+    
+            data = MailStructure.model_validate(data)
+    
+            subject = data.subject
+            body = data.body
+    
+            webbrowser.open("https://mail.google.com/mail/u/0/#inbox?compose=new")
+            time.sleep(10)
+    
+            pyautogui.press("tab")
+            pyperclip.copy(subject)
+            pyautogui.hotkey("ctrl", "v")
+    
+            pyautogui.press("tab")
+            pyperclip.copy(body)
+            pyautogui.hotkey("ctrl", "v")
+        except:
+            email_speaker.tts('Sorry, I could not generate the email')
 
     def execute(self, task):
         match task.action:

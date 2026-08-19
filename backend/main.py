@@ -1,26 +1,41 @@
 from .pydantic_models.task_router_models import TaskRouterResponse
-from .TaskRouter import TaskRouter
-import json
+from .pydantic_models.llm_models.llm_models import LLMRequestModel
+from .pocket_ai_modules.text_to_speech_module.Piper_TTS import tts
+from .core.TaskRouter import TaskRouter
+from fastapi import FastAPI
+from .core.llm import route_task
 
-# from fastapi import FastAPI
-# app = FastAPI()
+# data = {
+#     "response": "Email is being generated, pls dont press any key sir",
+#     "tasks": [
+#         {
+#             "id": 1,
+#             "module": "browser",
+#             "action": "search_specific_website",
+#             "parameters": {"website_name": "youtube", "query": "Abrar Shekh"},
+#         }
+#     ],
+# }
 
-data = {
-    "response": "Summarizing the uploaded PDF.",
-    "tasks": [
-        {
-            "id": 1,
-            "module": "email",
-            "action": "compose_email",
-            "parameters": {"prompt": "Generate me the email for 7 days leave"},
-        }
-    ],
-}
-data = json.dumps(data)
-try:
-    response = TaskRouterResponse.model_validate_json(data)
-    ai = TaskRouter()
-    ai.execute(response.tasks)
+app = FastAPI()
+speaker = tts.TextToSpeechModule()
+ai = TaskRouter()
 
-except Exception as err:
-    print(err)
+
+# Endpoint to generate the response from llm after receiving the prompt
+# Run Qwen:=> .\backend\core\llama_cpp\llama-server.exe -m ".\backend\core\model\qwen2.5-1.5b-instruct-q4_k_m.gguf" -c 4096
+@app.post("/prompt")
+def generate_response(request: LLMRequestModel):
+    try:
+        data = route_task(request.prompt)
+        print("Data returned by llm", data)
+
+        data = TaskRouterResponse.model_validate(data)
+
+        speaker.tts(data.response)
+
+        ai.execute(data.tasks)
+
+    except Exception as err:
+        speaker.tts("Sorry I cannot help with that")
+        print(str(err))

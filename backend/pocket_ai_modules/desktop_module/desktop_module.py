@@ -8,6 +8,7 @@ from backend.pocket_ai_modules.desktop_module.screenshot_sub_module import (
 
 import screen_brightness_control as sbc
 from pycaw.pycaw import AudioUtilities
+import pythoncom
 
 
 class DesktopModule:
@@ -25,7 +26,7 @@ class DesktopModule:
             "lock": self.power.execute,
             "sleep": self.power.execute,
             "hibernate": self.power.execute,
-            "take_screenshot": self.screenshot.execute,
+            "take_screenshot_without_path": self.screenshot.execute,
             "take_screenshot_with_path": self.screenshot.execute,
             "create_file": self.file.execute,
             "create_folder": self.file.execute,
@@ -33,9 +34,18 @@ class DesktopModule:
             "delete_file_folder": self.file.execute,
             "rename_file_folder": self.file.execute,
             "close_file": self.file.execute,
+            "no_task": self.no_task,
+            "conversation": self.conversation
         }
 
+    def no_task(self, task):
+        pass
+
+    def conversation(self, task):
+        pass
+
     def set_volume(self, task):
+        pythoncom.CoInitialize()
         level = task.parameters.level
         if level < 0:
             level = 10
@@ -46,6 +56,7 @@ class DesktopModule:
         volume = device.EndpointVolume
         volume.SetMute(False, None)
         volume.SetMasterVolumeLevelScalar(level / 100.0, None)
+        pythoncom.CoUninitialize()
 
     def set_brightness(self, task):
         level = task.parameters.level

@@ -12,5 +12,9 @@ class ComposeEmail(BaseModel):
     action: Literal["compose_email"]
     parameters: ComposeEmailParams
 
+class MailStructure(BaseModel):
+    subject: str
+    body: str
+
 
 EmailGenerationTask = Annotated[ComposeEmail, Field(discriminator="action")]

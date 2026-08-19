@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Literal, Annotated
 
 
-class SearchParams(BaseModel):
+class SearchSpecificWebsiteParams(BaseModel):
     website_name: Literal[
         "youtube",
         "google",
@@ -20,11 +20,11 @@ class SearchParams(BaseModel):
     query: str
 
 
-class Search(BaseModel):
+class SearchSpecificWebsite(BaseModel):
     id: int
     module: Literal["browser"]
-    action: Literal["search"]
-    parameters: SearchParams
+    action: Literal["search_specific_website"]
+    parameters: SearchSpecificWebsiteParams
 
 
 class OpenWebsiteParams(BaseModel):
@@ -50,5 +50,5 @@ class SummarizeWebsite(BaseModel):
 
 
 BrowserTask = Annotated[
-    OpenWebsite | SummarizeWebsite | Search, Field(discriminator="action")
+    OpenWebsite | SummarizeWebsite | SearchSpecificWebsite, Field(discriminator="action")
 ]
