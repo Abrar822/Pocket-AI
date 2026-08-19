@@ -18,7 +18,7 @@ class PowerSubModule:
         subprocess.run(["shutdown", "/r", "/t", "0"])
 
     def lock(self):
-        subprocess.run(["rundll32.exe", "user32.dll, LockWorkStation"])
+        subprocess.run(["rundll32.exe", "user32.dll,LockWorkStation"])
 
     def sleep(self):
         subprocess.run(["rundll32.exe", "powrprof.dll,SetSuspendState", "0,1,0"])

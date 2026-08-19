@@ -5,6 +5,17 @@ from typing import Literal, Annotated
 class NoParams(BaseModel):
     pass
 
+class NoTask(BaseModel):
+    id: int
+    module: Literal["desktop"]
+    action: Literal['no_task']
+    parameters: NoParams
+
+class Conversation(BaseModel):
+    id: int
+    module: Literal["desktop"]
+    action: Literal['conversation']
+    parameters: NoParams
 
 class SetVolumeParams(BaseModel):
     level: int
@@ -63,10 +74,10 @@ class Hibernate(BaseModel):
     parameters: NoParams
 
 
-class TakeScreenshot(BaseModel):
+class TakeScreenshotWithoutPath(BaseModel):
     id: int
     module: Literal["desktop"]
-    action: Literal["take_screenshot"]
+    action: Literal["take_screenshot_without_path"]
     parameters: NoParams
 
 
@@ -159,13 +170,15 @@ DeskTopTask = Annotated[
     | Lock
     | Sleep
     | Hibernate
-    | TakeScreenshot
+    | TakeScreenshotWithoutPath
     | TakeScreenshotWithPath
     | CreateFolder
     | CreateFile
     | OpenFileFolder
     | DeleteFileFolder
     | RenameFileFolder
-    | CloseFile,
+    | CloseFile
+    | Conversation
+    | NoTask,
     Field(discriminator="action"),
 ]
