@@ -10,8 +10,11 @@ body{
   align-items: end;
   width: 400px;
   height: 700px;
-  position: relative;
+  position: fixed;
+  right: 0;
   z-index: 1;
+  transform: translateX(100%);
+  transition: all 0.5s ease;
   
 }
 
@@ -86,8 +89,8 @@ body{
   visibility: visible;
   transform: translateX(0%);
 }
-.chat-box.close,.chat-X.close,.chat-container.close{
-  display: none;
+.chat-box.close,.chat-X.close{
+  /* display: none; */
   transform: translateX(100%);
 }
 
