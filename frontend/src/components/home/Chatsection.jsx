@@ -16,6 +16,7 @@ function ChatSection() {
   const bottomRef = useRef(null);
   const [chatWidth, setChatWidth] = useState(400);
   const isResizing = useRef(false);
+  const [loading, setLoading] = useState(false);
 
   const startResize = (e) => {
     isResizing.current = true;
@@ -51,8 +52,9 @@ function ChatSection() {
     };
     setMessages((prev) => [...prev, newMessage]);
     setInput("");
+    setLoading(true);
     try {
-      let data = await fastapiConnect(input.trim());
+      let data = await fastapiConnect(userInput);
       const botreplay = {
         text:data['response'],
         sender:"bot"
@@ -67,6 +69,8 @@ function ChatSection() {
           text: "Sorry, I couldn't process your request.",
         },
       ]);
+    } finally {
+      setLoading(false)
     }
     
   };
@@ -77,7 +81,7 @@ function ChatSection() {
   bottomRef.current?.lastElementChild?.scrollIntoView({
     behavior: "smooth"
   });
-}, [messages]);
+}, [messages,loading]);
   
 
   return (
@@ -102,6 +106,15 @@ function ChatSection() {
             {msg.text}  
           </div>
         ))}
+        {
+          loading && (
+            <div className="typing-indicator">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          )
+        }
         </div>
       
       <div className="chat-input">
