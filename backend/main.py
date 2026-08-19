@@ -21,7 +21,6 @@ app = FastAPI()
 speaker = tts.TextToSpeechModule()
 ai = TaskRouter()
 
-
 # Endpoint to generate the response from llm after receiving the prompt
 # Run Qwen:=> .\backend\core\llama_cpp\llama-server.exe -m ".\backend\core\model\qwen2.5-1.5b-instruct-q4_k_m.gguf" -c 4096
 @app.post("/prompt")
@@ -29,7 +28,7 @@ def generate_response(request: LLMRequestModel):
     try:
         data = route_task(request.prompt)
         print("Data returned by llm", data)
-
+        
         data = TaskRouterResponse.model_validate(data)
 
         speaker.tts(data.response)
