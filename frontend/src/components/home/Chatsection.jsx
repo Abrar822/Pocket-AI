@@ -1,10 +1,16 @@
-  import { useState,useRef,useEffect } from "react";
+import { useState,useRef,useEffect } from "react";
 import "./Chatsection.css";
 import {MessageCircleMore} from "lucide-react";
 import {X} from "lucide-react";
+import {fastapiConnect} from "../../helper/FastapiConnect"
 
 function ChatSection() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    {
+      sender:"bot",
+      text: "Hi, I am Pocket AI. How can I help you?",
+    },
+  ]);
   const [input, setInput] = useState("");
   const [open,setIsOpen] = useState(false);
   const bottomRef = useRef(null);
@@ -36,15 +42,16 @@ function ChatSection() {
     document.removeEventListener("mouseup", stopResize);
   };
   
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (input.trim() === "") return;
 
     const newMessage = {
       text: input,
       sender: "user"
     };
+    let data = await fastapiConnect(prompt);
     const botreplay = {
-      text:"This is a replay",
+      text:data,
       sender:"bot"
     }
 
