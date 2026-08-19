@@ -44,19 +44,31 @@ function ChatSection() {
   
   const sendMessage = async () => {
     if (input.trim() === "") return;
-
+    const userInput = input.trim();
     const newMessage = {
-      text: input,
+      text: userInput,
       sender: "user"
     };
-    let data = await fastapiConnect(prompt);
-    const botreplay = {
-      text:data,
-      sender:"bot"
-    }
-
-    setMessages([...messages, newMessage, botreplay]);
+    setMessages((prev) => [...prev, newMessage]);
     setInput("");
+    try {
+      let data = await fastapiConnect(input.trim());
+      const botreplay = {
+        text:data['response'],
+        sender:"bot"
+      }
+      setMessages((prev) => [...prev, botreplay]);
+    } catch(error) {
+      console.error("FastAPI Error:", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "bot",
+          text: "Sorry, I couldn't process your request.",
+        },
+      ]);
+    }
+    
   };
   const toggle = () => {
     setIsOpen(!open);

@@ -8,9 +8,7 @@ export async function fastapiConnect(prompt) {
       prompt: prompt,
     }),
   });
-  console.log(response)
   let data = await response.json();
   console.log(data);
   return data;
 }
-fastapiConnect("open youtube")
