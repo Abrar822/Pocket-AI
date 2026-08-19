@@ -20,11 +20,16 @@ from fastapi import FastAPI
 from .pocket_ai_modules.persistent_memory.db import db
 from .core.llm_prompt_endpoint import llm_prompt_router
 from .pocket_ai_modules.persistent_memory.memory_endpoints import memory_endpoints
+from contextlib import asynccontextmanager
 
-app = FastAPI()
-ai = TaskRouter()
-speaker = tts.TextToSpeechModule()
-db()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    db()
+    app.state.ai = TaskRouter()
+    app.state.speaker = tts.TextToSpeechModule()
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
