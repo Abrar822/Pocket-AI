@@ -3,6 +3,10 @@
   font-family: 'Inter', sans-serif; 
 }
 
+.pai-dash-header {
+  margin-top: 40px;
+}
+
 .pai-dash-header h1 {
   font-size: 32px;
   font-weight: 600;
@@ -156,3 +160,5 @@
     grid-template-columns: 1fr;
   }
 }
+
+
