@@ -59,7 +59,7 @@ export default function Dashboard() {
       
       <header className="pai-dash-header">
         <div>
-          <h1>{greeting}, Het </h1>
+          <h1>{greeting}, Zeel </h1>
           <p>Your personal AI productivity assistant</p>
         </div>
       </header>
