@@ -1,7 +1,7 @@
+
 import { useState,useRef,useEffect } from "react";
 import "./Chatsection.css";
-import {MessageCircleMore} from "lucide-react";
-import {X} from "lucide-react";
+import {MessageCircleMore,X,FilePlus,ArrowUp} from "lucide-react";
 import {fastapiConnect} from "../../helper/FastapiConnect"
 
 function ChatSection() {
@@ -14,34 +14,49 @@ function ChatSection() {
   const [input, setInput] = useState("");
   const [open,setIsOpen] = useState(false);
   const bottomRef = useRef(null);
-  const [chatWidth, setChatWidth] = useState(400);
-  const isResizing = useRef(false);
+
   const [loading, setLoading] = useState(false);
 
-  const startResize = (e) => {
-    isResizing.current = true;
+  const draggerRef = useRef(null);
+  const chatboxRef = useRef(null);
 
-    document.addEventListener("mousemove", resize);
-    document.addEventListener("mouseup", stopResize);
-  };
-
-  const resize = (e) => {
-    if (!isResizing.current) return;
-
-    const newWidth = window.innerWidth - e.clientX;
-
-    // minimum and maximum width
-    if (newWidth >= 300 && newWidth <= 700) {
-      setChatWidth(newWidth);
-    }
-  };
-
-  const stopResize = () => {
-    isResizing.current = false;
-
-    document.removeEventListener("mousemove", resize);
-    document.removeEventListener("mouseup", stopResize);
-  };
+  useEffect(() => {
+      let draggable = false;
+      const dragger = draggerRef.current;
+      if (!dragger) return;
+  
+      let rect;
+  
+      const pointerDown = () => {
+        if (!chatboxRef.current) return;
+  
+        draggable = true;
+        rect = chatboxRef.current.getBoundingClientRect();
+        document.body.style.userSelect = "none";
+      };
+      const pointerMove = (e) => {
+        if (draggable && chatboxRef.current) {
+          let delta = rect.left - e.clientX;
+          let newWidth = Math.max(400, Math.min(900, rect.width + delta));
+  
+          chatboxRef.current.style.width = `${newWidth}px`;
+        }
+      };
+      const pointerUp = () => {
+        draggable = false;
+        document.body.style.userSelect = "";
+      };
+      dragger.addEventListener("pointerdown", pointerDown);
+      document.addEventListener("pointermove", pointerMove);
+      document.addEventListener("pointerup", pointerUp);
+  
+      return () => {
+        dragger.removeEventListener("pointerdown", pointerDown);
+        document.removeEventListener("pointermove", pointerMove);
+        document.removeEventListener("pointerup", pointerUp);
+      };
+    }, []);
+  
   
   const sendMessage = async () => {
     if (input.trim() === "") return;
@@ -89,8 +104,8 @@ function ChatSection() {
     <button onClick={toggle} className={open?'btn-open':'btn-close'} style={{backgroundColor:"transparent", border:"none"}}>
           <MessageCircleMore className="chat-icon" color="#ffffff"/>
     </button>
-    <div className={`chat-container ${open?"open":"close"}`} style={{width:`${chatWidth}px`}}>
-        <div className="resize-handle" onMouseDown={startResize}/>
+    <div className={`chat-container ${open?"open":"close"}`} ref={chatboxRef}>
+        <div className="resize-handle" ref={draggerRef}/>
         <div className={`chat-X ${open?"open":"close"}`}>
           <button onClick={toggle} style={{backgroundColor:"transparent", border:"none"}}>
               <X color="#ffffff"/>
@@ -118,6 +133,9 @@ function ChatSection() {
         </div>
       
       <div className="chat-input">
+        <button>
+          <FilePlus/>
+        </button>
         <textarea
           value={input}
           rows={4}
@@ -131,7 +149,9 @@ function ChatSection() {
               sendMessage();
           }}}
         />
-        <button onClick={sendMessage}>Send</button>
+        <button onClick={sendMessage}>
+          <ArrowUp/>
+        </button>
       </div>
       </div>
     </div>

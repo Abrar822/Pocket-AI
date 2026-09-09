@@ -4,17 +4,16 @@ body{
     background-color: var(--bg);
 }
 .chat-container {
-  margin-left: 73.5%;
+  position: fixed;
+  right: 0;
   display: flex;
   flex-direction: column;
   align-items: end;
   width: 400px;
   height: 700px;
-  position: fixed;
-  right: 0;
   z-index: 1;
   transform: translateX(100%);
-  transition: all 0.5s ease;
+  transition:transform 0.5s ease,opacity 0.5s ease;
   
 }
 
@@ -137,12 +136,14 @@ body{
   top: 90%;
   width: 100%;
   padding: 10px;
-  background-color:  rgba(255, 255, 255, 0.15);
+  /* background-color:  rgba(255, 255, 255, 0.15); */
+  background: transparent;
   /* border-top: 1px solid #ccc; */
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); */
   -webkit-backdrop-filter: blur(10px); /* Safari */
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px);
   border-radius: 10px;
+  gap: 10px;
 }
 
 .typing-indicator {
@@ -215,13 +216,17 @@ body{
 
 /* Button */
 .chat-input button {
-  margin-left: 10px;
-  padding: 10px 15px;
-  background-color: #007bff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #b06bff, #5b8bff);
   color: white;
-  border: none;
-  border-radius: 5px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
+  font-size: 18px;
+  border: none;
 }
 
 /* Button hover */
@@ -254,13 +259,15 @@ body{
 
 .resize-handle {
   position: absolute;
-  left: -5px;
-  top: 0;
+  left: 0px;
+  top: 0; 
   width: 10px;
   height: 100%;
-
   cursor: ew-resize;
-
-  z-index: 100;
-  transition: all 0.15s ease;
+  z-index: 1;
+  /* touch-action: none; */
 }
+
+/* .resize-handle:hover {
+  background: rgba(0, 0, 0, 0.8);
+} */
