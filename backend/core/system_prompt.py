@@ -53,6 +53,7 @@ desktop:
 - close_file
 - conversation
 - no_task
+- open_app
 
 email:
 
@@ -189,6 +190,12 @@ desktop.conversation:
 desktop.no_task:
 
 {}
+
+desktop.open_app:
+
+{
+    "official_app_name": "..."
+}
 
 email.compose_email:
 
