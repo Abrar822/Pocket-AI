@@ -161,6 +161,15 @@ class CloseFile(BaseModel):
     action: Literal["close_file"]
     parameters: CloseFileParams
 
+class OpenAppParams(BaseModel):
+    official_app_name: str
+    
+
+class OpenApp(BaseModel):
+    id: int
+    module: Literal["desktop"]
+    action: Literal["open_app"]
+    parameters: OpenAppParams
 
 DeskTopTask = Annotated[
     SetVolume
@@ -179,6 +188,7 @@ DeskTopTask = Annotated[
     | RenameFileFolder
     | CloseFile
     | Conversation
-    | NoTask,
+    | NoTask
+    | OpenApp,
     Field(discriminator="action"),
 ]
