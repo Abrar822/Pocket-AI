@@ -5,6 +5,7 @@ from backend.pocket_ai_modules.desktop_module.file_operations_sub_module import 
 from backend.pocket_ai_modules.desktop_module.screenshot_sub_module import (
     ScreenshotSubModule,
 )
+from backend.pocket_ai_modules.desktop_module.open_app import launch_application
 
 import screen_brightness_control as sbc
 from pycaw.pycaw import AudioUtilities
@@ -35,7 +36,8 @@ class DesktopModule:
             "rename_file_folder": self.file.execute,
             "close_file": self.file.execute,
             "no_task": self.no_task,
-            "conversation": self.conversation
+            "conversation": self.conversation,
+            "open_app": self.open_app
         }
 
     def no_task(self, task):
@@ -63,7 +65,10 @@ class DesktopModule:
         level = max(0, min(level, 100))
 
         sbc.set_brightness(level)
-
+    
+    def open_app(self, task):
+        launch_application(task.parameters.official_app_name)
+    
     def execute(self, task):
         action = self.actions.get(task.action)
         if action:
