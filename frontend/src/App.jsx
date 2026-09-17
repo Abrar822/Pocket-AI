@@ -79,10 +79,10 @@ function SettingsPage() {
 
         <main className="main-content">
           <SettingInfo />
-          <div /*className="chat-container-wrapper"*/>
-            <ChatSection />
-          </div>
         </main>
+        <div /*className="chat-container-wrapper"*/>
+          <ChatSection />
+        </div>
       </div>
     </div>
   );
