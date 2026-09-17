@@ -5,15 +5,20 @@ body{
 }
 .chat-container {
   position: fixed;
+  top: 70px;
   right: 0;
   display: flex;
   flex-direction: column;
   align-items: end;
   width: 400px;
-  height: 700px;
+  height: calc(100dvh - 70px);
   z-index: 1;
+  overflow: hidden;
   transform: translateX(100%);
   transition:transform 0.5s ease,opacity 0.5s ease;
+  /* backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--dark-border); */
   
 }
 
@@ -35,12 +40,14 @@ body{
 }
 .btn-close{
   position: fixed;
+  top: 65px;
   right: 0;
   margin: 5px;
   visibility: visible;
   transform: translateX(0%);
   transition: all 0.5s ease;
   padding-right: 10px;
+  z-index: 1;
 }
 .chat-X{
   display: flex;
@@ -49,11 +56,12 @@ body{
   width: 100%;
   height: auto;
   padding: 10px;
-  background-color:  rgba(255, 255, 255, 0.09);
+  background: var(--sidebar-bg);
+  /* background-color:  rgba(255, 255, 255, 0.09); */
   /* border-top: 1px solid #ccc; */
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  -webkit-backdrop-filter: blur(10px); /* Safari */
-  backdrop-filter: blur(1px);
+  /* box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); */
+  /*-webkit-backdrop-filter: blur(10px);  Safari */
+  /* backdrop-filter: blur(1px); */
   border-radius: 10px 10px 0px 0px;
   opacity: 0;
   transform: translateX(100%);
@@ -66,13 +74,14 @@ body{
   margin-left: auto;
   padding: 15px;
   width: 100%;
-  max-height: 90%;
+ height: calc(100% - 120px);
   overflow-y: auto;
-  background-color: rgba(255, 255, 255, 0.09);
+  background: var(--sidebar-bg);
+  /* background-color: rgba(255, 255, 255, 0.09); */
   /* border-bottom: 1px solid #ddd; */
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  -webkit-backdrop-filter: blur(10px); /* Safari */
-  backdrop-filter: blur(1px);
+  /* box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); */
+  /* -webkit-backdrop-filter: blur(10px);  Safari */
+  /* backdrop-filter: blur(1px); */
   border-radius: 0px 0px 10px 10px;
   opacity: 0;
   /* visibility: hidden */
@@ -125,11 +134,11 @@ body{
   width: 100%;
   padding: 10px;
   /* background-color:  rgba(255, 255, 255, 0.15); */
-  background: transparent;
+  /* background: transparent; */
   /* border-top: 1px solid #ccc; */
   /* box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); */
-  -webkit-backdrop-filter: blur(10px); /* Safari */
-  backdrop-filter: blur(14px);
+  /*-webkit-backdrop-filter: blur(10px);  Safari */
+  /* backdrop-filter: blur(14px); */
   border-radius: 10px;
   gap: 10px;
 }
@@ -141,7 +150,8 @@ body{
   border: 1px solid #ccc;
   border-radius: 5px;
   outline: none;
-  background-color: black;
+  /* background-color: black; */
+  background: transparent;
   color: #ffffff;
   resize: none;
   box-sizing: border-box;
