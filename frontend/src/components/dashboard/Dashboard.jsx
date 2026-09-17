@@ -54,45 +54,45 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="pai-dashboard page-fade">
+      <div className="pai-dashboard page-fade">
+        
+        <header className="pai-dash-header">
+          <div>
+            <h1>{greeting}, Het </h1>
+            <p>Your personal AI productivity assistant</p>
+          </div>
+        </header>
 
-      
-      <header className="pai-dash-header">
-        <div>
-          <h1>{greeting}, Het </h1>
-          <p>Your personal AI productivity assistant</p>
-        </div>
-      </header>
 
 
-      <section className="pai-dash-hero">
+        <session className="pai-dash-hero">
 
-        <Orb
-          size={230}
-          listening={listening}
-          hint='Say "Hey Pocket" to wake me up'
-        />
+          <Orb
+            size={230}
+            listening={listening}
+            hint='Say "Hey Pocket" to wake me up'
+          />
 
-        <button
-          className="pai-voice-btn"
-          onClick={() => setListening((l) => !l)}
-        >
-          {listening ? (
-            <>
-              <Mic size={20} strokeWidth={2} />
-              Talk with Pocket AI
-            </>
-          ) : (
-            <>
-              <MicOff size={20} strokeWidth={2} />
-              Start Listening
-            </>
-          )}
-        </button>
+          <button
+            className="pai-voice-btn"
+            onClick={() => setListening((l) => !l)}
+          >
+            {listening ? (
+              <>
+                <Mic size={20} strokeWidth={2} />
+                Talk with Pocket AI
+              </>
+            ) : (
+              <>
+                <MicOff size={20} strokeWidth={2} />
+                Start Listening
+              </>
+            )}
+          </button>
 
-      </section>
+        </session>
 
-      <section>
+      <session>
 
         <h2 className="pai-section-title">
           Quick Actions
@@ -122,9 +122,9 @@ export default function Dashboard() {
 
         </div>
 
-      </section>
+      </session>
 
-      <section>
+      <session>
 
         <h2 className="pai-section-title">
           Suggested Prompts
@@ -145,7 +145,7 @@ export default function Dashboard() {
 
         </div>
 
-      </section>
+      </session>
 
     </div>
   );

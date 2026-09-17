@@ -6,8 +6,8 @@
     position: relative;
     overflow: hidden;
 }
-.main-content {
-    position: absolute;
+/* .main-content {
+    position: fixed;
     top: 70px;
     left: 0;
 
@@ -30,7 +30,7 @@
     align-items: center;
 
     z-index: 1;
-}
+} */
 /* .chat-container-wrapper {
     position: absolute;
 

@@ -30,7 +30,7 @@ function Home() {
         onSettingClick={handleSettingsClick}
       />
 
-      <div className="app-content">
+      {/* <div className="app-content"> */}
 
         <Navbar
           onMenuClick={() =>
@@ -38,20 +38,20 @@ function Home() {
           }
           onSettingClick={handleSettingsClick}
         />
-
-        <main className="main-content">
-
-          <div className="orb-container">
-            <Dashboard />
-          </div>
-
           <div /*className="chat-container-wrapper"*/>
             <ChatSection />
           </div>
 
-        </main>
+        {/* <main className="main-content"> */}
 
-      </div>
+          <div className="orb-container">
+            <Dashboard />
+          </div>  
+
+
+        {/* </main> */}
+
+      {/* </div> */}
 
     </div>
   );

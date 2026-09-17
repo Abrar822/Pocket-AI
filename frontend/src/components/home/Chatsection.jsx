@@ -5,7 +5,7 @@ import {MessageCircleMore,X,FilePlus,ArrowUp} from "lucide-react";
 function ChatSection() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const [open,setIsOpen] = useState(false);
+  const [open,setIsOpen] = useState(true);
   const bottomRef = useRef(null);
   const draggerRef = useRef(null);
   const chatboxRef = useRef(null);
@@ -27,7 +27,7 @@ function ChatSection() {
       const pointerMove = (e) => {
         if (draggable && chatboxRef.current) {
           let delta = rect.left - e.clientX;
-          let newWidth = Math.max(400, Math.min(900, rect.width + delta));
+          let newWidth = Math.max(400, Math.min(840, rect.width + delta));
   
           chatboxRef.current.style.width = `${newWidth}px`;
         }
@@ -81,7 +81,7 @@ function ChatSection() {
     <div className={`chat-container ${open?"open":"close"}`} ref={chatboxRef}>
         <div className="resize-handle" ref={draggerRef}/>
         <div className={`chat-X ${open?"open":"close"}`}>
-          <button onClick={toggle} style={{backgroundColor:"transparent", border:"none"}}>
+          <button onClick={toggle} style={{backgroundColor:"var(--sidebar-bg)", border:"none"}}>
               <X color="#ffffff"/>
         </button>
         </div>
