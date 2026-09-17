@@ -9,7 +9,6 @@
   align-items: center;
   width: 800px;
   margin-left: 17%;
-  min-height: 100%;
   box-sizing: border-box;
   color: white;
   background: var(--setting-page-bg);
@@ -28,7 +27,7 @@
 
  .settings-header {
   width: 100%;
-  margin-left: 83px;   /* Same as .settings-card */
+  margin-left: 83px;   
   margin-bottom: 24px;
 }
 
