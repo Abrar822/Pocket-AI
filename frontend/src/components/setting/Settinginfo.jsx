@@ -34,7 +34,6 @@ function SettingInfo() {
       </div>
 
       {/* ================= SETTINGS CARD ================= */}
-
       <div className="settings-card">
         {/* ================= THEME ================= */}
 
@@ -133,10 +132,6 @@ function SettingInfo() {
                 onChange={(e) => setWakeWord(e.target.value)}
               />
             </div>
-
-            <span className="input-description">
-              Pocket AI will listen for this word to activate
-            </span>
           </div>
         </div>
 
@@ -196,7 +191,8 @@ function SettingInfo() {
           </button>
         </div>
       </div>
-    </div>
+      </div>
+    
   );
 }
 
