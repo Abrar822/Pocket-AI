@@ -32,8 +32,8 @@
 .sidebar-collapsed:hover {
     background-color: var(--violet-hover);
     color: var(--text);
-    /* transform: translate(5px);
-    transition-timing-function: ease; */
+    
+   
 }
 
 .container:hover {
