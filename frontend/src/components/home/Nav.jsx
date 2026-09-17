@@ -1,10 +1,9 @@
 import "./Nav.css";
 import Timer from "./Timer";
-import Setting from "./Setting_logo";
 import Logo from "./Logo";
 import Left_sidebar from "./Menu";
 
-function Navbar({onMenuClick, onSettingClick}) {
+function Navbar({onMenuClick}) {
   return (
     <nav className="navbar">
       <div className="nav-left">
@@ -18,10 +17,6 @@ function Navbar({onMenuClick, onSettingClick}) {
       <div className="nav-right">
         <div className="nav-timer">
           <Timer />
-        </div>
-
-        <div className="nav-setting-logo">
-          <Setting onClick={onSettingClick}/>
         </div>
       </div>
     </nav>

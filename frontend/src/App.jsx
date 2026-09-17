@@ -36,7 +36,6 @@ function Home() {
           onMenuClick={() =>
             setCollapsed((prev) => !prev)
           }
-          onSettingClick={handleSettingsClick}
         />
 
         <main className="main-content">
@@ -68,7 +67,7 @@ function SettingsPage() {
   };
 
   const handleSettingsClick = () => {
-    navigate("/");
+    navigate("/settings");
   };
 
   return (
@@ -86,7 +85,6 @@ function SettingsPage() {
           onMenuClick={() =>
             setCollapsed((prev) => !prev)
           }
-          onSettingClick={handleSettingsClick}
         />
 
         <main className="main-content">
