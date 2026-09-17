@@ -3,13 +3,13 @@
 ================================ */
 
 .settings-page {
-  width: 85%;
-  margin-left: 10%;
+  width: 60%;
+  margin-left: 17%;
   min-height: 100%;
   /* padding: 40px 50px; */
   box-sizing: border-box;
   color: white;
-  background: #080812;
+  background: var(--setting-page-bg);
 }
 
 /* ================================
@@ -25,10 +25,10 @@
 
 .settings-title h1 {
   margin: 0;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 700;
 
-  background: linear-gradient(90deg, #ffffff, #b78cff, #5bbcff);
+  background:  #ffffff;
 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -37,7 +37,7 @@
 .settings-title p {
   margin: 8px 0 0;
   color: #9292a5;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 /* Decorative wave */
@@ -63,6 +63,7 @@
   overflow: hidden;
   box-shadow: 0 0 30px rgba(100, 60, 180, 0.08);
   backdrop-filter: blur(10px);
+  margin-left: 83px;
 }
 
 /* ================================
@@ -70,12 +71,12 @@
 ================================ */
 
 .setting-row {
-  min-height: 80px;
+  min-height: 75px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 40px;
-  padding: 10px 40px;
+  gap: 30px;
+  padding: 5px 40px;
   box-sizing: border-box;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
@@ -100,8 +101,8 @@
 /* Icon circle */
 
 .setting-icon {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -122,7 +123,7 @@
 .setting-info h2 {
   margin: 0 0 6px;
   color: #ffffff;
-  font-size: 23px;
+  font-size: 18px;
   font-weight: 600;
 }
 
@@ -131,7 +132,7 @@
 .setting-info p {
   margin: 0;
   color: #89899b;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 /* ================================
@@ -139,10 +140,9 @@
 ================================ */
 
 .setting-options {
-  margin-right:50px ;
-  width: 45%;
+  width: 50%;
   display: flex;
-  gap: 15px;
+  gap: 10px;
 }
 
 /* ================================
@@ -152,7 +152,7 @@
 .option-button {
   position: relative;
   flex: 1;
-  min-height: 50px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -161,7 +161,7 @@
   background: rgba(25, 25, 40, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.09);
   border-radius: 12px;
-  font-size: 20px;
+  font-size: 15px;
   cursor: pointer;
   transition:
     border 0.25s ease,
@@ -197,17 +197,17 @@
 
 .check {
   position: absolute;
-  top: 7px;
-  right: 8px;
-  width: 19px;
-  height: 19px;
+  top: 5px;
+  right: 5px;
+  width: 15px;
+  height: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   color: #ffffff;
   background: linear-gradient(135deg, #c026ff, #38bdf8);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: bold;
 }
 
@@ -217,7 +217,7 @@
 
 .input-container {
   width: 50%;
-  height: 50px;
+  height: 40px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -247,7 +247,7 @@
   background: transparent;
   border: none;
   outline: none;
-  font-size: 20px;
+  font-size: 15px;
 }
 
 /* Placeholder */
@@ -268,20 +268,13 @@
   width: 100%;
 }
 
-.input-description {
-  display: block;
-  margin-top: 8px;
-  color: #747487;
-  font-size: 12px;
-}
-
 /* ================================
    VOICE SYMBOL
 ================================ */
 
 .voice-symbol {
   color: #b66cff;
-  font-size: 21px;
+  font-size: 20px;
 }
 
 /* ================================
@@ -291,7 +284,7 @@
 .save-container {
   display: flex;
   justify-content: flex-end;
-  padding: 18px 35px;
+  padding: 10px 40px;
   background: rgba(10, 10, 20, 0.35);
 }
 
@@ -299,12 +292,12 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  padding: 13px 25px;
+  padding: 10px 15px;
   color: white;
   background: linear-gradient(90deg, #c026ff, #8b5cf6, #22b9ff);
   border: none;
   border-radius: 11px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   box-shadow: 0 0 20px rgba(168, 85, 247, 0.22);
