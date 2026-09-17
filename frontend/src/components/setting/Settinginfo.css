@@ -21,8 +21,8 @@
 
 .settings-header {
   position: absolute;
-  top: 0%;
-  left: 17%;
+  top: 10px;
+  left: 21%;
   margin-bottom: 30px;
 }
 
@@ -59,7 +59,7 @@
 ================================ */
 
 .settings-card {
-  width: 800px;
+  width: 100%;
   background: rgba(15, 15, 28, 0.85);
   border: 1px solid rgba(150, 120, 220, 0.2);
   border-radius: 20px;
@@ -75,6 +75,7 @@
 
 .setting-row {
   min-height: 75px;
+  max-height: 100px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -409,5 +410,233 @@
     width: 100%;
 
     justify-content: center;
+  }
+}
+
+
+/* ==========================================
+   LARGE LAPTOPS (1366px - 1439px)
+   ========================================== */
+@media (min-width: 1366px) {
+
+  .settings-page {
+    width: 900px;
+    margin-left: 18%;
+  }
+
+  .settings-header {
+    left: 20%;
+    top: 18px;
+  }
+
+  .settings-title h1 {
+    font-size: 24px;
+  }
+
+  .settings-title p {
+    font-size: 14px;
+  }
+
+  .settings-card {
+    margin-left: 90px;
+  }
+
+  .setting-row {
+    min-height: 85px;
+    padding: 10px 42px;
+  }
+
+  .setting-info h2 {
+    font-size: 19px;
+  }
+
+  .option-button,
+  .input-container input {
+    font-size: 15px;
+  }
+}
+
+
+/* ==========================================
+   FULL HD (1440px - 1599px)
+   ========================================== */
+@media (min-width: 1440px) {
+
+  .settings-page {
+    width: 980px;
+    margin-left: 19%;
+  }
+
+  .settings-header {
+    left: 21%;
+    top: 20px;
+  }
+
+  .settings-title h1 {
+    font-size: 28px;
+  }
+
+  .settings-title p {
+    font-size: 15px;
+  }
+
+  .settings-card {
+    margin-left: 100px;
+    border-radius: 24px;
+  }
+
+  .setting-row {
+    min-height: 95px;
+    padding: 12px 45px;
+  }
+
+  .setting-icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .setting-info h2 {
+    font-size: 20px;
+  }
+
+  .setting-info p {
+    font-size: 13px;
+  }
+
+  .option-button {
+    min-height: 48px;
+    font-size: 16px;
+  }
+
+  .input-container {
+    height: 48px;
+  }
+
+  .save-button {
+    padding: 12px 22px;
+    font-size: 15px;
+  }
+}
+
+
+/* ==========================================
+   1600px - 1919px (2K laptops / monitors)
+   ========================================== */
+@media (min-width: 1600px) {
+
+  .settings-page {
+    width: 1080px;
+    margin-left: 20%;
+  }
+
+  .settings-header {
+    left: 22%;
+    top: 25px;
+  }
+
+  .settings-title h1 {
+    font-size: 32px;
+  }
+
+  .settings-title p {
+    font-size: 16px;
+  }
+
+  .settings-card {
+    margin-left: 110px;
+  }
+
+  .setting-row {
+    min-height: 105px;
+    padding: 15px 50px;
+  }
+
+  .setting-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .setting-info h2 {
+    font-size: 22px;
+  }
+
+  .setting-info p {
+    font-size: 14px;
+  }
+
+  .option-button {
+    min-height: 52px;
+    font-size: 17px;
+  }
+
+  .input-container {
+    height: 52px;
+  }
+
+  .save-button {
+    padding: 14px 24px;
+    font-size: 16px;
+  }
+}
+
+
+/* ==========================================
+   1920px+ (Full HD / 4K monitors)
+   ========================================== */
+@media (min-width: 1920px) {
+
+  .settings-page {
+    width: 1200px;
+    margin-left: 21%;
+  }
+
+  .settings-header {
+    left: 23%;
+    top: 30px;
+  }
+
+  .settings-title h1 {
+    font-size: 36px;
+  }
+
+  .settings-title p {
+    font-size: 18px;
+  }
+
+  .settings-card {
+    margin-left: 120px;
+    border-radius: 28px;
+  }
+
+  .setting-row {
+    min-height: 115px;
+    padding: 18px 55px;
+  }
+
+  .setting-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .setting-info h2 {
+    font-size: 24px;
+  }
+
+  .setting-info p {
+    font-size: 15px;
+  }
+
+  .option-button {
+    min-height: 56px;
+    font-size: 18px;
+  }
+
+  .input-container {
+    height: 56px;
+  }
+
+  .save-button {
+    padding: 16px 28px;
+    font-size: 17px;
   }
 }
