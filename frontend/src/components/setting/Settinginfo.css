@@ -19,11 +19,17 @@
    HEADER
 ================================ */
 
-.settings-header {
+/* .settings-header {
   position: absolute;
   top: 1%;
   left: 21%;
   margin-bottom: 30px;
+} */
+
+ .settings-header {
+  width: 100%;
+  margin-left: 83px;   /* Same as .settings-card */
+  margin-bottom: 24px;
 }
 
 .settings-title h1 {
@@ -639,4 +645,28 @@
     padding: 16px 28px;
     font-size: 17px;
   }
+}
+
+/* 1366px */
+@media (min-width:1366px){
+  .settings-card { margin-left:90px; }
+  .settings-header { margin-left:90px; }
+}
+
+/* 1440px */
+@media (min-width:1440px){
+  .settings-card { margin-left:100px; }
+  .settings-header { margin-left:100px; }
+}
+
+/* 1600px */
+@media (min-width:1600px){
+  .settings-card { margin-left:110px; }
+  .settings-header { margin-left:110px; }
+}
+
+/* 1920px */
+@media (min-width:1920px){
+  .settings-card { margin-left:120px; }
+  .settings-header { margin-left:120px; }
 }
