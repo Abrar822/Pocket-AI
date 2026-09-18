@@ -20,6 +20,7 @@ function SettingInfo() {
   };
 
   return (
+    <div className={`bg-setting ${theme}`}>
     <div className={`settings-page ${theme}`}>
       {/* ================= HEADER ================= */}
 
@@ -190,6 +191,7 @@ function SettingInfo() {
             <span>Save Changes</span>
           </button>
         </div>
+      </div>
       </div>
       </div>
     
