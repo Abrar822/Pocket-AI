@@ -20,11 +20,11 @@ function SettingInfo() {
   };
 
   return (
-    <div className="settings-page">
+    <div className={`settings-page ${theme}`}>
       {/* ================= HEADER ================= */}
 
-      <div className="settings-header">
-        <div className="settings-title">
+      <div className={`settings-header ${theme}`}>
+        <div className={`settings-title ${theme}`}>
           <h1>Settings</h1>
 
           <p>Customize your Pocket AI experience</p>
@@ -34,12 +34,12 @@ function SettingInfo() {
       </div>
 
       {/* ================= SETTINGS CARD ================= */}
-      <div className="settings-card">
+      <div className={`settings-card ${theme}`}>
         {/* ================= THEME ================= */}
 
-        <div className="setting-row">
-          <div className="setting-info">
-            <div className="setting-icon">
+        <div className={`setting-row ${theme}`}>
+          <div className={`setting-info ${theme}`}>
+            <div className={`setting-icon ${theme}`}>
               <Palette size={25} />
             </div>
 
@@ -50,7 +50,7 @@ function SettingInfo() {
             </div>
           </div>
 
-          <div className="setting-options">
+          <div className={`setting-options ${theme}`}>
             {/* Dark Mode */}
 
             <button
@@ -81,9 +81,9 @@ function SettingInfo() {
 
         {/* ================= USERNAME ================= */}
 
-        <div className="setting-row">
-          <div className="setting-info">
-            <div className="setting-icon">
+        <div className={`setting-row ${theme}`}>
+          <div className={`setting-info ${theme}`}>
+            <div className={`setting-icon ${theme}`}>
               <User size={25} />
             </div>
 
@@ -94,7 +94,7 @@ function SettingInfo() {
             </div>
           </div>
 
-          <div className="input-container">
+          <div className={`input-container ${theme}`}>
             <User size={21} />
 
             <input
@@ -108,9 +108,9 @@ function SettingInfo() {
 
         {/* ================= WAKE WORD ================= */}
 
-        <div className="setting-row">
-          <div className="setting-info">
-            <div className="setting-icon">
+        <div className={`setting-row ${theme}`}>
+          <div className={`setting-info ${theme}`}>
+            <div className={`setting-icon ${theme}`}>
               <Mic size={25} />
             </div>
 
@@ -121,8 +121,8 @@ function SettingInfo() {
             </div>
           </div>
 
-          <div className="input-wrapper">
-            <div className="input-container">
+          <div className={`input-wrapper ${theme}`}>
+            <div className={`input-container ${theme}`}>
               <Mic size={21} />
 
               <input
@@ -137,9 +137,9 @@ function SettingInfo() {
 
         {/* ================= VOICE ================= */}
 
-        <div className="setting-row">
-          <div className="setting-info">
-            <div className="setting-icon">
+        <div className={`setting-row ${theme}`}>
+          <div className={`setting-info ${theme}`}>
+            <div className={`setting-icon ${theme}`}>
               <Mic size={25} />
             </div>
 
@@ -150,7 +150,7 @@ function SettingInfo() {
             </div>
           </div>
 
-          <div className="setting-options">
+          <div className={`setting-options ${theme}`}>
             {/* Male */}
 
             <button
@@ -183,7 +183,7 @@ function SettingInfo() {
 
         {/* ================= SAVE ================= */}
 
-        <div className="save-container">
+        <div className={`save-container ${theme}`}>
           <button className="save-button" onClick={handleSave}>
             <Save size={19} />
 
