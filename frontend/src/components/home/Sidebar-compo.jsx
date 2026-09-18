@@ -10,7 +10,7 @@ function Sidebar_Compo({compo,collapsed,onClick}) {
     };
     return (
         compo === 'dashboard' ?
-        <div onClick={handleClick} className={collapsed ? 'sidebar-collapsed' :'container'}>
+        <div onClick={handleClick} className={`${collapsed ? 'sidebar-collapsed' :'container'} `}>
             <LayoutDashboard className={collapsed ? 'logo-collapsed' :'logo'} />
             <p className={collapsed ? 'sidebar-text' : ''}>Dashboard</p>
         </div>
