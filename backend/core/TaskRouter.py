@@ -22,7 +22,11 @@ class TaskRouter:
         }
 
     def execute(self, tasks):
+        result = []
         for task in tasks:
             module = self.modules.get(task.module)
             if module:
-                module.execute(task)
+                res =  module.execute(task)
+                if res:
+                    result.append(res)
+        return result

@@ -17,9 +17,12 @@ def generate_response(request: LLMRequestModel, req: Request):
 
         req.app.state.speaker.tts(data.response)
 
-        req.app.state.ai.execute(data.tasks)
+        result = req.app.state.ai.execute(data.tasks)
 
-        return {"response": data.response}
+        for res in result:
+            req.app.state.speaker.tts(res)
+
+        return {"response": [data.response] + result}
 
     except Exception as err:
         req.app.state.speaker.tts("Sorry I cannot help with that")
