@@ -10,6 +10,7 @@ import SettingInfo from "./components/setting/Settinginfo";
 
 function Home() {
   const [collapsed, setCollapsed] = useState(true);
+  const [open,setIsOpen] = useState(true);
 
   const navigate = useNavigate();
 
@@ -19,6 +20,14 @@ function Home() {
 
   const handleSettingsClick = () => {
     navigate("/settings");
+  };
+  const toggle = () => {
+      setIsOpen(!open);
+    };
+  const close=()=>{
+    if (open===true) {
+      setIsOpen(false)
+    }
   };
 
   return (
@@ -39,13 +48,13 @@ function Home() {
           onSettingClick={handleSettingsClick}
         />
           <div /*className="chat-container-wrapper"*/>
-            <ChatSection />
+            <ChatSection open={open} toggle={toggle} />
           </div>
 
         {/* <main className="main-content"> */}
 
           <div className="orb-container">
-            <Dashboard />
+            <Dashboard toggle={close}/>
           </div>  
 
 

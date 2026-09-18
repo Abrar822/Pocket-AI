@@ -30,6 +30,7 @@
   flex-direction: column;
   align-items: center;
   margin: 30px;
+  gap: 20px;
 }
 
 .pai-voice-btn {

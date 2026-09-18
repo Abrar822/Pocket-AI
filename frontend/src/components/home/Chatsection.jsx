@@ -2,10 +2,10 @@
 import "./Chatsection.css";
 import {MessageCircleMore,X,FilePlus,ArrowUp} from "lucide-react";
 
-function ChatSection() {
+function ChatSection({open,toggle}) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const [open,setIsOpen] = useState(true);
+  
   const bottomRef = useRef(null);
   const draggerRef = useRef(null);
   const chatboxRef = useRef(null);
@@ -63,9 +63,7 @@ function ChatSection() {
     setMessages([...messages, newMessage, botreplay]);
     setInput("");
   };
-  const toggle = () => {
-    setIsOpen(!open);
-  };
+  
   useEffect(() => {
   bottomRef.current?.lastElementChild?.scrollIntoView({
     behavior: "smooth"

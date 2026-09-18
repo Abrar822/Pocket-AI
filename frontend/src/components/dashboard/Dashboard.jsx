@@ -37,7 +37,7 @@ function greetingForHour(hour) {
   return "Good Evening";
 }
 
-export default function Dashboard() {
+export default function Dashboard({toggle}) {
   const [greeting, setGreeting] = useState(
     greetingForHour(new Date().getHours())
   );
@@ -54,7 +54,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-      <div className="pai-dashboard page-fade">
+      <div className="pai-dashboard page-fade" onClick={toggle}>
         
         <header className="pai-dash-header">
           <div>
@@ -79,7 +79,7 @@ export default function Dashboard() {
           >
             {listening ? (
               <>
-                <Mic size={20} strokeWidth={2} />
+                <Mic size={20} strokeWidth={2}  />
                 Talk with Pocket AI
               </>
             ) : (
