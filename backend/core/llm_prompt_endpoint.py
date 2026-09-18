@@ -5,7 +5,6 @@ from ..pydantic_models.llm_models.llm_models import LLMRequestModel
 
 llm_prompt_router = APIRouter()
 
-
 # Endpoint to generate the response from llm after receiving the prompt
 @llm_prompt_router.post("/prompt")
 def generate_response(request: LLMRequestModel, req: Request):
@@ -18,9 +17,12 @@ def generate_response(request: LLMRequestModel, req: Request):
 
         req.app.state.speaker.tts(data.response)
 
-        req.app.state.ai.execute(data.tasks)
+        result = req.app.state.ai.execute(data.tasks)
 
-        return {"response": data.response}
+        for res in result:
+            req.app.state.speaker.tts(res)
+
+        return {"response": [data.response] + result}
 
     except Exception as err:
         req.app.state.speaker.tts("Sorry I cannot help with that")

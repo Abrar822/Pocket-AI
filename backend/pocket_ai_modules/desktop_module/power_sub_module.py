@@ -29,4 +29,4 @@ class PowerSubModule:
     def execute(self, task):
         action = self.actions.get(task.action)
         if action:
-            action()
+            return action()

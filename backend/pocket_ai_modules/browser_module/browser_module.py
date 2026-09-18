@@ -89,4 +89,4 @@ class BrowserModule:
     def execute(self, task):
         action = self.actions.get(task.action)
         if action:
-            action(task)
+            return action(task)
