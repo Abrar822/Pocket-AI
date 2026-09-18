@@ -49,8 +49,9 @@ function Home() {
   );
 }
 
-function SettingsPage() {
+function SettingsPage({theme, setTheme}) {
   const [collapsed, setCollapsed] = useState(true);
+  
 
   const navigate = useNavigate();
 
@@ -78,10 +79,10 @@ function SettingsPage() {
         />
 
         <main className="main-content">
-          <SettingInfo />
+          <SettingInfo theme={theme} setTheme={setTheme}/>
         </main>
         <div /*className="chat-container-wrapper"*/>
-          <ChatSection />
+          <ChatSection theme={theme}/>
         </div>
       </div>
     </div>
@@ -89,12 +90,14 @@ function SettingsPage() {
 }
 
 function App() {
+  const [theme, setTheme] = useState("dark");
   return (
+    
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
 
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/settings" element={<SettingsPage theme={theme} setTheme={setTheme}/>} />
       </Routes>
     </BrowserRouter>
   );

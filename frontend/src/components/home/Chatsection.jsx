@@ -3,7 +3,7 @@ import "./Chatsection.css";
 import {MessageCircleMore,X,FilePlus,ArrowUp} from "lucide-react";
 import {fastapiConnect} from "../../helper/FastapiConnect"
 
-function ChatSection() {
+function ChatSection({theme}) {
   const [messages, setMessages] = useState([
     {
       sender:"bot",
@@ -101,7 +101,7 @@ function ChatSection() {
   return (
     <>
     <button onClick={toggle} className={open?'btn-open':'btn-close'} style={{backgroundColor:"transparent", border:"none"}}>
-          <MessageCircleMore className="chat-icon" color="#ffffff"/>
+          <MessageCircleMore className={`chat-icon ${theme}`}/>
     </button>
     <div className={`chat-container ${open?"open":"close"}`} ref={chatboxRef}>
         <div className="resize-handle" ref={draggerRef}/>
