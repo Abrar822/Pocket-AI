@@ -14,9 +14,9 @@
       {
         "title": "Pocket-AI",
         "width": 900,
-        "minWidth": 900,
-        "minHeight": 600,
         "height": 600,
+        "minHeight": 600,
+        "minWidth": 900,
         "resizable": true,
         "fullscreen": false
       }
