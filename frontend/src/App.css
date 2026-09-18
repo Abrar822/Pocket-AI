@@ -1,0 +1,46 @@
+
+.app {
+    width: 100%;
+    height: 100vh;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+}
+.main-content {
+    position: fixed;
+    top: 70px;
+    left: 0;
+
+    width: 100%;
+    height: calc(100vh - 70px);
+
+    overflow: hidden;
+}
+
+/* .orb-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    width: min(70vw, 900px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1;
+} */
+/* .chat-container-wrapper {
+
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 450px;
+    height: 100%;
+
+
+    z-index: 1;
+} */
