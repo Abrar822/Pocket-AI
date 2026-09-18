@@ -17,9 +17,10 @@ body{
   transform: translateX(100%);
   transition:transform 0.5s ease,opacity 0.5s ease;
   /* backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--dark-border); */
-  
+  -webkit-backdrop-filter: blur(8px);*/
+  border-left: 2px solid #ffffff1f;
+  border-radius: 10px 10px;
+
 }
 
 .chat-icon {
