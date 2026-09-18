@@ -33,16 +33,7 @@
   position: absolute;
   inset: 18%;
   border-radius: 50%;
-  background: var(--bg);
-}
-
-.pai-logo-core::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.35), transparent 60%);
-  animation: pulseGlow 3s ease-in-out infinite;
+  background: var(--navbar-bg);
 }
 
 .pai-logo-text h2 {
@@ -82,4 +73,13 @@
 @keyframes pulseGlow {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
+}
+
+/* ==========================================
+   LOGO LIGHT THEME
+========================================== */
+
+/* Light Theme */
+.app.light .pocket-text {
+  color: #111827;
 }

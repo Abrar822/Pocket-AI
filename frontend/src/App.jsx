@@ -7,8 +7,8 @@ import ChatSection from "./components/home/Chatsection";
 import Dashboard from "./components/dashboard/Dashboard";
 import SettingInfo from "./components/setting/Settinginfo";
 
-function Home() {
-  const [collapsed, setCollapsed] = useState(true);
+function Home({theme, collapsed, setCollapsed}) {
+  
   const [quickActionPrompt, setQuickActionPrompt] = useState("");
   const navigate = useNavigate();
 
@@ -22,11 +22,12 @@ function Home() {
   
 
   return (
-    <div className="app">
+    <div className={`app ${theme}`}>
       <Sidebar
         collapsed={collapsed}
         onDashboardClick={handleDashboardClick}
         onSettingClick={handleSettingsClick}
+        theme={theme}
       />
 
       {/* <div className="app-content"> */}
@@ -35,16 +36,17 @@ function Home() {
         onMenuClick={() =>
           setCollapsed((prev) => !prev)
         }
+        theme={theme}
       />
       <div /*className="chat-container-wrapper"*/>
         <ChatSection quickActionPrompt={quickActionPrompt}
-        clearQuickAction={() => setQuickActionPrompt("")}/>
+        clearQuickAction={() => setQuickActionPrompt("")} theme={theme}/>
       </div>
 
       {/* <main className="main-content"> */}
 
       <div className="orb-container">
-        <Dashboard onQuickAction={setQuickActionPrompt}/>
+        <Dashboard onQuickAction={setQuickActionPrompt} theme={theme}/>
       </div>
 
 
@@ -56,8 +58,7 @@ function Home() {
   );
 }
 
-function SettingsPage({theme, setTheme}) {
-  const [collapsed, setCollapsed] = useState(true);
+function SettingsPage({theme, setTheme, collapsed, setCollapsed}) {
 
   const navigate = useNavigate();
 
@@ -69,11 +70,12 @@ function SettingsPage({theme, setTheme}) {
   };
 
   return (
-    <div className="app">
+    <div className={`app ${theme}`}>
       <Sidebar
         collapsed={collapsed}
         onDashboardClick={handleDashboardClick}
         onSettingClick={handleSettingsClick}
+        theme={theme}
       />
 
       <div className="app-content">
@@ -81,6 +83,7 @@ function SettingsPage({theme, setTheme}) {
           onMenuClick={() =>
             setCollapsed((prev) => !prev)
           }
+          theme={theme}
         />
 
         <main className="main-content">
@@ -95,14 +98,15 @@ function SettingsPage({theme, setTheme}) {
 }
 
 function App() {
+  const [collapsed, setCollapsed] = useState(true);
   const [theme, setTheme] = useState("dark");
   return (
     
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home theme={theme} collapsed={collapsed} setCollapsed={setCollapsed}/>} />
 
-        <Route path="/settings" element={<SettingsPage theme={theme} setTheme={setTheme}/>} />
+        <Route path="/settings" element={<SettingsPage theme={theme} setTheme={setTheme} collapsed={collapsed} setCollapsed={setCollapsed}/>} />
       </Routes>
     </BrowserRouter>
   );

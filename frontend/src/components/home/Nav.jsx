@@ -3,7 +3,7 @@ import Timer from "./Timer";
 import Logo from "./Logo";
 import Left_sidebar from "./Menu";
 
-function Navbar({onMenuClick}) {
+function Navbar({onMenuClick, theme}) {
   return (
     <nav className="navbar">
       <div className="nav-left">
