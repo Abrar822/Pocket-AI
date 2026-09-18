@@ -74,22 +74,12 @@ class Hibernate(BaseModel):
     parameters: NoParams
 
 
-class TakeScreenshotWithoutPath(BaseModel):
+class TakeScreenshot(BaseModel):
     id: int
     module: Literal["desktop"]
-    action: Literal["take_screenshot_without_path"]
+    action: Literal["take_screenshot"]
     parameters: NoParams
 
-
-class TakeScreenshotWithPathParams(BaseModel):
-    path: str
-
-
-class TakeScreenshotWithPath(BaseModel):
-    id: int
-    module: Literal["desktop"]
-    action: Literal["take_screenshot_with_path"]
-    parameters: TakeScreenshotWithPathParams
 
 
 class CreateFolderParams(BaseModel):
@@ -179,8 +169,7 @@ DeskTopTask = Annotated[
     | Lock
     | Sleep
     | Hibernate
-    | TakeScreenshotWithoutPath
-    | TakeScreenshotWithPath
+    | TakeScreenshot
     | CreateFolder
     | CreateFile
     | OpenFileFolder

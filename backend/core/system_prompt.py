@@ -43,8 +43,7 @@ desktop:
 - lock
 - sleep
 - hibernate
-- take_screenshot_without_path
-- take_screenshot_with_path
+- take_screenshot
 - create_folder
 - create_file
 - open_file_folder
@@ -133,15 +132,8 @@ desktop.hibernate:
 
 {}
 
-desktop.take_screenshot_without_path:
-
+desktop.take_screenshot
 {}
-
-desktop.take_screenshot_with_path:
-
-{
-    "path": "..."
-}
 
 desktop.create_folder:
 
