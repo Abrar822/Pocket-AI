@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import "./Chatsection.css";
-import { MessageCircleMore, X, FilePlus, ArrowUp } from "lucide-react";
+import { MessageCircleMore ,X, FilePlus, ArrowUp } from "lucide-react";
 import { sendPrompt } from "../../services/api";
 
-function ChatSection({ quickActionPrompt, clearQuickAction }) {
+function ChatSection({ quickActionPrompt, clearQuickAction, theme }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const [open, setIsOpen] = useState(true);
+  const [open, setIsOpen] = useState(false);
 
   const bottomRef = useRef(null);
 
@@ -112,20 +112,19 @@ function ChatSection({ quickActionPrompt, clearQuickAction }) {
     });
   }, [messages, loading]);
 
-
   return (
     <>
       <button onClick={toggle} className={open ? 'btn-open' : 'btn-close'} style={{ backgroundColor: "transparent", border: "none" }}>
-        <MessageCircleMore className="chat-icon" color="#ffffff" />
+        <MessageCircleMore className={`chat-icon ${theme}`}/>
       </button>
-      <div className={`chat-container ${open ? "open" : "close"}`} ref={chatboxRef}>
+      <div className={`chat-container ${open ? "open" : "close"} ${theme}`} ref={chatboxRef}>
         <div className="resize-handle" ref={draggerRef} />
-        <div className={`chat-X ${open ? "open" : "close"}`}>
-          <button onClick={toggle} style={{ backgroundColor: "var(--sidebar-bg)", border: "none" }}>
-            <X color="#ffffff" />
+        <div className={`chat-X ${open ? "open" : "close"} ${theme}`}>
+          <button onClick={toggle} className={`chat-icon-X ${theme}`} >
+            <X />
           </button>
         </div>
-        <div className={`chat-box ${open ? "open" : "close"} `}>
+        <div className={`chat-box ${open ? "open" : "close"} ${theme}`}>
           {/* <button onClick={toggle} className={open?'btn-open':'btn-close'} style={{backgroundColor:"transparent", border:"none"}}>
           <MessageCircleMore color="#ffffff"/>
         </button> */}
@@ -151,6 +150,7 @@ function ChatSection({ quickActionPrompt, clearQuickAction }) {
               <FilePlus />
             </button>
             <textarea
+              className={`${theme}`}
               value={input}
               rows={4}
               wrap="soft"

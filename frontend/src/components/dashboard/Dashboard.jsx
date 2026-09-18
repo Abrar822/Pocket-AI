@@ -27,10 +27,10 @@ const ACTIONS = [
 ];
 
 const PROMPTS = [
-  "Open GitHub",
-  "Search latest AI news",
-  "Summarize Resume.pdf",
-  "Generate meeting email",
+  "Search machine learning playlist on YouTube",
+  "Write an email for 7 days leave as I am out of city",
+  "Summarize amazon",
+  "Set brightness to 20",
 ];
 
 function greetingForHour(hour) {
@@ -167,7 +167,7 @@ export default function Dashboard({ onQuickAction }) {
                 alert(`Running: "${prompt}"`)
               }
             >
-              "{prompt}"
+              {prompt}
             </div>
           ))}
 

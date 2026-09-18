@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Palette, User, Mic, Moon, Sun, Save } from "lucide-react";
 import "./Settinginfo.css";
 
-function SettingInfo() {
-  const [theme, setTheme] = useState("dark");
+function SettingInfo({theme, setTheme}) {
   const [username, setUsername] = useState("");
   const [wakeWord, setWakeWord] = useState("");
   const [voice, setVoice] = useState("male");
@@ -20,6 +19,7 @@ function SettingInfo() {
   };
 
   return (
+    <div className={`bg-setting ${theme}`}>
     <div className={`settings-page ${theme}`}>
       {/* ================= HEADER ================= */}
 
@@ -190,6 +190,7 @@ function SettingInfo() {
             <span>Save Changes</span>
           </button>
         </div>
+      </div>
       </div>
       </div>
     
