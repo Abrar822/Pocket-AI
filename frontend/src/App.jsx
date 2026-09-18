@@ -8,7 +8,6 @@ import Dashboard from "./components/dashboard/Dashboard";
 import SettingInfo from "./components/setting/Settinginfo";
 
 function Home({theme, collapsed, setCollapsed}) {
-  
   const [quickActionPrompt, setQuickActionPrompt] = useState("");
   const navigate = useNavigate();
 
