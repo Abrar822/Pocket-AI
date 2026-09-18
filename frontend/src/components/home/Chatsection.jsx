@@ -1,7 +1,24 @@
 import { useState, useRef, useEffect } from "react";
 import "./Chatsection.css";
-import { MessageCircleMore, X, FilePlus, ArrowUp } from "lucide-react";
+import { MessageCircleMore ,X, FilePlus, ArrowUp } from "lucide-react";
 import { sendPrompt } from "../../services/api";
+
+{/* Global SVG Gradient Definition */}
+<svg width="0" height="0" style={{ position: "absolute" }}>
+  <defs>
+    <linearGradient
+      id="iconGradient"
+      x1="0%"
+      y1="0%"
+      x2="100%"
+      y2="100%"
+    >
+      <stop offset="0%" stopColor="#D946EF" />
+      <stop offset="50%" stopColor="#8B5CF6" />
+      <stop offset="100%" stopColor="#38BDF8" />
+    </linearGradient>
+  </defs>
+</svg>
 
 function ChatSection({ quickActionPrompt, clearQuickAction }) {
   const [messages, setMessages] = useState([]);
@@ -112,11 +129,10 @@ function ChatSection({ quickActionPrompt, clearQuickAction }) {
     });
   }, [messages, loading]);
 
-
   return (
     <>
       <button onClick={toggle} className={open ? 'btn-open' : 'btn-close'} style={{ backgroundColor: "transparent", border: "none" }}>
-        <MessageCircleMore className="chat-icon" color="#ffffff" />
+        <MessageCircleMore className="chat-icon"/>
       </button>
       <div className={`chat-container ${open ? "open" : "close"}`} ref={chatboxRef}>
         <div className="resize-handle" ref={draggerRef} />

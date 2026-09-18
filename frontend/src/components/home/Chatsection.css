@@ -25,6 +25,10 @@ body{
 .chat-icon {
   width: 40px;
   height: 40px;
+  color: white;
+  /* color: linear-gradient(135deg,
+      var(--violet),
+      var(--blue)); */
 }
 /* .btn{
   position: sticky;
