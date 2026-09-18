@@ -195,7 +195,9 @@
   box-sizing: border-box;
 
   padding: 20px;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;  
   background: linear-gradient(135deg,
       var(--violet),
       var(--blue));
