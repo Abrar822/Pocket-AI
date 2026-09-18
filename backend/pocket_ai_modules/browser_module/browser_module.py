@@ -41,6 +41,7 @@ class BrowserModule:
     def summarize_website(self, task):
         browser = None
         engine = None
+        chunk_size = 6000
 
         try:
             url = task.parameters.url
@@ -48,17 +49,37 @@ class BrowserModule:
                 url = f"https://{url}"
 
             engine = sync_playwright().start()
-            browser = engine.chromium.launch(headless=False)
+            browser = engine.chromium.launch(headless=True)
             page = browser.new_page()
 
             page.goto(url, wait_until="domcontentloaded")
             page.wait_for_timeout(5000)
             text = page.locator("body").inner_text()
 
-            content = generate_content(text.strip())
-            path = Path.home() / 'Downloads' / f"summarized_{datetime.now().strftime('%d_%m_%Y-%H-%M-%S')}.txt"
-            path.write_text(content, encoding='utf-8')
-            
+            summarised_content = ""
+            chunk_num = 0
+            while True:
+                chunk = text[
+                    (chunk_num * chunk_size) : (chunk_num * chunk_size) + chunk_size
+                ]
+                if chunk_size == 20:
+                    break
+                if chunk:
+                    content = generate_content(chunk.strip())
+                    summarised_content += content
+                    chunk_num += 1
+                else:
+                    break
+
+            path = (
+                Path.home()
+                / "Downloads"
+                / f"summarized_{datetime.now().strftime('%d_%m_%Y-%H-%M-%S')}.txt"
+            )
+            path.write_text(summarised_content, encoding="utf-8")
+            return "The summarized content has been saved to your Downloads folder."
+        except Exception as err:
+            return "Error:" + str(err)
         finally:
             if browser:
                 browser.close()

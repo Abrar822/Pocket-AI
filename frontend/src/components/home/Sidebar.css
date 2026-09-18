@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.side-bar {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    /* border: 1px solid black; */
+    height: calc(100vh - 70px);
+    /* background-color: var(--sidebar-bg); */
+    /* background-color: var((--bg)); */
+    background-color: #181B22;
+    overflow: hidden;
+    transition: width 0.7s ease;
+    z-index: 20;
+    border-right:1px solid #ffffff1f;
+
+}
+
+.side-bar.collapsed {
+    width: 65px;
+}
+
+.side-bar {
+    width: 200px;
+
+}

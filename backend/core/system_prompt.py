@@ -43,8 +43,7 @@ desktop:
 - lock
 - sleep
 - hibernate
-- take_screenshot_without_path
-- take_screenshot_with_path
+- take_screenshot
 - create_folder
 - create_file
 - open_file_folder
@@ -53,6 +52,7 @@ desktop:
 - close_file
 - conversation
 - no_task
+- open_app
 
 email:
 
@@ -132,15 +132,8 @@ desktop.hibernate:
 
 {}
 
-desktop.take_screenshot_without_path:
-
+desktop.take_screenshot
 {}
-
-desktop.take_screenshot_with_path:
-
-{
-    "path": "..."
-}
 
 desktop.create_folder:
 
@@ -189,6 +182,12 @@ desktop.conversation:
 desktop.no_task:
 
 {}
+
+desktop.open_app:
+
+{
+    "official_app_name": "..."
+}
 
 email.compose_email:
 
