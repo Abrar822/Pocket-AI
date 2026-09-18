@@ -1,3 +1,14 @@
+.bg-setting{
+  width: 100%;
+  height: 100%;
+
+}
+.bg-setting.light{
+  background-color: white;
+  color: black;
+}
+
+
 /* ================================
    SETTINGS PAGE
 ================================ */
@@ -10,10 +21,6 @@
   width: 800px;
   margin-left: 17%;
   box-sizing: border-box;
-}
-.settings-page.light{
-  background: white;
-
 }
 
 /* ================================
@@ -38,9 +45,7 @@
   margin: 0;
   font-size: 20px;
   font-weight: 700;
-
   background:  #ffffff;
-
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -50,6 +55,8 @@
   color: #9292a5;
   font-size: 13px;
 }
+
+
 
 /* Decorative wave */
 
@@ -671,4 +678,105 @@
 @media (min-width:1920px){
   .settings-card { margin-left:120px; }
   .settings-header { margin-left:120px; }
+}
+
+/* light mode css */
+
+/* ================================
+   LIGHT MODE OVERRIDES
+================================ */
+
+/* ================================
+   LIGHT MODE OVERRIDES
+================================ */
+
+/* Main Background */
+.bg-setting.light {
+  background-color: #f3f4f6;
+}
+
+/* Typography */
+.bg-setting.light .settings-title h1,
+.bg-setting.light .setting-info h2 {
+  color: #111827;
+  -webkit-text-fill-color: #111827;
+  background: none;
+}
+
+.bg-setting.light .settings-title p,
+.bg-setting.light .setting-info p {
+  color: #6b7280;
+}
+
+/* Settings Card Container */
+.bg-setting.light .settings-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  backdrop-filter: none;
+}
+
+.bg-setting.light .setting-row {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+/* Icons (Left Side) */
+.bg-setting.light .setting-icon {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.12), rgba(80, 50, 130, 0.05));
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  color: #a855f7;
+  box-shadow: none;
+}
+
+/* Unselected Option Buttons */
+.bg-setting.light .option-button {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #4b5563;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.bg-setting.light .option-button:hover {
+  background: #f9fafb;
+  border-color: #a855f7;
+  color: #111827;
+}
+
+/* Selected Option Buttons */
+.bg-setting.light .option-button.selected {
+  color: #111827;
+  /* Creates a solid white background inside a gradient border */
+  background-image: linear-gradient(#ffffff, #ffffff), linear-gradient(90deg, #c026ff, #7c3aed, #22b9ff);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.15);
+}
+
+/* Inputs */
+.bg-setting.light .input-container {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #6b7280;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.bg-setting.light .input-container input {
+  color: #111827;
+}
+
+.bg-setting.light .input-container input::placeholder {
+  color: #9ca3af;
+}
+
+.bg-setting.light .input-container:focus-within {
+  border-color: #a855f7;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+  background: #ffffff;
+}
+
+/* Save Container Bar */
+.bg-setting.light .save-container {
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
 }
