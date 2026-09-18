@@ -13,6 +13,7 @@ def generate_response(request: LLMRequestModel, req: Request):
         print("Data returned by llm", data)
 
         data = TaskRouterResponse.model_validate(data)
+        print(data)
 
         req.app.state.speaker.tts(data.response)
 

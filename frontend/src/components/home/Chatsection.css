@@ -47,7 +47,7 @@ body{
   transform: translateX(0%);
   transition: all 0.5s ease;
   padding-right: 10px;
-  z-index: 1;
+  z-index: 3;
 }
 .chat-X{
   display: flex;
