@@ -21,6 +21,15 @@ body{
   width: 40px;
   height: 40px;
 }
+
+.chat-icon {
+  color: white;
+}
+
+.chat-icon.light {
+  color: black;
+}
+
 /* .btn{
   position: sticky;
   top: 10%;
