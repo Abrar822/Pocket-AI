@@ -3,15 +3,10 @@ import "./Chatsection.css";
 import {MessageCircleMore,X,FilePlus,ArrowUp} from "lucide-react";
 import {fastapiConnect} from "../../helper/FastapiConnect"
 
-function ChatSection() {
-  const [messages, setMessages] = useState([
-    {
-      sender:"bot",
-      text: "Hi, I am Pocket AI. How can I help you?",
-    },
-  ]);
+function ChatSection({open,toggle}) {
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const [open,setIsOpen] = useState(false);
+  
   const bottomRef = useRef(null);
 
   const [loading, setLoading] = useState(false);
@@ -36,7 +31,7 @@ function ChatSection() {
       const pointerMove = (e) => {
         if (draggable && chatboxRef.current) {
           let delta = rect.left - e.clientX;
-          let newWidth = Math.max(400, Math.min(900, rect.width + delta));
+          let newWidth = Math.max(400, Math.min(840, rect.width + delta));
   
           chatboxRef.current.style.width = `${newWidth}px`;
         }
@@ -88,9 +83,7 @@ function ChatSection() {
     }
     
   };
-  const toggle = () => {
-    setIsOpen(!open);
-  };
+  
   useEffect(() => {
   bottomRef.current?.lastElementChild?.scrollIntoView({
     behavior: "smooth"
@@ -106,7 +99,7 @@ function ChatSection() {
     <div className={`chat-container ${open?"open":"close"}`} ref={chatboxRef}>
         <div className="resize-handle" ref={draggerRef}/>
         <div className={`chat-X ${open?"open":"close"}`}>
-          <button onClick={toggle} style={{backgroundColor:"transparent", border:"none"}}>
+          <button onClick={toggle} style={{backgroundColor:"var(--sidebar-bg)", border:"none"}}>
               <X color="#ffffff"/>
         </button>
         </div>

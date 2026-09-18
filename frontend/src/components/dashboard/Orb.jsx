@@ -289,7 +289,7 @@ import { startTransition, useEffect, useId, useMemo, useRef, useState } from "re
             {hint && (
                 <div
                     style={{
-                        marginTop: size * 0.02,
+                        marginTop: size * 0.05,
                         color: "#8b87b8",
                         fontSize: Math.max(11, size * 0.055),
                         fontFamily: "inherit",

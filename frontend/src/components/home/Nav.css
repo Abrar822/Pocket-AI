@@ -4,7 +4,7 @@ body { font-family: 'Inter', sans-serif; }
 .pai-logo-text h2 { font-family: 'Inter', sans-serif; }
 
 .navbar{
-    position: relative;
+    position: fixed;
     width: 100vw;
     height: 70px;
     border-bottom: #334A78;
