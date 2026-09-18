@@ -10,10 +10,12 @@
     /* border: 1px solid black; */
     height: calc(100vh - 70px);
     /* background-color: var(--sidebar-bg); */
-    background-color: var((--bg));
+    /* background-color: var((--bg)); */
+    background-color: #181B22;
     overflow: hidden;
     transition: width 0.7s ease;
     z-index: 20;
+    border-right:1px solid #ffffff1f;
 
 }
 
