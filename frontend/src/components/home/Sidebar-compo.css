@@ -14,7 +14,12 @@
     
 }
 
+.dashboard {
+    margin-top: 20px;
+}
+
 .container {
+    margin-top: 10px;
     width: calc(100% - 20px);
     gap: 16px;
     justify-content: flex-start;
@@ -22,6 +27,7 @@
 }
 
 .sidebar-collapsed {
+    margin-top: 10px;
     width: 50px;
     justify-content: center;
     padding: 0;
@@ -32,8 +38,6 @@
 .sidebar-collapsed:hover {
     background-color: var(--violet-hover);
     color: var(--text);
-    
-   
 }
 
 .container:hover {
@@ -54,4 +58,25 @@
     transition:
         opacity 0.7s ease,
         width 0.7s ease;
+}
+
+/* ==========================================
+   SIDEBAR ITEMS LIGHT THEME
+========================================== */
+
+.app.light .container,
+.app.light .sidebar-collapsed {
+  color: #111827;
+}
+
+.app.light .container:hover,
+.app.light .sidebar-collapsed:hover {
+  background-color: #f9fafb;
+  color: #a855f7;
+}
+
+.app.light .container:hover,
+.app.light .sidebar-collapsed:hover {
+  background-color: #f3e8ff;
+  color: #a855f7;
 }

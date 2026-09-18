@@ -44,3 +44,19 @@
 
     z-index: 1;
 } */
+
+/* ==========================================
+   APP LIGHT THEME
+========================================== */
+
+.app.light {
+  background-color: #f3f4f6;
+}
+
+.app.dark {
+  --navbar-bg: #181B22;
+}
+
+.app.light {
+  --navbar-bg: #ffffff;
+}

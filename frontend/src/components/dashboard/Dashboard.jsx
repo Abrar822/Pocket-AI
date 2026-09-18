@@ -8,7 +8,6 @@ import {
   Image,
   Mic,
   MicOff,
-  icons,
   LockKeyhole
 } from "lucide-react";
 
@@ -39,7 +38,7 @@ function greetingForHour(hour) {
   return "Good Evening";
 }
 
-export default function Dashboard({ onQuickAction }) {
+export default function Dashboard({ onQuickAction, theme }) {
 
   const [orbSize, setOrbSize] = useState(() => {
     if (window.innerWidth <= 700) return 140;
@@ -51,7 +50,7 @@ export default function Dashboard({ onQuickAction }) {
     greetingForHour(new Date().getHours())
   );
 
-  const [listening, setListening] = useState(true);
+  const [listening, setListening] = useState(false);
 
   // Update greeting every minute
   useEffect(() => {
@@ -79,16 +78,14 @@ export default function Dashboard({ onQuickAction }) {
   }, []);
 
   return (
-    <div className="pai-dashboard page-fade">
+    <div className={`pai-dashboard page-fade ${theme}`}>
 
       <header className="pai-dash-header">
         <div>
-          <h1>{greeting}, Het </h1>
+          <h1>{greeting}, Zeel </h1>
           <p>Your personal AI productivity assistant</p>
         </div>
       </header>
-
-
 
       <session className="pai-dash-hero">
 
@@ -96,6 +93,7 @@ export default function Dashboard({ onQuickAction }) {
           size={orbSize}
           listening={listening}
           hint='Say "Hey Pocket" to wake me up'
+          theme={theme}
         />
 
         <button
@@ -163,8 +161,11 @@ export default function Dashboard({ onQuickAction }) {
           {PROMPTS.map((prompt) => (
             <div
               key={prompt}
-              onClick={() =>
-                alert(`Running: "${prompt}"`)
+              onClick={(e) =>
+              {
+                e.stopPropagation();
+                onQuickAction(prompt);
+              }
               }
             >
               {prompt}

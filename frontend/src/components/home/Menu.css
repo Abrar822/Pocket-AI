@@ -20,3 +20,7 @@
     color: white;
     
 }
+
+.app.light .left-sidebar-icon {
+  color: #111827;
+}
