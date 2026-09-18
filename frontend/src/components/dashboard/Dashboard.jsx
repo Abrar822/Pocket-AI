@@ -161,8 +161,11 @@ export default function Dashboard({ onQuickAction, theme }) {
           {PROMPTS.map((prompt) => (
             <div
               key={prompt}
-              onClick={() =>
-                alert(`Running: "${prompt}"`)
+              onClick={(e) =>
+              {
+                e.stopPropagation();
+                onQuickAction(prompt);
+              }
               }
             >
               {prompt}
