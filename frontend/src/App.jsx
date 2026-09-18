@@ -9,8 +9,7 @@ import SettingInfo from "./components/setting/Settinginfo";
 
 function Home() {
   const [collapsed, setCollapsed] = useState(true);
-  const [open,setIsOpen] = useState(true);
-
+  const [quickActionPrompt, setQuickActionPrompt] = useState("");
   const navigate = useNavigate();
 
   const handleDashboardClick = () => {
@@ -20,14 +19,7 @@ function Home() {
   const handleSettingsClick = () => {
     navigate("/settings");
   };
-  const toggle = () => {
-      setIsOpen(!open);
-    };
-  const close=()=>{
-    if (open===true) {
-      setIsOpen(false)
-    }
-  };
+  
 
   return (
     <div className="app">
@@ -39,23 +31,24 @@ function Home() {
 
       {/* <div className="app-content"> */}
 
-        <Navbar
-          onMenuClick={() =>
-            setCollapsed((prev) => !prev)
-          }
-        />
-          <div /*className="chat-container-wrapper"*/>
-            <ChatSection open={open} toggle={toggle} />
-          </div>
+      <Navbar
+        onMenuClick={() =>
+          setCollapsed((prev) => !prev)
+        }
+      />
+      <div /*className="chat-container-wrapper"*/>
+        <ChatSection quickActionPrompt={quickActionPrompt}
+        clearQuickAction={() => setQuickActionPrompt("")}/>
+      </div>
 
-        {/* <main className="main-content"> */}
+      {/* <main className="main-content"> */}
 
-          <div className="orb-container">
-            <Dashboard toggle={close}/>
-          </div>  
+      <div className="orb-container">
+        <Dashboard onQuickAction={setQuickActionPrompt}/>
+      </div>
 
 
-        {/* </main> */}
+      {/* </main> */}
 
       {/* </div> */}
 
@@ -71,7 +64,6 @@ function SettingsPage() {
   const handleDashboardClick = () => {
     navigate("/");
   };
-
   const handleSettingsClick = () => {
     navigate("/settings");
   };

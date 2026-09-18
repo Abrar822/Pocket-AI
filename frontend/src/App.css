@@ -6,7 +6,7 @@
     position: relative;
     overflow: hidden;
 }
-/* .main-content {
+.main-content {
     position: fixed;
     top: 70px;
     left: 0;
@@ -17,7 +17,7 @@
     overflow: hidden;
 }
 
-.orb-container {
+/* .orb-container {
     position: absolute;
     left: 50%;
     top: 50%;
