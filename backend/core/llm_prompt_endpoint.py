@@ -5,6 +5,7 @@ from ..pydantic_models.llm_models.llm_models import LLMRequestModel
 
 llm_prompt_router = APIRouter()
 
+
 # Endpoint to generate the response from llm after receiving the prompt
 @llm_prompt_router.post("/prompt")
 def generate_response(request: LLMRequestModel, req: Request):
