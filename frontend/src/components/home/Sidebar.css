@@ -27,3 +27,12 @@
     width: 200px;
 
 }
+
+/* ==========================================
+   SIDEBAR LIGHT THEME
+========================================== */
+
+.app.light .side-bar {
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+}
