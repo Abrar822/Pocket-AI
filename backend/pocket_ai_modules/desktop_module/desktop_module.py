@@ -35,13 +35,9 @@ class DesktopModule:
             "delete_file_folder": self.file.execute,
             "rename_file_folder": self.file.execute,
             "close_file": self.file.execute,
-            "no_task": self.no_task,
             "conversation": self.conversation,
             "open_app": self.open_app
         }
-
-    def no_task(self, task):
-        pass
 
     def conversation(self, task):
         pass
@@ -72,4 +68,4 @@ class DesktopModule:
     def execute(self, task):
         action = self.actions.get(task.action)
         if action:
-            action(task)
+            return action(task)

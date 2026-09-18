@@ -3,7 +3,8 @@ from typing import Annotated, Literal
 
 
 class ComposeEmailParams(BaseModel):
-    prompt: str
+    subject: str
+    body: str
 
 
 class ComposeEmail(BaseModel):
@@ -11,10 +12,6 @@ class ComposeEmail(BaseModel):
     module: Literal["email"]
     action: Literal["compose_email"]
     parameters: ComposeEmailParams
-
-class MailStructure(BaseModel):
-    subject: str
-    body: str
 
 
 EmailGenerationTask = Annotated[ComposeEmail, Field(discriminator="action")]
