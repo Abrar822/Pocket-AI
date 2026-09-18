@@ -9,6 +9,24 @@
     --text-mute: #6f6f82;
     --grad-brand: linear-gradient(135deg, var(--violet), var(--cyan));
     --bg: #090913;
+
+
+    
+    --panel: #17172b;
+  --panel-hover: #22223d;
+  --border: rgba(255, 255, 255, 0.12);
+
+  /* Text */
+  --text: #ffffff;
+  --text-dim: #a5a5bd;
+
+  /* Accent colors */
+  --violet: #7c3aed;
+  --violet-light: #b794ff;
+  --blue: #2563eb;
+
+  /* Border radius */
+  --radius-lg: 18px;
 }
 
 * {

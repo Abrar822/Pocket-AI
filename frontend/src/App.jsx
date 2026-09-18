@@ -9,6 +9,7 @@ import SettingInfo from "./components/setting/Settinginfo";
 
 function Home() {
   const [collapsed, setCollapsed] = useState(true);
+  const [open,setIsOpen] = useState(true);
 
   const navigate = useNavigate();
 
@@ -19,6 +20,14 @@ function Home() {
   const handleSettingsClick = () => {
     navigate("/settings");
   };
+  const toggle = () => {
+      setIsOpen(!open);
+    };
+  const close=()=>{
+    if (open===true) {
+      setIsOpen(false)
+    }
+  };
 
   return (
     <div className="app">
@@ -28,23 +37,28 @@ function Home() {
         onSettingClick={handleSettingsClick}
       />
 
-      <div className="app-content">
+      {/* <div className="app-content"> */}
+
         <Navbar
           onMenuClick={() =>
             setCollapsed((prev) => !prev)
           }
         />
-
-        <main className="main-content">
-          <div className="orb-container">
-            <Dashboard />
-          </div>
-
           <div /*className="chat-container-wrapper"*/>
-            <ChatSection />
+            <ChatSection open={open} toggle={toggle} />
           </div>
-        </main>
-      </div>
+
+        {/* <main className="main-content"> */}
+
+          <div className="orb-container">
+            <Dashboard toggle={close}/>
+          </div>  
+
+
+        {/* </main> */}
+
+      {/* </div> */}
+
     </div>
   );
 }
