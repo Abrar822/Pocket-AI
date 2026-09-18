@@ -17,6 +17,7 @@ import { startTransition, useEffect, useId, useMemo, useRef, useState } from "re
     state,
     label,
     hint,
+    theme
 }) {
     const resolvedState = state || (listening ? "listening" : "idle");
     const animate = resolvedState !== "idle";
@@ -275,10 +276,9 @@ import { startTransition, useEffect, useId, useMemo, useRef, useState } from "re
                 )} */}
             </svg>
 
-            <div
+            <div 
                 style={{
                     marginTop: size * 0.08,
-                    color: "#e7e6fb",
                     fontSize: Math.max(13, size * 0.075),
                     fontFamily: "inherit",
                     letterSpacing: 0.2,

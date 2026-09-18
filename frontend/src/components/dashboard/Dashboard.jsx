@@ -82,12 +82,10 @@ export default function Dashboard({ onQuickAction, theme }) {
 
       <header className="pai-dash-header">
         <div>
-          <h1>{greeting}, Het </h1>
+          <h1>{greeting}, Zeel </h1>
           <p>Your personal AI productivity assistant</p>
         </div>
       </header>
-
-
 
       <session className="pai-dash-hero">
 
@@ -95,6 +93,7 @@ export default function Dashboard({ onQuickAction, theme }) {
           size={orbSize}
           listening={listening}
           hint='Say "Hey Pocket" to wake me up'
+          theme={theme}
         />
 
         <button
