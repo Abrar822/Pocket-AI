@@ -117,14 +117,14 @@ function ChatSection({ quickActionPrompt, clearQuickAction, theme }) {
       <button onClick={toggle} className={open ? 'btn-open' : 'btn-close'} style={{ backgroundColor: "transparent", border: "none" }}>
         <MessageCircleMore className={`chat-icon ${theme}`}/>
       </button>
-      <div className={`chat-container ${open ? "open" : "close"}`} ref={chatboxRef}>
+      <div className={`chat-container ${open ? "open" : "close"} ${theme}`} ref={chatboxRef}>
         <div className="resize-handle" ref={draggerRef} />
-        <div className={`chat-X ${open ? "open" : "close"}`}>
-          <button onClick={toggle} style={{ backgroundColor: "var(--sidebar-bg)", border: "none" }}>
-            <X color="#ffffff" />
+        <div className={`chat-X ${open ? "open" : "close"} ${theme}`}>
+          <button onClick={toggle} className={`chat-icon-X ${theme}`} >
+            <X />
           </button>
         </div>
-        <div className={`chat-box ${open ? "open" : "close"} `}>
+        <div className={`chat-box ${open ? "open" : "close"} ${theme}`}>
           {/* <button onClick={toggle} className={open?'btn-open':'btn-close'} style={{backgroundColor:"transparent", border:"none"}}>
           <MessageCircleMore color="#ffffff"/>
         </button> */}
@@ -150,6 +150,7 @@ function ChatSection({ quickActionPrompt, clearQuickAction, theme }) {
               <FilePlus />
             </button>
             <textarea
+              className={`${theme}`}
               value={input}
               rows={4}
               wrap="soft"
