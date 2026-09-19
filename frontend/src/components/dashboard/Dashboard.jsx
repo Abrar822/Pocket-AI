@@ -38,7 +38,7 @@ function greetingForHour(hour) {
   return "Good Evening";
 }
 
-export default function Dashboard({ onQuickAction, theme, username }) {
+export default function Dashboard({ onQuickAction, theme, username, wakeWord }) {
 
   const [orbSize, setOrbSize] = useState(() => {
     if (window.innerWidth <= 700) return 140;
@@ -92,7 +92,7 @@ export default function Dashboard({ onQuickAction, theme, username }) {
         <Orb
           size={orbSize}
           listening={listening}
-          hint='Say "Hey Pocket" to wake me up'
+          hint={`Say ${wakeWord} to wake me up`}
           theme={theme}
         />
 

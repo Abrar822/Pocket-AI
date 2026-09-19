@@ -119,7 +119,9 @@ function ChatSection({ quickActionPrompt, clearQuickAction, theme }) {
       </button>
       <div className={`chat-container ${open ? "open" : "close"} ${theme}`} ref={chatboxRef}>
         <div className="resize-handle" ref={draggerRef} />
-        <div className={`chat-X ${open ? "open" : "close"} ${theme}`}>
+        <div className={`chat-X ${open ? "open" : "close"} ${theme}`} style={{
+          position: 'absolute'
+        }}>
           <button onClick={toggle} className={`chat-icon-X ${theme}`} >
             <X />
           </button>
@@ -145,7 +147,9 @@ function ChatSection({ quickActionPrompt, clearQuickAction, theme }) {
             }
           </div>
 
-          <div className="chat-input">
+          <div className={`chat-input ${theme}`} style={{
+            position: 'absolute', bottom: '0px', left: '0px'
+          }}>
             <button>
               <FilePlus />
             </button>
