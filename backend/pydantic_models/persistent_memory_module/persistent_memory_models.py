@@ -12,3 +12,10 @@ class FolderTraversalDetails(BaseModel):
 
 class DeleteData(BaseModel):
     f_name: str
+
+
+class InsertSettingsDetails(BaseModel):
+    username: str
+    mode: str
+    wakeword: str
+    voice: str
