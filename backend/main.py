@@ -17,14 +17,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from .pocket_ai_modules.text_to_speech_module.Piper_TTS import tts
 from .core.TaskRouter import TaskRouter
 from fastapi import FastAPI
-from .pocket_ai_modules.persistent_memory.db import db
+from .pocket_ai_modules.persistent_memory.db import db, create_keyval
 from .core.llm_prompt_endpoint import llm_prompt_router
 from .pocket_ai_modules.persistent_memory.memory_endpoints import memory_endpoints
+from .pocket_ai_modules.persistent_memory.settings_endpoints import settings_endpoints
 from contextlib import asynccontextmanager
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     db()
+    create_keyval()
     app.state.ai = TaskRouter()
     app.state.speaker = tts.TextToSpeechModule()
     yield
@@ -41,3 +43,4 @@ app.add_middleware(
 
 app.include_router(llm_prompt_router)
 app.include_router(memory_endpoints)
+app.include_router(settings_endpoints)

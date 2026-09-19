@@ -38,7 +38,7 @@ function greetingForHour(hour) {
   return "Good Evening";
 }
 
-export default function Dashboard({ onQuickAction, theme }) {
+export default function Dashboard({ onQuickAction, theme, username }) {
 
   const [orbSize, setOrbSize] = useState(() => {
     if (window.innerWidth <= 700) return 140;
@@ -82,7 +82,7 @@ export default function Dashboard({ onQuickAction, theme }) {
 
       <header className="pai-dash-header">
         <div>
-          <h1>{greeting}, Zeel </h1>
+          <h1>{greeting}, {username} </h1>
           <p>Your personal AI productivity assistant</p>
         </div>
       </header>
