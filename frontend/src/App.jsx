@@ -7,8 +7,9 @@ import Dashboard from "./components/dashboard/Dashboard";
 import SettingInfo from "./components/setting/Settinginfo";
 import { useState, useEffect } from "react";
 import { settingConnect } from "./helper/settingConnect";
+import Alert from "./components/alert/Alert";
 
-function Home({ theme, collapsed, setCollapsed, username }) {
+function Home({ theme, collapsed, setCollapsed, username, wakeWord }) {
   const [quickActionPrompt, setQuickActionPrompt] = useState("");
   const navigate = useNavigate();
 
@@ -47,6 +48,7 @@ function Home({ theme, collapsed, setCollapsed, username }) {
           onQuickAction={setQuickActionPrompt}
           theme={theme}
           username={username}
+          wakeWord={wakeWord}
         />
       </div>
 
@@ -70,6 +72,7 @@ function SettingsPage({
   setMode,
   wakeWord,
   setWakeWord,
+  setInformer
 }) {
   const navigate = useNavigate();
 
@@ -107,6 +110,7 @@ function SettingsPage({
             wakeWord={wakeWord}
             setWakeWord={setWakeWord}
             voice={voice}
+            setInformer={setInformer}
           />
         </main>
         <div /*className="chat-container-wrapper"*/>
@@ -124,6 +128,21 @@ function App() {
   const [wakeWord, setWakeWord] = useState("Pocket");
   const [voice, setVoice] = useState("male");
   const [mode, setMode] = useState("dark");
+  const [informer, setInformer] = useState({
+    state: false, msg: ''
+  })
+
+  useEffect(() => {
+    let id;
+    if(informer.state) {
+      id = setTimeout(() => {
+        setInformer({state: false, msg: ''})
+      }, 3000)
+    }
+    return () => {
+      clearTimeout(id)
+    }
+  }, [informer])
 
   const onLoad = async () => {
     let data;
@@ -152,6 +171,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      {informer.state && <Alert message={informer.msg}/>}
       <Routes>
         <Route
           path="/"
@@ -161,6 +181,7 @@ function App() {
               collapsed={collapsed}
               setCollapsed={setCollapsed}
               username={username}
+              wakeWord={wakeWord}
             />
           }
         />
@@ -181,6 +202,7 @@ function App() {
               setMode={setMode}
               wakeWord={wakeWord}
               setWakeWord={setWakeWord}
+              setInformer={setInformer}
             />
           }
         />

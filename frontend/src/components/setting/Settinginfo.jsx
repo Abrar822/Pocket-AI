@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Palette, User, Mic, Moon, Sun, Save } from "lucide-react";
 import "./Settinginfo.css";
 import { settingInsert } from "../../helper/settingInsert";
@@ -14,32 +13,8 @@ function SettingInfo({
   setMode,
   wakeWord,
   setWakeWord,
+  setInformer
 }) {
-  // const [wakeWord, setWakeWord] = useState("Pocket");
-  // const [voice, setVoice] = useState("male");
-  // const [mode, setMode] = useState("dark");
-
-  // const onLoad = async () => {
-  //   let data
-  //     try {
-  //       data = await settingConnect();
-  //     } catch(err) {
-  //       console.log(String(err))
-  //       return
-  //     }
-  //     for (let tuple of data) {
-  //       if (tuple[0] === "username") {
-  //         setUsername(tuple[1].trim());
-  //       } else if (tuple[0] === "wakeword") {
-  //         setWakeWord(tuple[1].trim());
-  //       } else if (tuple[0] === "voice") {
-  //         setVoice(tuple[1].trim());
-  //       } else if (tuple[0] === "mode") {
-  //         setMode(tuple[1].trim());
-  //         setTheme(tuple[1].toLowerCase().trim());
-  //       }
-  //     }
-  //   };
 
   const insertDetails = async () => {
     if (!username || !wakeWord || !mode || !voice) return;
@@ -52,17 +27,11 @@ function SettingInfo({
     });
 
     if (!data) {
-      alert("failure");
-      return data.message;
+      setInformer({state: true, msg: 'Settings could not changed successfully.'})
     } else {
-      alert("success");
-      return "Successfully upserted data.";
+      setInformer({state: true, msg: 'Settings changed successfully.'})
     }
   };
-
-  // useEffect(() => {
-  //   onLoad();
-  // }, []);
 
   return (
     <div className={`bg-setting ${theme}`}>
@@ -242,7 +211,9 @@ function SettingInfo({
           {/* ================= SAVE ================= */}
 
           <div className={`save-container ${theme}`}>
-            <button className="save-button" onClick={insertDetails}>
+            <button className="save-button" onClick={() => {
+              insertDetails()
+            }}>
               <Save size={19} />
 
               <span>Save Changes</span>
