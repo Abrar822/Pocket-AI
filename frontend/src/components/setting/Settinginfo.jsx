@@ -15,7 +15,6 @@ function SettingInfo({
   setWakeWord,
   setInformer
 }) {
-
   const insertDetails = async () => {
     if (!username || !wakeWord || !mode || !voice) return;
 
@@ -26,30 +25,29 @@ function SettingInfo({
       mode: mode,
     });
 
-    if (!data) {
-      setInformer({state: true, msg: 'Settings could not changed successfully.'})
-    } else {
-      setInformer({state: true, msg: 'Settings changed successfully.'})
-    }
+      setInformer({
+        state: true,
+        msg: "Settings changed successfully.",
+      });
   };
 
   return (
     <div className={`bg-setting ${theme}`}>
       <div className={`settings-page ${theme}`}>
+
         {/* ================= HEADER ================= */}
 
         <div className={`settings-header ${theme}`}>
           <div className={`settings-title ${theme}`}>
             <h1>Settings</h1>
-
             <p>Customize your Pocket AI experience</p>
           </div>
-
-          {/* <div className="settings-wave">~~~~~〰〰〰~~~~~</div> */}
         </div>
 
         {/* ================= SETTINGS CARD ================= */}
+
         <div className={`settings-card ${theme}`}>
+
           {/* ================= THEME ================= */}
 
           <div className={`setting-row ${theme}`}>
@@ -60,16 +58,18 @@ function SettingInfo({
 
               <div>
                 <h2>Theme</h2>
-
                 <p>Choose your preferred theme</p>
               </div>
             </div>
 
             <div className={`setting-options ${theme}`}>
+
               {/* Dark Mode */}
 
               <button
-                className={`option-button ${theme === "dark" ? "selected" : ""}`}
+                className={`option-button ${
+                  theme === "dark" ? "selected" : ""
+                }`}
                 onClick={() => {
                   setTheme("dark");
                   setMode("dark");
@@ -79,13 +79,17 @@ function SettingInfo({
 
                 <span>Dark Mode</span>
 
-                {theme === "dark" && <span className="check">✓</span>}
+                {theme === "dark" && (
+                  <span className="check">✓</span>
+                )}
               </button>
 
               {/* Light Mode */}
 
               <button
-                className={`option-button ${theme === "light" ? "selected" : ""}`}
+                className={`option-button ${
+                  theme === "light" ? "selected" : ""
+                }`}
                 onClick={() => {
                   setTheme("light");
                   setMode("light");
@@ -95,7 +99,9 @@ function SettingInfo({
 
                 <span>Light Mode</span>
 
-                {theme === "light" && <span className="check">✓</span>}
+                {theme === "light" && (
+                  <span className="check">✓</span>
+                )}
               </button>
             </div>
           </div>
@@ -110,7 +116,6 @@ function SettingInfo({
 
               <div>
                 <h2>Username</h2>
-
                 <p>Set your display name</p>
               </div>
             </div>
@@ -123,8 +128,7 @@ function SettingInfo({
                 placeholder="Enter username"
                 value={username}
                 onChange={(e) => {
-                  if (e.target.value.trim().length > 0)
-                    setUsername(e.target.value);
+                  setUsername(e.target.value);
                 }}
               />
             </div>
@@ -140,7 +144,6 @@ function SettingInfo({
 
               <div>
                 <h2>Wake Word</h2>
-
                 <p>Choose your wake word</p>
               </div>
             </div>
@@ -154,8 +157,7 @@ function SettingInfo({
                   placeholder="Enter wake word"
                   value={wakeWord}
                   onChange={(e) => {
-                    if (e.target.value.trim().length > 0)
-                      setWakeWord(e.target.value);
+                    setWakeWord(e.target.value);
                   }}
                 />
               </div>
@@ -172,23 +174,27 @@ function SettingInfo({
 
               <div>
                 <h2>Voice</h2>
-
                 <p>Select your preferred voice</p>
               </div>
             </div>
 
             <div className={`setting-options ${theme}`}>
+
               {/* Male */}
 
               <button
-                className={`option-button ${voice === "male" ? "selected" : ""}`}
+                className={`option-button ${
+                  voice === "male" ? "selected" : ""
+                }`}
                 onClick={() => setVoice("male")}
               >
                 <span className="voice-symbol">♂</span>
 
                 <span>Male Voice</span>
 
-                {voice === "male" && <span className="check">✓</span>}
+                {voice === "male" && (
+                  <span className="check">✓</span>
+                )}
               </button>
 
               {/* Female */}
@@ -203,7 +209,9 @@ function SettingInfo({
 
                 <span>Female Voice</span>
 
-                {voice === "female" && <span className="check">✓</span>}
+                {voice === "female" && (
+                  <span className="check">✓</span>
+                )}
               </button>
             </div>
           </div>
@@ -211,14 +219,16 @@ function SettingInfo({
           {/* ================= SAVE ================= */}
 
           <div className={`save-container ${theme}`}>
-            <button className="save-button" onClick={() => {
-              insertDetails()
-            }}>
+            <button
+              className="save-button"
+              onClick={insertDetails}
+            >
               <Save size={19} />
 
               <span>Save Changes</span>
             </button>
           </div>
+
         </div>
       </div>
     </div>
