@@ -1,73 +1,19 @@
-# =========================
-# General
-# =========================
 files/
 
-# =========================
-# Frontend
-# =========================
 frontend/node_modules/
 frontend/dist/
-frontend/src-tauri/target/
+frontend/src-tauri/target
 
-# =========================
-# Backend
-# =========================
 backend/.venv/
 backend/.env
+backend/core/llama_cpp/*
+backend/core/model/*
 
-# Python cache
 __pycache__/
 *.pyc
-*.pyo
-*.pyd
 
-# =========================
-# Large AI / ML Models
-# =========================
-backend/core/model/
-*.gguf
-*.ggml
-*.onnx
-*.onnx.json
-*.ort
-*.safetensors
-*.pt
-*.pth
-
-# =========================
-# llama.cpp binaries
-# =========================
-backend/core/llama_cpp/
-
-# =========================
-# Audio / Generated files
-# =========================
 *.wav
-*.mp3
-*.flac
 
-# =========================
-# Logs / Temporary files
-# =========================
-*.log
-*.tmp
-*.temp
+*.onnx
 
-# =========================
-# Environment files
-# =========================
-.env
-.env.*
-
-# =========================
-# IDE
-# =========================
-.vscode/
-.idea/
-
-# =========================
-# OS
-# =========================
-.DS_Store
-Thumbs.db
+*.ort
