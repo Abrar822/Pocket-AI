@@ -3,6 +3,7 @@ files/
 frontend/node_modules/
 frontend/dist/
 frontend/src-tauri/target
+frontend/src/components/home/Chatsection copy.css
 
 backend/.venv/
 backend/.env
