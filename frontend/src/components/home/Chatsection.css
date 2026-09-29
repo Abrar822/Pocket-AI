@@ -1,0 +1,591 @@
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+  background-color: var(--bg);
+}
+
+
+/* =========================================================
+   CHAT CONTAINER
+   ========================================================= */
+
+.chat-container {
+  position: fixed;
+
+  top: 70px;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  width: 400px;
+  height: calc(100dvh - 70px);
+
+  z-index: 1000;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  transform: translateX(100%);
+
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
+
+  border: 1px solid #ffffff1f;
+
+  border-radius: 10px 0 0 10px;
+
+  background-color: rgba(255, 255, 255, 0.09);
+
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.1);
+
+  backdrop-filter: blur(10px);
+
+  -webkit-backdrop-filter: blur(10px);
+}
+
+
+/* Light */
+
+.chat-container.light {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+
+  background-color: rgba(255, 255, 255, 0.233);
+
+  /* backdrop-filter: blur(10px); */
+  box-shadow:
+    0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Open */
+
+.chat-container.open {
+  opacity: 1;
+
+  visibility: visible;
+
+  transform: translateX(0);
+}
+
+
+/* Closed */
+
+.chat-container.close {
+  transform: translateX(100%);
+}
+
+
+/* =========================================================
+   CHAT ICON
+   ========================================================= */
+
+.chat-icon {
+  width: 40px;
+  height: 40px;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+.chat-icon.light {
+  color: black;
+}
+
+
+/* =========================================================
+   OPEN/CLOSE BUTTON
+   ========================================================= */
+
+.btn-open {
+  opacity: 0;
+
+  visibility: hidden;
+}
+
+.btn-close {
+  position: fixed;
+
+  top: 80px;
+  right: 0;
+
+  margin: 5px;
+
+  padding-right: 10px;
+
+  visibility: visible;
+
+  opacity: 1;
+
+  z-index: 1001;
+
+  transform: translateX(0);
+
+  transition:
+    opacity 0.2s ease 0.5s,
+    visibility 0s linear 0.5s;
+}
+
+
+/* =========================================================
+   CLOSE X
+   ========================================================= */
+
+.chat-X {
+  display: flex;
+
+  align-items: center;
+
+  width: 100%;
+
+  height: auto;
+
+  padding: 10px;
+
+  flex-shrink: 0;
+
+  border-radius: 10px 10px 0 0;
+}
+
+.chat-icon-X {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+
+  color: #ffffff;
+
+  border: none;
+
+  background: transparent;
+}
+
+.chat-icon-X.light {
+  color: black;
+}
+
+
+/* =========================================================
+   MESSAGE AREA
+   ========================================================= */
+
+/*
+   IMPORTANT:
+
+   This is the ONLY element that scrolls.
+*/
+
+.messages {
+  flex: 1;
+
+  min-height: 0;
+
+  width: 100%;
+
+  padding: 15px;
+
+  box-sizing: border-box;
+
+  overflow-y: auto;
+
+  overflow-x: hidden;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    rgba(255, 255, 255, 0.4)
+    transparent;
+}
+
+
+/* Light */
+
+.messages.light {
+  scrollbar-color:
+    rgba(0, 0, 0, 0.3)
+    transparent;
+}
+
+
+/* =========================================================
+   BOTTOM ANCHOR
+   ========================================================= */
+
+.bottom-anchor {
+  width: 100%;
+
+  height: 1px;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   USER MESSAGE
+   ========================================================= */
+
+.messageuser {
+  padding: 10px 14px;
+
+  margin-left: auto;
+
+  margin-right: 0;
+
+  margin-bottom: 10px;
+
+  background: linear-gradient(
+    135deg,
+    var(--violet),
+    var(--pink)
+  );
+
+  color: white;
+
+  border-radius: 10px;
+
+  width: fit-content;
+
+  max-width: 70%;
+
+  word-wrap: break-word;
+
+  overflow-wrap: break-word;
+
+  box-shadow:
+    0 4px 18px rgba(111, 60, 255, 0.25);
+}
+
+
+/* =========================================================
+   BOT MESSAGE
+   ========================================================= */
+
+.messagebot {
+  padding: 10px 14px;
+
+  margin-right: auto;
+
+  margin-left: 0;
+
+  margin-bottom: 10px;
+
+  background: linear-gradient(
+    135deg,
+    var(--cyan),
+    var(--violet)
+  );
+
+  color: #ffffff;
+
+  border-radius: 10px;
+
+  width: fit-content;
+
+  max-width: 70%;
+
+  word-wrap: break-word;
+
+  overflow-wrap: break-word;
+}
+
+
+/* =========================================================
+   TYPING INDICATOR
+   ========================================================= */
+
+.typing-indicator {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  width: fit-content;
+
+  padding: 10px 14px;
+
+  margin-bottom: 10px;
+
+  background: linear-gradient(
+    135deg,
+    var(--cyan),
+    var(--violet)
+  );
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 4px 18px rgba(111, 60, 255, 0.25);
+
+  flex-shrink: 0;
+}
+
+.typing-indicator span {
+  width: 7px;
+
+  height: 7px;
+
+  background: #ffffff;
+
+  border-radius: 50%;
+
+  animation:
+    typing 1.2s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+
+@keyframes typing {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(-7px);
+  }
+}
+
+
+/* =========================================================
+   CHAT INPUT
+   ========================================================= */
+
+.chat-input {
+  display: flex;
+
+  align-items: center;
+
+  width: 100%;
+
+  min-height: 90px;
+
+  padding: 10px;
+
+  gap: 10px;
+
+  flex-shrink: 0;
+
+  box-sizing: border-box;
+
+  color: white;
+
+  background: var(--panel);
+
+  border-top:
+    1px solid rgba(255, 255, 255, 0.18);
+
+  border-radius: 0 0 10px 10px;
+}
+
+
+/* Light */
+
+.chat-input.light {
+  background: white;
+
+  color: black;
+
+  border-top:
+    1px solid rgba(0, 0, 0, 0.2);
+}
+
+
+/* =========================================================
+   TEXTAREA
+   ========================================================= */
+
+.chat-input textarea {
+  flex: 1;
+
+  width: 100%;
+
+  min-width: 0;
+
+  min-height: 60px;
+
+  padding: 10px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #ccc;
+
+  border-radius: 5px;
+
+  outline: none;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  resize: none;
+
+  font-family: inherit;
+
+  line-height: 1.4;
+}
+
+
+/* Placeholder */
+
+.chat-input textarea::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+
+/* Light */
+
+.chat-input textarea.light {
+  color: #000000;
+
+  border-color: #000000;
+}
+
+.chat-input textarea.light::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+
+/* =========================================================
+   INPUT BUTTONS
+   ========================================================= */
+
+.chat-input button {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 40px;
+
+  height: 40px;
+
+  padding: 0;
+
+  border: none;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  color: white;
+
+  background: linear-gradient(
+    135deg,
+    #b06bff,
+    #5b8bff
+  );
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+
+.chat-input button:hover {
+  transform: scale(1.05);
+
+  opacity: 0.9;
+}
+
+.chat-input button:active {
+  transform: scale(0.95);
+}
+
+
+/* =========================================================
+   MESSAGE SCROLLBAR
+   ========================================================= */
+
+.messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background:
+    rgba(255, 255, 255, 0.25);
+
+  border-radius: 10px;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+  background:
+    rgba(255, 255, 255, 0.5);
+}
+
+
+/* Light scrollbar */
+
+.messages.light::-webkit-scrollbar-thumb {
+  background:
+    rgba(0, 0, 0, 0.25);
+}
+
+.messages.light::-webkit-scrollbar-thumb:hover {
+  background:
+    rgba(0, 0, 0, 0.4);
+}
+
+
+/* =========================================================
+   RESIZE HANDLE
+   ========================================================= */
+
+.resize-handle {
+  position: absolute;
+
+  left: 0;
+
+  top: 0;
+
+  width: 6px;
+
+  height: 100%;
+
+  cursor: ew-resize;
+
+  z-index: 1001;
+
+  touch-action: none;
+}
