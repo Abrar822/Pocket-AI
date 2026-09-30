@@ -286,7 +286,7 @@ import { startTransition, useEffect, useId, useMemo, useRef, useState } from "re
             >
                 {resolvedLabel}
             </div>
-            {hint && (
+            {/* {hint && (
                 <div
                     style={{
                         marginTop: size * 0.05,
@@ -298,7 +298,7 @@ import { startTransition, useEffect, useId, useMemo, useRef, useState } from "re
                     {hint}
                 </div>
                 
-            )}
+            )} */}
 
             <style>{`
                 @keyframes orb-spin {

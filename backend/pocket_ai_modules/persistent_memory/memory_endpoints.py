@@ -33,10 +33,10 @@ def insert_data(folder_arr: FolderTraversalDetails, conn=Depends(get_connection)
     file_details = []
 
     for path in folder_paths:
-        for p in Path(path).rglob('*'):
+        for p in Path(path).rglob("*"):
             p = Path(p)
             if p.is_file() and p.suffix.lower() in extensions:
-                file_details.append({'f_name': p.name, 'location': str(p)})
+                file_details.append({"f_name": p.name, "location": str(p)})
 
     try:
         query = """
@@ -44,7 +44,9 @@ def insert_data(folder_arr: FolderTraversalDetails, conn=Depends(get_connection)
         ON CONFLICT (f_name)
         DO UPDATE SET location = excluded.location
         """
-        conn.executemany(query, [(row['f_name'], row['location']) for row in file_details])
+        conn.executemany(
+            query, [(row["f_name"], row["location"]) for row in file_details]
+        )
         conn.commit()
         return {"message": "Successfully inserted/updated locations"}
     except Exception as err:
@@ -78,7 +80,7 @@ def delete(delete_f_name: list[DeleteData], conn=Depends(get_connection)):
         query = """
         DELETE FROM memory where f_name = ?
         """
-        conn.executemany(query, [(dic.f_name,) for dic in delete_f_name])   
+        conn.executemany(query, [(dic.f_name,) for dic in delete_f_name])
         conn.commit()
         return {"message": "Deleted locations successfully"}
     except Exception as err:
