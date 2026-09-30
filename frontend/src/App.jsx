@@ -169,6 +169,10 @@ function App() {
 
   const [mode, setMode] = useState("dark");
 
+  const [chatMode, setChatMode] = useState('General')
+
+  const [isUploaded, setIsUploaded] = useState(true)
+
 
   /* =====================================================
      GLOBAL CHAT STATE
@@ -353,6 +357,11 @@ function App() {
         clearQuickAction={() => {
           setQuickActionPrompt("");
         }}
+
+        chatMode={chatMode}
+        setChatMode={setChatMode}
+        isUploaded={isUploaded}
+        setIsUploaded={setIsUploaded}
       />
 
     </BrowserRouter>
