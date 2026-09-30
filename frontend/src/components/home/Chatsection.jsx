@@ -6,6 +6,7 @@ import {
   X,
   FilePlus,
   ArrowUp,
+  FileText
 } from "lucide-react";
 
 import { sendPrompt } from "../../services/api";
@@ -14,16 +15,24 @@ function ChatSection({
   quickActionPrompt,
   clearQuickAction,
   theme,
+  chatMode,
+  setChatMode,
+  isUploaded,
+  setIsUploaded
 }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [open, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [pdfName, setPdfName] = useState("");
+  const [pdfFile, setPdfFile] = useState(null);
 
   const bottomRef = useRef(null);
+  const pdfUploadRef = useRef(null);
 
   const draggerRef = useRef(null);
   const chatboxRef = useRef(null);
+
 
   /* =========================================================
      TOGGLE CHAT
@@ -218,9 +227,8 @@ function ChatSection({
 
       <div
         ref={chatboxRef}
-        className={`chat-container ${
-          open ? "open" : "close"
-        } ${theme}`}
+        className={`chat-container ${open ? "open" : "close"
+          } ${theme}`}
       >
 
         {/* Resize handle */}
@@ -299,50 +307,106 @@ function ChatSection({
 
         <div className={`chat-input ${theme}`}>
 
-          {/* File button */}
+          <div className="chat-mode">
 
-          <button
-            type="button"
-            aria-label="Attach file"
-          >
-            <FilePlus />
-          </button>
+            {/* Select */}
+            <div className="select-wrapper">
+              <select value={chatMode} onChange={(e) => setChatMode(e.target.value)}>
+                <option value="general">💬 General</option>
+                <option value="pdf">📄 PDF</option>
+              </select>
+              <span className="select-arrow"></span>
+            </div>
+
+            {/* Uploaded PDF */}
+            {isUploaded && pdfName && (
+              <div className="uploaded-pdf">
+
+                <div className="uploaded-pdf-info">
+                  <FileText className="pdf-icon" />
+
+                  <span
+                    className="pdf-name"
+                    title={pdfName}
+                  >
+                    {pdfName}
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  className="delete-pdf-btn"
+                  onClick={() => {
+                    setPdfName("");
+                    setIsUploaded(false);
+
+                    if (pdfUploadRef.current) {
+                      pdfUploadRef.current.value = "";
+                    }
+                  }}
+                >
+                  <X />
+                </button>
+
+              </div>
+            )}
+
+          </div>  
+
+          <div className="chat-input-row">
+            {/* File button */}
+            <input type="file" ref={pdfUploadRef} accept=".pdf" style={{ display: 'none' }} onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (!file) return;
+              setPdfFile(file)
+              setPdfName(file.name);
+              setIsUploaded(true)
+            }} />
+            <button
+              onClick={() => {
+                pdfUploadRef.current.click()
+              }}
+              type="button"
+              aria-label="Attach file"
+            >
+              <FilePlus />
+            </button>
 
 
-          {/* Text input */}
+            {/* Text input */}
 
-          <textarea
-            className={theme}
-            value={input}
-            rows={3}
-            wrap="soft"
-            placeholder="Type a message..."
-            onChange={(e) => {
-              setInput(e.target.value);
-            }}
-            onKeyDown={(e) => {
-              if (
-                e.key === "Enter" &&
-                !e.shiftKey
-              ) {
-                e.preventDefault();
+            <textarea
+              className={theme}
+              value={input}
+              rows={3}
+              wrap="soft"
+              placeholder="Type a message..."
+              onChange={(e) => {
+                setInput(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (
+                  e.key === "Enter" &&
+                  !e.shiftKey
+                ) {
+                  e.preventDefault();
 
-                sendMessage();
-              }
-            }}
-          />
+                  sendMessage();
+                }
+              }}
+            />
 
 
-          {/* Send button */}
+            {/* Send button */}
 
-          <button
-            type="button"
-            onClick={() => sendMessage()}
-            aria-label="Send message"
-          >
-            <ArrowUp />
-          </button>
-
+            <button
+              type="button"
+              onClick={() => sendMessage()}
+              aria-label="Send message"
+            >
+              <ArrowUp />
+            </button>
+          </div>
         </div>
 
       </div>
