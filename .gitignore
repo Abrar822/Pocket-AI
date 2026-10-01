@@ -17,3 +17,7 @@ __pycache__/
 *.onnx
 *.onnx.json
 *.ort
+
+backend/pocket_ai_modules/pdf_assistant_module/st_model_all_MiniLM_L6_v2/
+backend/pocket_ai_modules/pdf_assistant_module/chroma_db/
+backend/pocket_ai_modules/pdf_assistant_module/uploads/
