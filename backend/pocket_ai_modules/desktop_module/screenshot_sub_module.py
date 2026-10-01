@@ -16,7 +16,6 @@ class ScreenshotSubModule:
 
         ss = pyautogui.screenshot()
         ss.save(path)
-        return f'Screenshot saved in Downloads folder successfully.'
 
     def execute(self, task):
         action = self.actions.get(task.action)

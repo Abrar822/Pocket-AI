@@ -1,4 +1,5 @@
 import "./App.css";
+<<<<<<< HEAD
 import {
   Routes,
   Route,
@@ -33,6 +34,20 @@ function Home({
 }) {
   const navigate = useNavigate();
 
+=======
+import { useState } from "react";
+import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
+import Sidebar from "./components/home/Sidebar";
+import Navbar from "./components/home/Nav";
+import ChatSection from "./components/home/Chatsection";
+import Dashboard from "./components/dashboard/Dashboard";
+import SettingInfo from "./components/setting/Settinginfo";
+
+function Home({theme, collapsed, setCollapsed}) {
+  const [quickActionPrompt, setQuickActionPrompt] = useState("");
+  const navigate = useNavigate();
+
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
   const handleDashboardClick = () => {
     navigate("/");
   };
@@ -40,10 +55,17 @@ function Home({
   const handleSettingsClick = () => {
     navigate("/settings");
   };
+<<<<<<< HEAD
 
   return (
     <div className={`app ${theme}`}>
 
+=======
+  
+
+  return (
+    <div className={`app ${theme}`}>
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
       <Sidebar
         collapsed={collapsed}
         onDashboardClick={handleDashboardClick}
@@ -51,6 +73,7 @@ function Home({
         theme={theme}
       />
 
+<<<<<<< HEAD
       <Navbar
         onMenuClick={() => setCollapsed((prev) => !prev)}
         theme={theme}
@@ -65,10 +88,37 @@ function Home({
         />
       </div>
 
+=======
+      {/* <div className="app-content"> */}
+
+      <Navbar
+        onMenuClick={() =>
+          setCollapsed((prev) => !prev)
+        }
+        theme={theme}
+      />
+      <div /*className="chat-container-wrapper"*/>
+        <ChatSection quickActionPrompt={quickActionPrompt}
+        clearQuickAction={() => setQuickActionPrompt("")} theme={theme}/>
+      </div>
+
+      {/* <main className="main-content"> */}
+
+      <div className="orb-container">
+        <Dashboard onQuickAction={setQuickActionPrompt} theme={theme}/>
+      </div>
+
+
+      {/* </main> */}
+
+      {/* </div> */}
+
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
     </div>
   );
 }
 
+<<<<<<< HEAD
 
 /* =========================================================
    SETTINGS PAGE
@@ -89,19 +139,29 @@ function SettingsPage({
   setWakeWord,
   setInformer
 }) {
+=======
+function SettingsPage({theme, setTheme, collapsed, setCollapsed}) {
+
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
   const navigate = useNavigate();
 
   const handleDashboardClick = () => {
     navigate("/");
   };
+<<<<<<< HEAD
 
+=======
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
   const handleSettingsClick = () => {
     navigate("/settings");
   };
 
   return (
     <div className={`app ${theme}`}>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
       <Sidebar
         collapsed={collapsed}
         onDashboardClick={handleDashboardClick}
@@ -110,13 +170,21 @@ function SettingsPage({
       />
 
       <div className="app-content">
+<<<<<<< HEAD
 
         <Navbar
           onMenuClick={() => setCollapsed((prev) => !prev)}
+=======
+        <Navbar
+          onMenuClick={() =>
+            setCollapsed((prev) => !prev)
+          }
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
           theme={theme}
         />
 
         <main className="main-content">
+<<<<<<< HEAD
 
           <SettingInfo
             theme={theme}
@@ -142,10 +210,19 @@ function SettingsPage({
 
       </div>
 
+=======
+          <SettingInfo theme={theme} setTheme={setTheme}/>
+        </main>
+        <div /*className="chat-container-wrapper"*/>
+          <ChatSection theme={theme}/>
+        </div>
+      </div>
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
     </div>
   );
 }
 
+<<<<<<< HEAD
 
 /* =========================================================
    APP
@@ -364,8 +441,25 @@ function App() {
         setIsUploaded={setIsUploaded}
       />
 
+=======
+function App() {
+  const [collapsed, setCollapsed] = useState(true);
+  const [theme, setTheme] = useState("dark");
+  return (
+    
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home theme={theme} collapsed={collapsed} setCollapsed={setCollapsed}/>} />
+
+        <Route path="/settings" element={<SettingsPage theme={theme} setTheme={setTheme} collapsed={collapsed} setCollapsed={setCollapsed}/>} />
+      </Routes>
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
     </BrowserRouter>
   );
 }
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App;
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25

@@ -110,13 +110,8 @@ desktop.hibernate
 desktop.take_screenshot
 {}
 
-desktop.create_folder
-{
-    "parent_foldername": "...",
-    "folder_to_be_created": "..."
-}
+desktop.create_folder:
 
-desktop.create_file
 {
     "foldername": "...",
     "filename": "...",

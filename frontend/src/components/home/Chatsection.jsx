@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "./Chatsection.css";
+<<<<<<< HEAD
 
 import {
   MessageCircleMore,
@@ -29,10 +30,24 @@ function ChatSection({
 
   const bottomRef = useRef(null);
   const pdfUploadRef = useRef(null);
+=======
+import { MessageCircleMore ,X, FilePlus, ArrowUp } from "lucide-react";
+import { sendPrompt } from "../../services/api";
+
+function ChatSection({ quickActionPrompt, clearQuickAction, theme }) {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [open, setIsOpen] = useState(false);
+
+  const bottomRef = useRef(null);
+
+  const [loading, setLoading] = useState(false);
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
 
   const draggerRef = useRef(null);
   const chatboxRef = useRef(null);
 
+<<<<<<< HEAD
 
   /* =========================================================
      TOGGLE CHAT
@@ -55,10 +70,24 @@ function ChatSection({
 
     if (!dragger) return;
 
+=======
+  const toggle = () => {
+    setIsOpen(!open);
+  };
+
+  useEffect(() => {
+    let draggable = false;
+    const dragger = draggerRef.current;
+    if (!dragger) return;
+
+    let rect;
+
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
     const pointerDown = () => {
       if (!chatboxRef.current) return;
 
       draggable = true;
+<<<<<<< HEAD
 
       rect = chatboxRef.current.getBoundingClientRect();
 
@@ -116,10 +145,36 @@ function ChatSection({
       );
 
       document.body.style.userSelect = "";
+=======
+      rect = chatboxRef.current.getBoundingClientRect();
+      document.body.style.userSelect = "none";
+    };
+    const pointerMove = (e) => {
+      if (draggable && chatboxRef.current) {
+        let delta = rect.left - e.clientX;
+        let newWidth = Math.max(400, Math.min(840, rect.width + delta));
+
+        chatboxRef.current.style.width = `${newWidth}px`;
+      }
+    };
+    const pointerUp = () => {
+      draggable = false;
+      document.body.style.userSelect = "";
+    };
+    dragger.addEventListener("pointerdown", pointerDown);
+    document.addEventListener("pointermove", pointerMove);
+    document.addEventListener("pointerup", pointerUp);
+
+    return () => {
+      dragger.removeEventListener("pointerdown", pointerDown);
+      document.removeEventListener("pointermove", pointerMove);
+      document.removeEventListener("pointerup", pointerUp);
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
     };
   }, []);
 
 
+<<<<<<< HEAD
   /* =========================================================
      SEND MESSAGE
      ========================================================= */
@@ -128,6 +183,10 @@ function ChatSection({
     if (!messageText || messageText.trim() === "") {
       return;
     }
+=======
+  const sendMessage = async (messageText = input) => {
+    if (messageText.trim() === "") return;
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
 
     const userInput = messageText.trim();
 
@@ -136,6 +195,7 @@ function ChatSection({
       sender: "user",
     };
 
+<<<<<<< HEAD
     setMessages((prev) => [
       ...prev,
       newMessage,
@@ -143,6 +203,10 @@ function ChatSection({
 
     setInput("");
 
+=======
+    setMessages((prev) => [...prev, newMessage]);
+    setInput("");
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
     setLoading(true);
 
     try {
@@ -157,6 +221,10 @@ function ChatSection({
         ...prev,
         botReply,
       ]);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
     } catch (error) {
       console.error("FastAPI Error:", error);
 
@@ -167,16 +235,23 @@ function ChatSection({
           text: "Sorry, I couldn't process your request.",
         },
       ]);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
     } finally {
       setLoading(false);
     }
   };
+<<<<<<< HEAD
 
 
   /* =========================================================
      QUICK ACTION
      ========================================================= */
 
+=======
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
   useEffect(() => {
     if (quickActionPrompt?.trim()) {
       sendMessage(quickActionPrompt);
@@ -184,6 +259,7 @@ function ChatSection({
     }
   }, [quickActionPrompt]);
 
+<<<<<<< HEAD
 
   /* =========================================================
      AUTO SCROLL
@@ -391,10 +467,66 @@ function ChatSection({
                 ) {
                   e.preventDefault();
 
+=======
+  useEffect(() => {
+    bottomRef.current?.lastElementChild?.scrollIntoView({
+      behavior: "smooth"
+    });
+  }, [messages, loading]);
+
+  return (
+    <>
+      <button onClick={toggle} className={open ? 'btn-open' : 'btn-close'} style={{ backgroundColor: "transparent", border: "none" }}>
+        <MessageCircleMore className={`chat-icon ${theme}`}/>
+      </button>
+      <div className={`chat-container ${open ? "open" : "close"}`} ref={chatboxRef}>
+        <div className="resize-handle" ref={draggerRef} />
+        <div className={`chat-X ${open ? "open" : "close"}`}>
+          <button onClick={toggle} style={{ backgroundColor: "var(--sidebar-bg)", border: "none" }}>
+            <X color="#ffffff" />
+          </button>
+        </div>
+        <div className={`chat-box ${open ? "open" : "close"} `}>
+          {/* <button onClick={toggle} className={open?'btn-open':'btn-close'} style={{backgroundColor:"transparent", border:"none"}}>
+          <MessageCircleMore color="#ffffff"/>
+        </button> */}
+          <div ref={bottomRef} className="messages">
+            {messages.map((msg, index) => (
+              <div key={index} className={`${msg.sender === "user" ? "messageuser" : "messagebot"}`}>
+                {msg.text}
+              </div>
+            ))}
+            {
+              loading && (
+                <div className="typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              )
+            }
+          </div>
+
+          <div className="chat-input">
+            <button>
+              <FilePlus />
+            </button>
+            <textarea
+              value={input}
+              rows={4}
+              wrap="soft"
+              // cols={5}
+              placeholder="Type a message..."
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
                   sendMessage();
                 }
               }}
             />
+<<<<<<< HEAD
 
 
             {/* Send button */}
@@ -404,11 +536,17 @@ function ChatSection({
               onClick={() => sendMessage()}
               aria-label="Send message"
             >
+=======
+            <button onClick={sendMessage}>
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
               <ArrowUp />
             </button>
           </div>
         </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
       </div>
     </>
   );
