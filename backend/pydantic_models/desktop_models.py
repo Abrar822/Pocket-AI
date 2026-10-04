@@ -177,6 +177,7 @@ class RenameFolder(BaseModel):
 
 
 class CloseFileParams(BaseModel):
+    parent_foldername: str
     filename: str
 
 
@@ -233,16 +234,17 @@ DeskTopTask = Annotated[
     | Sleep
     | Hibernate
     | TakeScreenshot
-    | CreateFolder
     | CreateFile
+    | CreateFolder
     | OpenFile
     | OpenFolder
     | DeleteFile
     | DeleteFolder
     | RenameFile
     | RenameFolder
-    | MoveFolder
     | MoveFile
+    | MoveFolder
+    | CloseFile
     | OpenApp
     | Conversation,
     Field(discriminator="action"),
