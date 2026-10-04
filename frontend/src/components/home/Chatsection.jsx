@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import "./Chatsection.css";
-
+import { PDF_upload, PDF_query, PDF_delete } from "../../helper/PDFConnect"
 import {
   MessageCircleMore,
   X,
@@ -18,7 +18,8 @@ function ChatSection({
   chatMode,
   setChatMode,
   isUploaded,
-  setIsUploaded
+  setIsUploaded,
+  setInformer
 }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -26,6 +27,7 @@ function ChatSection({
   const [loading, setLoading] = useState(false);
   const [pdfName, setPdfName] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
+  const [uploadingPdf, setUploadingPdf] = useState(false);
 
   const bottomRef = useRef(null);
   const pdfUploadRef = useRef(null);
@@ -146,12 +148,31 @@ function ChatSection({
     setLoading(true);
 
     try {
-      const data = await sendPrompt(userInput);
-
-      const botReply = {
-        text: data.response,
-        sender: "bot",
-      };
+      let data
+      let botReply
+      if (chatMode === 'general') {
+        data = await sendPrompt(userInput);
+        if (!data.response) {
+          throw new Error("Invalid response from server");
+        }
+        botReply = {
+          text: data.response,
+          sender: "bot",
+        };
+      }
+      else if (chatMode === 'pdf') {
+        data = await PDF_query(userInput);
+        if (!data) {
+          throw new Error("Invalid response from server");
+        }
+        botReply = {
+          text: data,
+          sender: "bot",
+        };
+      }
+      else {
+        throw new Error(`Invalid chat mode: ${chatMode}`);
+      }
 
       setMessages((prev) => [
         ...prev,
@@ -159,18 +180,91 @@ function ChatSection({
       ]);
     } catch (error) {
       console.error("FastAPI Error:", error);
+      if (chatMode === 'pdf' && pdfFile === null) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            text: "Please upload pdf",
+          },
+        ]);
+      }
+      else {
+        setMessages((prev) => [
+          ...prev,
+          {
+            sender: "bot",
+            text: "Sorry, I couldn't process your request.",
+          },
+        ]);
+      }
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "bot",
-          text: "Sorry, I couldn't process your request.",
-        },
-      ]);
     } finally {
       setLoading(false);
     }
   };
+
+  const onPdfUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return;
+    setUploadingPdf(true);
+    try {
+      const data = await PDF_upload(file)
+      if (data) {
+        setIsUploaded(true)
+        setChatMode('pdf')
+        setPdfFile(file)
+        setPdfName(file.name);
+        setInformer({
+          state: true,
+          msg: 'PDF uploaded successfully.'
+        })
+      }
+    }
+    catch (error) {
+      console.error("PDF upload error:", error);
+
+      setPdfFile(null);
+      setPdfName("");
+      setIsUploaded(false);
+      setChatMode("general");
+      if (pdfUploadRef.current) {
+        pdfUploadRef.current.value = "";
+      }
+
+      setInformer({
+        state: true,
+        msg: "Failed to upload PDF"
+      });
+    }
+    finally {
+      setUploadingPdf(false);
+    }
+  }
+
+  const onPDFDelete = async () => {
+    try {
+      setPdfName("");
+      setPdfFile(null)
+      setIsUploaded(false);
+      if (pdfUploadRef.current) {
+        pdfUploadRef.current.value = "";
+      }
+      await PDF_delete()
+      setChatMode('general')
+      setInformer({
+        state: true,
+        msg: 'PDF deleted successfully.'
+      })
+    }
+    catch (error) {
+      console.error(error)
+      setInformer({
+        state: true,
+        msg: 'failed to delete pdf.'
+      })
+    }
+  }
 
 
   /* =========================================================
@@ -336,14 +430,7 @@ function ChatSection({
                 <button
                   type="button"
                   className="delete-pdf-btn"
-                  onClick={() => {
-                    setPdfName("");
-                    setIsUploaded(false);
-
-                    if (pdfUploadRef.current) {
-                      pdfUploadRef.current.value = "";
-                    }
-                  }}
+                  onClick={onPDFDelete}
                 >
                   <X />
                 </button>
@@ -351,21 +438,16 @@ function ChatSection({
               </div>
             )}
 
-          </div>  
+          </div>
 
           <div className="chat-input-row">
             {/* File button */}
-            <input type="file" ref={pdfUploadRef} accept=".pdf" style={{ display: 'none' }} onChange={(e) => {
-              const file = e.target.files?.[0]
-              if (!file) return;
-              setPdfFile(file)
-              setPdfName(file.name);
-              setIsUploaded(true)
-            }} />
+            <input type="file" ref={pdfUploadRef} accept=".pdf" style={{ display: 'none' }} onChange={onPdfUpload} />
             <button
               onClick={() => {
                 pdfUploadRef.current.click()
               }}
+              disabled={uploadingPdf}
               type="button"
               aria-label="Attach file"
             >
