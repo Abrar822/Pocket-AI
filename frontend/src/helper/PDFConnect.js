@@ -26,6 +26,7 @@ async function PDF_query(query) {
 
     const data = await response.json()
     if (!response.ok) {
+        console.log(data)
         throw new Error(`${data.detail}`)
     }
     return data
@@ -35,9 +36,12 @@ async function PDF_delete() {
     const response = await fetch("http://127.0.0.1:8000/pdf/delete", {
         method: "DELETE",
     })
-    const data = await response.json()
+    
     if (!response.ok) {
+        const data = await response.json()
         throw new Error(`${data.detail}`)
     }
-    return data
+    return
 }
+
+export {PDF_upload, PDF_query, PDF_delete}

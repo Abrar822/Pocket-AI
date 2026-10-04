@@ -28,6 +28,7 @@ class SentenceTransformerEmbeddings(Embeddings):
     def embed_query(self, text):
         return self.model.encode(text, convert_to_numpy=True).tolist()
 
+
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR / "st_model_all_MiniLM_L6_v2" / "all-MiniLM-L6-v2"
 embeddings = SentenceTransformerEmbeddings(str(MODEL_PATH))
@@ -40,16 +41,17 @@ if not embeddings:
 path_chroma = BASE_DIR / "chroma_db"
 path_uploads = BASE_DIR / "uploads"
 
+
 @pdf_router.post("/pdf/upload", status_code=status.HTTP_201_CREATED)
 async def upload_pdf(file: UploadFile = File(...)):
     global latest_file_id
-
+    print(file)
     try:
 
         # Check file
         if not file.filename:
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail="pdf not found"
+                status_code=status.HTTP_404_NOT_FOUND, detail="Please upload pdf"
             )
 
         if not file.filename.lower().endswith(".pdf"):
@@ -73,7 +75,8 @@ async def upload_pdf(file: UploadFile = File(...)):
 
         if not documents:
             raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="pdf not found"
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="pdf not found",
             )
 
         # split into chunks
@@ -85,9 +88,9 @@ async def upload_pdf(file: UploadFile = File(...)):
         for chunk in chunks:
             chunk.metadata["file_id"] = file_id
             chunk.metadata["filename"] = file.filename
-        
+
         # storing vectors in cromadb
-        
+
         vector_store = Chroma(
             collection_name="pdf_documents",
             embedding_function=embeddings,
@@ -110,12 +113,24 @@ async def upload_pdf(file: UploadFile = File(...)):
             "pages": len(documents),
             "chunks": len(chunks),
         }
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail=f"Failed to upload pdf file error:{e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to upload pdf file error:{e}",
+        )
+
+
+from pydantic import BaseModel
+
+
+class PDFQuery(BaseModel):
+    query: str
 
 
 @pdf_router.post("/pdf/query", status_code=status.HTTP_200_OK)
-async def query_pdf(query: str):
+async def query_pdf(request: PDFQuery):
 
     global latest_file_id
 
@@ -124,7 +139,7 @@ async def query_pdf(query: str):
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND, detail="plese upload pdf first"
             )
-
+        user_query = request.query
         vector_store = Chroma(
             collection_name="pdf_documents",
             embedding_function=embeddings,
@@ -133,18 +148,19 @@ async def query_pdf(query: str):
         )
 
         results = vector_store.similarity_search_with_score(
-            query, k=3, filter={"file_id": latest_file_id}
+            user_query, k=3, filter={"file_id": latest_file_id}
         )
         if not results:
             raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="responce not found"
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="responce not found",
             )
         text = []
         for i in range(len(results)):
             text.append(results[i][0].page_content)
 
         prompt = f"""
-        User Query: {query}
+        User Query: {user_query}
         Context From Documents: {" ".join(text)}
         """
 
@@ -157,8 +173,12 @@ async def query_pdf(query: str):
         return data["choices"][0]["message"]["content"]
 
         # return results
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail=f"error: Responce failed: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"{str(e)}"
+        )
 
 
 @pdf_router.delete("/pdf/delete", status_code=status.HTTP_204_NO_CONTENT)
@@ -192,4 +212,7 @@ async def delete_db_pdf():
 
         latest_file_id = None
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail=f"error:Delete failed: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"error:Delete failed: {str(e)}",
+        )

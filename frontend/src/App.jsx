@@ -169,7 +169,7 @@ function App() {
 
   const [mode, setMode] = useState("dark");
 
-  const [chatMode, setChatMode] = useState('General')
+  const [chatMode, setChatMode] = useState('general')
 
   const [isUploaded, setIsUploaded] = useState(true)
 
@@ -362,6 +362,7 @@ function App() {
         setChatMode={setChatMode}
         isUploaded={isUploaded}
         setIsUploaded={setIsUploaded}
+        setInformer={setInformer}
       />
 
     </BrowserRouter>
