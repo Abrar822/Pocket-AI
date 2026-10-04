@@ -67,7 +67,7 @@ async def upload_pdf(file: UploadFile = File(...)):
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="pdf not found")
 
         # split into chunks
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=150)
+        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         chunks = text_splitter.split_documents(documents)
 
         for chunk in chunks:
@@ -118,7 +118,7 @@ async def query_pdf(query: str):
         )
 
         results = vector_store.similarity_search_with_score(
-            query, k=3, filter={"file_id": latest_file_id}
+            query, k=5, filter={"file_id": latest_file_id}
         )
         text = []
         for i in range(len(results)):
