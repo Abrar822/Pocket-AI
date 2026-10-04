@@ -7,7 +7,7 @@ class SearchLocation(BaseModel):
 
 class FolderTraversalDetails(BaseModel):
     folder_locations: list[str]
-    extensions: list[str]
+    # extensions: list[str]
 
 
 class DeleteData(BaseModel):
