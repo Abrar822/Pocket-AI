@@ -286,30 +286,26 @@ import { startTransition, useEffect, useId, useMemo, useRef, useState } from "re
             >
                 {resolvedLabel}
             </div>
-            {/* {hint && (
+            {/* { {hint && (
                 <div
                     style={{
-                        marginTop: size * 0.05,
-                        color: "#8b87b8",
-                        fontSize: Math.max(11, size * 0.055),
-                        fontFamily: "inherit",
+                        // marginTop: size * 0.05,
+                        // color: "#8b87b8",
+                        // fontSize: Math.max(11, size * 0.055),
+                        // fontFamily: "inherit",
                     }}
                 >
                     {hint}
                 </div>
                 
-<<<<<<< HEAD
             )} */}
-=======
-            )}
->>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
 
-            <style>{`
-                @keyframes orb-spin {
-                    from { transform: rotate(0deg); }
-                    to { transform: rotate(360deg); }
-                }
-            `}</style>
+            {/* <style>{`
+                 @keyframes orb-spin {
+                     from { transform: rotate(0deg); }
+                     to { transform: rotate(360deg); }
+                 }
+             `}</style> */}
         </div>
     );
 }

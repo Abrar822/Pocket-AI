@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, status, APIRouter, HTTPException
+from fastapi import UploadFile, File, status, APIRouter, HTTPException
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
@@ -9,6 +9,7 @@ import gc
 import shutil
 import uuid
 import os
+from pathlib import Path
 
 pdf_router = APIRouter()
 
@@ -27,17 +28,19 @@ class SentenceTransformerEmbeddings(Embeddings):
     def embed_query(self, text):
         return self.model.encode(text, convert_to_numpy=True).tolist()
 
-
-embeddings = SentenceTransformerEmbeddings(
-    r"./backend/st_model_all_MiniLM_L6_v2/all-MiniLM-L6-v2"
-)
+BASE_DIR = Path(__file__).resolve().parent
+MODEL_PATH = BASE_DIR / "st_model_all_MiniLM_L6_v2" / "all-MiniLM-L6-v2"
+embeddings = SentenceTransformerEmbeddings(str(MODEL_PATH))
 
 if not embeddings:
-    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="embeddings not found")
-    
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND, detail="embeddings not found"
+    )
 
+path_chroma = BASE_DIR / "chroma_db"
+path_uploads = BASE_DIR / "uploads"
 
-@pdf_router.post("/pdf/upload",status_code=status.HTTP_201_CREATED)
+@pdf_router.post("/pdf/upload", status_code=status.HTTP_201_CREATED)
 async def upload_pdf(file: UploadFile = File(...)):
     global latest_file_id
 
@@ -45,40 +48,50 @@ async def upload_pdf(file: UploadFile = File(...)):
 
         # Check file
         if not file.filename:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="pdf not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="pdf not found"
+            )
 
         if not file.filename.lower().endswith(".pdf"):
-            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,detail="Please upload only PDF files")
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
+                detail="Please upload only PDF files",
+            )
 
         file_id = str(uuid.uuid4())
         latest_file_id = file_id
 
-        os.makedirs("uploads", exist_ok=True)
+        os.makedirs(path_uploads, exist_ok=True)
 
-        pdf_path = f"uploads/{file_id}.pdf"
+        pdf_path = path_uploads / f"{file_id}.pdf"
 
         with open(pdf_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
-        loader = PyMuPDFLoader(pdf_path)
+        loader = PyMuPDFLoader(str(pdf_path))
         documents = loader.load()
 
         if not documents:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="pdf not found")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="pdf not found"
+            )
 
         # split into chunks
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=800, chunk_overlap=150
+        )
         chunks = text_splitter.split_documents(documents)
 
         for chunk in chunks:
             chunk.metadata["file_id"] = file_id
             chunk.metadata["filename"] = file.filename
-
+        
         # storing vectors in cromadb
+        
         vector_store = Chroma(
             collection_name="pdf_documents",
             embedding_function=embeddings,
-            persist_directory="./chroma_db",
+            persist_directory=str(path_chroma),
             collection_metadata={"hnsw:space": "cosine"},
         )
 
@@ -98,28 +111,34 @@ async def upload_pdf(file: UploadFile = File(...)):
             "chunks": len(chunks),
         }
     except Exception as e:
-        return {"error":f"Upload failed: {str(e)}"}
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail=f"Failed to upload pdf file error:{e}")
 
 
-@pdf_router.post("/pdf/query",status_code=status.HTTP_200_OK)
+@pdf_router.post("/pdf/query", status_code=status.HTTP_200_OK)
 async def query_pdf(query: str):
 
     global latest_file_id
 
     try:
         if latest_file_id is None:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="plese upload pdf first")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="plese upload pdf first"
+            )
 
         vector_store = Chroma(
             collection_name="pdf_documents",
             embedding_function=embeddings,
-            persist_directory="./chroma_db",
+            persist_directory=str(path_chroma),
             collection_metadata={"hnsw:space": "cosine"},
         )
 
         results = vector_store.similarity_search_with_score(
-            query, k=5, filter={"file_id": latest_file_id}
+            query, k=3, filter={"file_id": latest_file_id}
         )
+        if not results:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="responce not found"
+            )
         text = []
         for i in range(len(results)):
             text.append(results[i][0].page_content)
@@ -135,15 +154,14 @@ async def query_pdf(query: str):
         del vector_store
         gc.collect()
 
-        
-        if not results:
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="responce not found")
         return data["choices"][0]["message"]["content"]
+
+        # return results
     except Exception as e:
-        return {"error":f"Responce failed: {str(e)}"}
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail=f"error: Responce failed: {str(e)}")
 
 
-@pdf_router.delete("/pdf/delete",status_code=status.HTTP_204_NO_CONTENT)
+@pdf_router.delete("/pdf/delete", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_db_pdf():
 
     global latest_file_id
@@ -152,7 +170,7 @@ async def delete_db_pdf():
         vector_store = Chroma(
             collection_name="pdf_documents",
             embedding_function=embeddings,
-            persist_directory="./chroma_db",
+            persist_directory=str(path_chroma),
             collection_metadata={"hnsw:space": "cosine"},
         )
 
@@ -166,13 +184,12 @@ async def delete_db_pdf():
         del vector_store
         gc.collect()
 
-        
-        if os.path.exists("chroma_db"):
-            shutil.rmtree("chroma_db")
+        if path_chroma.exists():
+            shutil.rmtree(path_chroma)
 
-        if os.path.exists("uploads"):
-            shutil.rmtree("uploads")
+        if path_uploads.exists():
+            shutil.rmtree(path_uploads)
 
         latest_file_id = None
     except Exception as e:
-        return {"error": f"Delete failed: {str(e)}"}
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail=f"error:Delete failed: {str(e)}")

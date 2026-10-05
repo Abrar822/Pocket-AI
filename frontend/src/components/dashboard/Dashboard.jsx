@@ -38,11 +38,7 @@ function greetingForHour(hour) {
   return "Good Evening";
 }
 
-<<<<<<< HEAD
-export default function Dashboard({ onQuickAction, theme, username, wakeWord }) {
-=======
 export default function Dashboard({ onQuickAction, theme }) {
->>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
 
   const [orbSize, setOrbSize] = useState(() => {
     if (window.innerWidth <= 700) return 140;
@@ -86,11 +82,7 @@ export default function Dashboard({ onQuickAction, theme }) {
 
       <header className="pai-dash-header">
         <div>
-<<<<<<< HEAD
-          <h1>{greeting}, {username} </h1>
-=======
           <h1>{greeting}, Zeel </h1>
->>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
           <p>Your personal AI productivity assistant</p>
         </div>
       </header>
@@ -100,11 +92,7 @@ export default function Dashboard({ onQuickAction, theme }) {
         <Orb
           size={orbSize}
           listening={listening}
-<<<<<<< HEAD
-          hint={`Say ${wakeWord} to wake me up`}
-=======
           hint='Say "Hey Pocket" to wake me up'
->>>>>>> 830d501390e34758e3a2d590f1566d64b97e7e25
           theme={theme}
         />
 
