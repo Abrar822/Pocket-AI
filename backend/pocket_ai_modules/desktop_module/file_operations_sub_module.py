@@ -1,6 +1,7 @@
 from .. persistent_memory.memory_endpoints import search_location
 from pathlib import Path
 import os
+import shutil
 
 def search_in_machine(folder_path):
     
@@ -117,16 +118,112 @@ class FileOperationsSubModule:
 
 
     def delete_file(self, task):
-        print("Deleted file")
+        folder_in_memory = search_location(task.parameters.foldername)
+        print(folder_in_memory)
+        if folder_in_memory == None:
+            print('Folder does not exists in memory')
+            return None
+        else:
+            folder_path = Path(folder_in_memory[2])
+            folder_in_machine = search_in_machine(folder_path)
+            file_path = folder_in_machine / task.parameters.filename
+            print(file_path)
+            if file_path.exists() and file_path.is_file():
+                try:
+                    print("File exists in parent folder")
+                    file_path.unlink()
+                    print("File deleted successfully")
+                except PermissionError:
+                    print("Permission denied")
+                    return False
+                except Exception as e:
+                    print(f"Error deleting file: {e}")
+                    return False
+            else:
+                print("File does not exists in parent folder")
 
     def delete_folder(self, task):
-        print("Deleted folder")
+        folder_in_memory = search_location(task.parameters.parent_foldername)
+        print(folder_in_memory)
+        if folder_in_memory == None:
+            print('Folder does not exists in memory')
+            return None
+        else:
+            folder_path = Path(folder_in_memory[2])
+            folder_in_machine = search_in_machine(folder_path)
+            child_path = folder_in_machine / task.parameters.folder_to_be_deleted
+            print(child_path)
+            if child_path.exists() and child_path.is_dir():
+                try:
+                    print("Folder exists in parent folder")
+                    shutil.rmtree(child_path)
+                    print("Folder deleted successfully")
+                except PermissionError:
+                    print("Permission denied")
+                    return False
+                except Exception as e:
+                    print(f"Error deleting folder: {e}")
+                    return False
+            else:
+                print("Folder does not exists in parent folder")
 
     def rename_file(self, task):
-        print("Renamed file")
+        folder_in_memory = search_location(task.parameters.foldername)
+        print(folder_in_memory)
+        if folder_in_memory == None:
+            print('Folder does not exists in memory')
+            return None
+        else:
+            folder_path = Path(folder_in_memory[2])
+            folder_in_machine = search_in_machine(folder_path)
+            file_path = folder_in_machine / task.parameters.old_filename
+            print(file_path)
+            if file_path.exists() and file_path.is_file():
+                try:
+                    print("File exists in parent folder")
+                    new_file_path = file_path.with_name(task.parameters.new_filename)
+                    if new_file_path.exists():
+                        print('File with new name already exists')
+                        return False
+                    file_path.rename(new_file_path)
+                    print("File renamed successfully")
+                except PermissionError:
+                    print("Permission denied")
+                    return False
+                except Exception as e:
+                    print(f"Error renaming file: {e}")
+                    return False
+            else:
+                print("File does not exists in parent folder")        
 
     def rename_folder(self, task):
-        print("Renamed folder")
+        folder_in_memory = search_location(task.parameters.parent_foldername)
+        print(folder_in_memory)
+        if folder_in_memory == None:
+            print('Folder does not exists in memory')
+            return None
+        else:
+            folder_path = Path(folder_in_memory[2])
+            folder_in_machine = search_in_machine(folder_path)
+            child_path = folder_in_machine / task.parameters.old_foldername
+            print(child_path)
+            if child_path.exists() and child_path.is_dir():
+                try:
+                    print("Given Folder exists in parent folder")
+                    new_child_path = child_path.with_name(task.parameters.new_foldername)
+                    if new_child_path.exists():
+                        print("Folder with new name already exists")
+                        return False
+                    child_path.rename(new_child_path)
+                    print("Folder renamed successfully")
+                except PermissionError:
+                    print("Permission denied")
+                    return False
+                except Exception as e:
+                    print(f"Error renaming folder: {e}")
+                    return False
+            else:
+                print("Folder does not exists in parent folder")
 
     def close_file(self, task):
         print("Closed file")
@@ -148,5 +245,5 @@ f = FileOperationsSubModule()
 # f.open_file("demo","het.txt")   
 # f.open_folder("demo","het")   
 # f.close_file("demo","het.txt")   
-
-
+# f.delete_file("ET23BTCO045","het.txt")
+# f.delete_folder("ET23BTCO045","het")
