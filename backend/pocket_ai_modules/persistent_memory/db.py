@@ -39,3 +39,8 @@ def get_connection():
         yield conn
     finally:
         conn.close()
+
+
+def get_conn_obj():
+    conn = sqlite3.connect(db_path, check_same_thread=False)
+    return conn

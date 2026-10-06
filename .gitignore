@@ -4,6 +4,7 @@ frontend/node_modules/
 node_modules
 frontend/dist/
 frontend/src-tauri/target
+frontend/src/components/home/Chatsection copy.css
 
 backend/.venv/
 backend/.env
@@ -16,5 +17,9 @@ __pycache__/
 *.wav
 
 *.onnx
-
+*.onnx.json
 *.ort
+
+backend/pocket_ai_modules/pdf_assistant_module/st_model_all_MiniLM_L6_v2/
+backend/pocket_ai_modules/pdf_assistant_module/chroma_db/
+backend/pocket_ai_modules/pdf_assistant_module/uploads/

@@ -305,8 +305,12 @@
 // export default App;
 
 import "./App.css";
-
-import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useNavigate,
+  BrowserRouter
+} from "react-router-dom";
 
 import Sidebar from "./components/home/Sidebar";
 import Navbar from "./components/home/Nav";
@@ -357,7 +361,10 @@ function Home({
         theme={theme}
       />
 
-      <Navbar onMenuClick={() => setCollapsed((prev) => !prev)} theme={theme} />
+      <Navbar
+        onMenuClick={() => setCollapsed((prev) => !prev)}
+        theme={theme}
+      />
 
       <div>
         <Dashboard
@@ -394,10 +401,6 @@ function SettingsPage({
 
   const handleDashboardClick = () => {
     navigate("/");
-  };
-
-  const handleMemoryClick = () => {
-    navigate("/memory");
   };
 
   const handleSettingsClick = () => {
@@ -440,48 +443,6 @@ function SettingsPage({
   );
 }
 
-/* =========================================================
-   MEMORY PAGE
-========================================================= */
-
-function MemoryPage({ theme, collapsed, setCollapsed }) {
-  const navigate = useNavigate();
-
-  const handleDashboardClick = () => {
-    navigate("/");
-  };
-
-  const handleMemoryClick = () => {
-    navigate("/memory");
-  };
-
-  const handleSettingsClick = () => {
-    navigate("/settings");
-  };
-
-  return (
-    <div className={`app ${theme}`}>
-      <Sidebar
-        collapsed={collapsed}
-        onDashboardClick={handleDashboardClick}
-        onMemoryClick={handleMemoryClick}
-        onSettingClick={handleSettingsClick}
-        theme={theme}
-      />
-
-      <div className="app-content">
-        <Navbar
-          onMenuClick={() => setCollapsed((prev) => !prev)}
-          theme={theme}
-        />
-
-        <main className="main-content">
-          <Memory theme={theme} />
-        </main>
-      </div>
-    </div>
-  );
-}
 
 /* =========================================================
    APP
@@ -503,6 +464,11 @@ function App() {
   const [voice, setVoice] = useState("male");
 
   const [mode, setMode] = useState("dark");
+
+  const [chatMode, setChatMode] = useState('general')
+
+  const [isUploaded, setIsUploaded] = useState(true)
+
 
   /* =====================================================
      GLOBAL CHAT STATE
@@ -664,6 +630,12 @@ function App() {
         clearQuickAction={() => {
           setQuickActionPrompt("");
         }}
+
+        chatMode={chatMode}
+        setChatMode={setChatMode}
+        isUploaded={isUploaded}
+        setIsUploaded={setIsUploaded}
+        setInformer={setInformer}
       />
     </BrowserRouter>
   );
