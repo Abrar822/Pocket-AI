@@ -1,6 +1,7 @@
 files/
 
 frontend/node_modules/
+node_modules
 frontend/dist/
 frontend/src-tauri/target
 
@@ -13,3 +14,7 @@ __pycache__/
 *.pyc
 
 *.wav
+
+*.onnx
+
+*.ort

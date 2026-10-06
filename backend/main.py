@@ -23,6 +23,7 @@ from .pocket_ai_modules.persistent_memory.memory_endpoints import memory_endpoin
 from .pocket_ai_modules.persistent_memory.settings_endpoints import settings_endpoints
 from contextlib import asynccontextmanager
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     db()
@@ -30,6 +31,7 @@ async def lifespan(app: FastAPI):
     app.state.ai = TaskRouter()
     app.state.speaker = tts.TextToSpeechModule()
     yield
+
 
 app = FastAPI(lifespan=lifespan)
 

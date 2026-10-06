@@ -22,6 +22,7 @@ class TaskRouter:
         }
 
     def execute(self, tasks):
+        print('taskrouter reached')
         result = []
         for task in tasks:
             module = self.modules.get(task.module)

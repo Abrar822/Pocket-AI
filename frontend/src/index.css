@@ -1,5 +1,8 @@
-:root {
-    --sidebar-bg:#11111b;
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --sidebar-bg: #11111b;
     --violet-select: #835eff;
     --violet-hover: #8b6bff;
     --text: #ffffff;
@@ -10,44 +13,42 @@
     --grad-brand: linear-gradient(135deg, var(--violet), var(--cyan));
     --bg: #090913;
 
-
-    
     --panel: #17172b;
-  --panel-hover: #22223d;
-  --border: rgba(255, 255, 255, 0.12);
+    --panel-hover: #22223d;
+    --border: rgba(255, 255, 255, 0.12);
 
-  /* Text */
-  --text: #ffffff;
-  --text-dim: #a5a5bd;
+    /* Text */
+    --text: #ffffff;
+    --text-dim: #a5a5bd;
 
-  /* Accent colors */
-  --violet: #7c3aed;
-  --violet-light: #b794ff;
-  --blue: #2563eb;
+    /* Accent colors */
+    --violet: #7c3aed;
+    --violet-light: #b794ff;
+    --blue: #2563eb;
 
-  /* Border radius */
-  --radius-lg: 18px;
-}
+    /* Border radius */
+    --radius-lg: 18px;
+  }
 
-* {
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-}
-html,
-body {
+  }
+  html,
+  body {
     min-height: 100dvh;
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
-}
-button {
+  }
+  button {
     cursor: pointer;
-}
-#root {
+  }
+  #root {
     width: 100%;
     max-width: 100%;
     overflow-x: hidden;
     display: flex;
+  }
 }
-

@@ -1,32 +1,99 @@
-import { LayoutDashboard,Database,Settings } from 'lucide-react';
-import './Sidebar-compo.css'
+// import { LayoutDashboard,Database,Settings } from 'lucide-react';
+// import './Sidebar-compo.css'
 
-function Sidebar_Compo({compo,collapsed,onClick}) {
-    const handleClick = () =>{
-            if (onClick) {
-                onClick();
-            }
-        
-    };
+// function Sidebar_Compo({compo,collapsed,onClick}) {
+//     const handleClick = () =>{
+//             if (onClick) {
+//                 onClick();
+//             }
+
+//     };
+//     return (
+//         compo === 'dashboard' ?
+//         <div onClick={handleClick} className={`${collapsed ? 'sidebar-collapsed' :'container'} `}>
+//             <LayoutDashboard className={collapsed ? 'logo-collapsed' :'logo'} />
+//             <p className={collapsed ? 'sidebar-text' : ''}>Dashboard</p>
+//         </div>
+//         :
+//         compo === 'memory' ?
+//         <div onClick={handleClick} className={collapsed ? 'sidebar-collapsed' :'container'}>
+//             <Database className={collapsed ? 'logo-collapsed' :'logo'} />
+//             <p className={collapsed ? 'sidebar-text' : ''}>Memory</p>
+//         </div>
+//         :
+//         compo === 'setting' &&
+//         <div onClick={handleClick} className={collapsed ? 'sidebar-collapsed' :'container'}>
+//             <Settings className={collapsed ? 'logo-collapsed' :'logo'}/>
+//             <p className={collapsed ? 'sidebar-text' : ''}>Settings</p>
+//         </div>
+
+//     )
+// }
+
+// export default Sidebar_Compo
+import { LayoutDashboard, Database, Settings } from "lucide-react";
+
+import "./Sidebar-compo.css";
+
+function Sidebar_Compo({ compo, collapsed, onClick }) {
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    }
+  };
+
+  /* =====================================================
+     DASHBOARD
+  ===================================================== */
+
+  if (compo === "dashboard") {
     return (
-        compo === 'dashboard' ?
-        <div onClick={handleClick} className={`${collapsed ? 'sidebar-collapsed' :'container'} `}>
-            <LayoutDashboard className={collapsed ? 'logo-collapsed' :'logo'} />
-            <p className={collapsed ? 'sidebar-text' : ''}>Dashboard</p>
-        </div>
-        :
-        compo === 'memory' ?
-        <div className={collapsed ? 'sidebar-collapsed' :'container'}>
-            <Database className={collapsed ? 'logo-collapsed' :'logo'} />
-            <p className={collapsed ? 'sidebar-text' : ''}>Memory</p>
-        </div>
-        :
-        compo === 'setting' &&
-        <div onClick={handleClick} className={collapsed ? 'sidebar-collapsed' :'container'}>
-            <Settings className={collapsed ? 'logo-collapsed' :'logo'}/>
-            <p className={collapsed ? 'sidebar-text' : ''}>Settings</p>
-        </div>
-    )
+      <div
+        onClick={handleClick}
+        className={collapsed ? "sidebar-collapsed" : "container"}
+      >
+        <LayoutDashboard className={collapsed ? "logo-collapsed" : "logo"} />
+
+        <p className={collapsed ? "sidebar-text" : ""}>Dashboard</p>
+      </div>
+    );
+  }
+
+  /* =====================================================
+     MEMORY
+  ===================================================== */
+
+  if (compo === "memory") {
+    return (
+      <div
+        onClick={handleClick}
+        className={collapsed ? "sidebar-collapsed" : "container"}
+      >
+        <Database className={collapsed ? "logo-collapsed" : "logo"} />
+
+        <p className={collapsed ? "sidebar-text" : ""}>Memory</p>
+      </div>
+    );
+  }
+
+  /* =====================================================
+     SETTINGS
+  ===================================================== */
+
+  if (compo === "setting") {
+    return (
+      <div
+        onClick={handleClick}
+        className={collapsed ? "sidebar-collapsed" : "container"}
+      >
+        <Settings className={collapsed ? "logo-collapsed" : "logo"} />
+
+        <p className={collapsed ? "sidebar-text" : ""}>Settings</p>
+      </div>
+    );
+  }
+
+  return null;
 }
 
-export default Sidebar_Compo
+export default Sidebar_Compo;

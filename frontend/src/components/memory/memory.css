@@ -1,0 +1,199 @@
+.memory-table,
+.path-table {
+  width: 700px;
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--text);
+  margin-top: 50px;
+  align-self: flex-start;
+  margin-left: 120px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.25),
+    0 0 20px rgba(124, 58, 237, 0.04);
+}
+.path-table {
+    margin-top: 30px;
+}
+.memory-table thead,
+.path-table thead {
+  background: linear-gradient(
+    135deg,
+    rgba(124, 58, 237, 0.16),
+    rgba(0, 212, 255, 0.06)
+  );
+}
+.memory-table tr,
+.path-table tr {
+  display: flex;
+}
+.memory-table thead tr,
+.path-table thead tr {
+  border-bottom: 1px solid var(--border);
+}
+.memory-table th,
+.path-table th {
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-align: left;
+}
+.memory-table td,
+.memory-table th,
+.path-table td,
+.path-table th {
+  flex-shrink: 0;
+  padding: 12px 14px;
+}
+.memory-table td:nth-child(1),
+.memory-table th:nth-child(1) {
+  width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.memory-table td:nth-child(2),
+.memory-table th:nth-child(2) {
+  width: 400px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.memory-table td:nth-child(3),
+.memory-table th:nth-child(3) {
+  width: 70px;
+  text-align: center;
+}
+.path-table td:nth-child(1),
+.path-table th:nth-child(1) {
+  width: 670px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.memory-table tbody,
+.path-table tbody {
+  display: block;
+  max-height: 500px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.memory-table tbody tr,
+.path-table tbody tr {
+  min-height: 46px;
+  border-bottom: 1px solid var(--border);
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+.memory-table tbody tr:last-child,
+.path-table tbody tr:last-child {
+  border-bottom: none;
+}
+.memory-table tbody tr:hover,
+.path-table tbody tr:hover {
+  background: var(--panel-hover);
+}
+.memory-table tbody td,
+.path-table tbody td {
+  color: var(--text-dim);
+  font-size: 14px;
+}
+.memory-table tbody td:first-child,
+.path-table tbody td:first-child {
+  color: var(--text);
+  font-weight: 500;
+}
+.memory-table tbody td:nth-child(2) {
+  color: var(--text);
+}
+.memory-table .ti-trash {
+  font-size: 16px;
+  color: var(--text-mute);
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+.memory-table .ti-trash:hover {
+  color: var(--pink);
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 6px rgba(255, 45, 146, 0.45));
+}
+.memory-table tbody::-webkit-scrollbar,
+.path-table tbody::-webkit-scrollbar {
+  width: 6px;
+}
+.memory-table tbody::-webkit-scrollbar-track,
+.path-table tbody::-webkit-scrollbar-track {
+  background: transparent;
+}
+.memory-table tbody::-webkit-scrollbar-thumb,
+.path-table tbody::-webkit-scrollbar-thumb {
+  background: rgba(131, 94, 255, 0.35);
+  border-radius: 10px;
+}
+.memory-table tbody::-webkit-scrollbar-thumb:hover,
+.path-table tbody::-webkit-scrollbar-thumb:hover {
+  background: var(--violet-select);
+}
+.btn-container {
+  align-self: flex-start;
+  width: 700px;
+  margin-left: 120px;
+  margin-top: 25px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+}
+.add-location-btn,
+.insert-btn {
+  border: none;
+  outline: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #c026ff, #8b5cf6, #22b9ff);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+  margin-top: 100px;
+}
+.search-btn {
+    border: none;
+  outline: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #c026ff, #8b5cf6, #22b9ff);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+}
+.add-location-btn:hover,
+.insert-btn:hover,
+.search-btn:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
+}
+.add-location-btn:active,
+.insert-btn:active,
+.search-btn:active {
+  transform: scale(1.05);
+}

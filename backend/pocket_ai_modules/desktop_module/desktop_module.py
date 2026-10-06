@@ -27,16 +27,20 @@ class DesktopModule:
             "lock": self.power.execute,
             "sleep": self.power.execute,
             "hibernate": self.power.execute,
-            "take_screenshot_without_path": self.screenshot.execute,
-            "take_screenshot_with_path": self.screenshot.execute,
+            "take_screenshot": self.screenshot.execute,
             "create_file": self.file.execute,
             "create_folder": self.file.execute,
-            "open_file_folder": self.file.execute,
-            "delete_file_folder": self.file.execute,
-            "rename_file_folder": self.file.execute,
+            "open_file": self.file.execute,
+            "open_folder": self.file.execute,
+            "delete_file": self.file.execute,
+            "rename_folder": self.file.execute,
+            "delete_folder": self.file.execute,
+            "rename_file": self.file.execute,
             "close_file": self.file.execute,
             "conversation": self.conversation,
-            "open_app": self.open_app
+            "open_app": self.open_app,
+            "move_file": self.file.execute,
+            "move_folder": self.file.execute
         }
 
     def conversation(self, task):
@@ -66,6 +70,7 @@ class DesktopModule:
         launch_application(task.parameters.official_app_name)
     
     def execute(self, task):
+        print('reached desktop')
         action = self.actions.get(task.action)
         if action:
             return action(task)
