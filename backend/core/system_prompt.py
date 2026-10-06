@@ -30,7 +30,6 @@ browser:
 - summarize_website
 
 desktop:
-- conversation
 - set_volume
 - set_brightness
 - shutdown
@@ -78,9 +77,6 @@ browser.summarize_website
 {
     "url": "..."
 }
-
-desktop.conversation
-{}
 
 desktop.set_volume
 {
