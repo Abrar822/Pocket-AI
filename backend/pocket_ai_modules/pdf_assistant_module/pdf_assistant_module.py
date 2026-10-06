@@ -81,7 +81,7 @@ async def upload_pdf(file: UploadFile = File(...)):
 
         # split into chunks
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=800, chunk_overlap=150
+            chunk_size=1000, chunk_overlap=200
         )
         chunks = text_splitter.split_documents(documents)
 
@@ -148,7 +148,7 @@ async def query_pdf(request: PDFQuery):
         )
 
         results = vector_store.similarity_search_with_score(
-            user_query, k=3, filter={"file_id": latest_file_id}
+            user_query, k=5, filter={"file_id": latest_file_id}
         )
         if not results:
             raise HTTPException(

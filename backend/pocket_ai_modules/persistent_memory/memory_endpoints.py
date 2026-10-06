@@ -5,19 +5,38 @@ from ...pydantic_models.persistent_memory_module.persistent_memory_models import
     DeleteData,
 )
 from pathlib import Path
-from .db import get_connection
+from .db import get_connection,get_conn_obj
 
 memory_endpoints = APIRouter()
 
+# def find_location(search_location: SearchLocation):
+#     conn = get_conn_obj()
+#     cursor = conn.cursor()
+#     query = """SELECT * FROM memory WHERE LOWER(f_name) LIKE ?"""
+#     cursor.execute(query, (f'{search_location.lower()}',))
+#     print(search_location.lower())
+#     data = cursor.fetchone()
+#     return data
 
-# To search for a location
+# # To search for a location
+# @memory_endpoints.post("/search", status_code=status.HTTP_200_OK)
+# def search_location(search_location: SearchLocation):
+#     try:
+#         return find_location(search_location)
+#     except Exception as err:
+#         raise HTTPException(
+#             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(err)
+#         )
+
 @memory_endpoints.post("/search", status_code=status.HTTP_200_OK)
-def search_location(search_location: SearchLocation, conn=Depends(get_connection)):
+def search_location(search_location: SearchLocation):
     try:
+        conn = get_conn_obj()
         cursor = conn.cursor()
-        query = """SELECT * FROM memory WHERE f_name = ?"""
-        cursor.execute(query, (search_location.f_name,))
-        data = cursor.fetchall()
+        query = """SELECT * FROM memory WHERE LOWER(f_name) LIKE ?"""
+        cursor.execute(query, (f'{search_location.lower()}',))
+        print(search_location.lower())
+        data = cursor.fetchone()
         return data
     except Exception as err:
         raise HTTPException(
@@ -29,31 +48,36 @@ def search_location(search_location: SearchLocation, conn=Depends(get_connection
 @memory_endpoints.post("/insert", status_code=status.HTTP_201_CREATED)
 def insert_data(folder_arr: FolderTraversalDetails, conn=Depends(get_connection)):
     folder_paths = folder_arr.folder_locations
-    extensions = folder_arr.extensions
+    # extensions = folder_arr.extensions
     file_details = []
 
-    for path in folder_paths:
-        for p in Path(path).rglob("*"):
-            p = Path(p)
-            if p.is_file() and p.suffix.lower() in extensions:
-                file_details.append({"f_name": p.name, "location": str(p)})
-
     try:
+        for path in folder_paths:
+                if Path(path).is_dir():
+                    if path.split('\\').pop():
+                        foldername = path.split('\\').pop().lower()
+                    else:
+                        foldername = path[0].lower()
+                    file_details.append({
+                        'foldername': foldername,
+                        'location': str(path)
+                    })
         query = """
-        INSERT INTO memory (f_name, location) VALUES (?, ?) 
+        INSERT INTO memory(f_name,location) VALUES (?,?)
         ON CONFLICT (f_name)
-        DO UPDATE SET location = excluded.location
+        DO UPDATE SET location = excluded.location 
         """
-        conn.executemany(
-            query, [(row["f_name"], row["location"]) for row in file_details]
-        )
+        data=[(d['foldername'], d['location']) for d in file_details]
+        cursor = conn.cursor()
+        cursor.executemany(query, data)
         conn.commit()
-        return {"message": "Successfully inserted/updated locations"}
+        return file_details
+    
     except Exception as err:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(err)
-        )
-
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(err)
+            )
+    
 
 # To display all locations
 @memory_endpoints.get("/display", status_code=status.HTTP_200_OK)
@@ -65,7 +89,6 @@ def display(conn=Depends(get_connection)):
         cursor = conn.cursor()
         cursor.execute(query)
         data = cursor.fetchall()
-        print(data)
         return data
     except Exception as err:
         raise HTTPException(
@@ -77,12 +100,16 @@ def display(conn=Depends(get_connection)):
 @memory_endpoints.delete("/delete", status_code=status.HTTP_200_OK)
 def delete(delete_f_name: list[DeleteData], conn=Depends(get_connection)):
     try:
-        query = """
-        DELETE FROM memory where f_name = ?
-        """
-        conn.executemany(query, [(dic.f_name,) for dic in delete_f_name])
-        conn.commit()
-        return {"message": "Deleted locations successfully"}
+        query = """DELETE FROM memory WHERE LOWER(f_name) LIKE ?"""
+        # conn.executemany(query, [(dic.f_name,) for dic in delete_f_name])
+        # conn.commit()
+        cursor = conn.cursor()
+        cursor.executemany(query, [(f"%{dic.f_name.lower()}%",) for dic in delete_f_name])
+        if cursor.rowcount > 0:
+            conn.commit()
+            return {"message": "Deleted locations successfully."}
+        return {"message": "No folders found."}
+    
     except Exception as err:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(err)
