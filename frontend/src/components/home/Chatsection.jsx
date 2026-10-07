@@ -127,6 +127,7 @@ function ChatSection({
      ========================================================= */
 
   const sendMessage = async (messageText = input) => {
+    if (loading) return
     if (!messageText || messageText.trim() === "") {
       return;
     }
@@ -155,10 +156,17 @@ function ChatSection({
         if (!data.response) {
           throw new Error("Invalid response from server");
         }
-        botReply = {
-          text: data.response,
-          sender: "bot",
-        };
+        let temp = []
+        for (let i = 0; i < data.response.length; i++) {
+          temp.push(botReply = {
+            text: data.response[i],
+            sender: "bot",
+          })
+        }
+        setMessages((prev) => [
+          ...prev,
+          ...temp,
+        ]);
       }
       else if (chatMode === 'pdf') {
         data = await PDF_query(userInput);
@@ -169,15 +177,16 @@ function ChatSection({
           text: data,
           sender: "bot",
         };
+        setMessages((prev) => [
+          ...prev,
+          botReply,
+        ]);
       }
       else {
         throw new Error(`Invalid chat mode: ${chatMode}`);
       }
 
-      setMessages((prev) => [
-        ...prev,
-        botReply,
-      ]);
+
     } catch (error) {
       console.error("FastAPI Error:", error);
       if (chatMode === 'pdf' && pdfFile === null) {
