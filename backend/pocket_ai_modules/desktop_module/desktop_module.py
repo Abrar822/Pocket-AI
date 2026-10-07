@@ -22,29 +22,25 @@ class DesktopModule:
         self.actions = {
             "set_volume": self.set_volume,
             "set_brightness": self.set_brightness,
-            "shutdown": self.power.execute,
-            "restart": self.power.execute,
-            "lock": self.power.execute,
-            "sleep": self.power.execute,
-            "hibernate": self.power.execute,
-            "take_screenshot": self.screenshot.execute,
-            "create_file": self.file.execute,
-            "create_folder": self.file.execute,
-            "open_file": self.file.execute,
-            "open_folder": self.file.execute,
-            "delete_file": self.file.execute,
-            "rename_folder": self.file.execute,
-            "delete_folder": self.file.execute,
-            "rename_file": self.file.execute,
-            "close_file": self.file.execute,
-            "conversation": self.conversation,
+            "shutdown": self.power.shutdown,
+            "restart": self.power.restart,
+            "lock": self.power.lock,
+            "sleep": self.power.sleep,
+            "hibernate": self.power.hibernate,
+            "take_screenshot": self.screenshot.take_screenshot,
+            "create_file": self.file.create_file,
+            "create_folder": self.file.create_folder,
+            "open_file": self.file.open_file,
+            "open_folder": self.file.open_folder,
+            "delete_file": self.file.delete_file,
+            "rename_folder": self.file.rename_folder,
+            "delete_folder": self.file.delete_folder,
+            "rename_file": self.file.rename_file,
+            "close_file": self.file.close_file,
             "open_app": self.open_app,
-            "move_file": self.file.execute,
-            "move_folder": self.file.execute
+            "move_file": self.file.move_file,
+            "move_folder": self.file.move_folder,
         }
-
-    def conversation(self, task):
-        pass
 
     def set_volume(self, task):
         pythoncom.CoInitialize()
@@ -65,12 +61,12 @@ class DesktopModule:
         level = max(0, min(level, 100))
 
         sbc.set_brightness(level)
-    
+
     def open_app(self, task):
         launch_application(task.parameters.official_app_name)
-    
+
     def execute(self, task):
-        print('reached desktop')
+        print("reached desktop")
         action = self.actions.get(task.action)
         if action:
             return action(task)

@@ -317,8 +317,7 @@ import Navbar from "./components/home/Nav";
 import ChatSection from "./components/home/Chatsection";
 import Dashboard from "./components/dashboard/Dashboard";
 import SettingInfo from "./components/setting/Settinginfo";
-import Memory from "./components/memory/Memory";
-
+import MemoryPage from "./components/memory/MemoryPage"
 import { useState, useEffect } from "react";
 
 import { settingConnect } from "./helper/settingConnect";
@@ -401,6 +400,10 @@ function SettingsPage({
 
   const handleDashboardClick = () => {
     navigate("/");
+  };
+
+  const handleMemoryClick = () => {
+    navigate("/memory");
   };
 
   const handleSettingsClick = () => {
@@ -612,6 +615,7 @@ function App() {
               theme={theme}
               collapsed={collapsed}
               setCollapsed={setCollapsed}
+              setInformer={setInformer}
             />
           }
         />

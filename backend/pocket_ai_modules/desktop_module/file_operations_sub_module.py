@@ -17,21 +17,6 @@ def search_in_machine(folder_path):
 
 class FileOperationsSubModule:
 
-    # def __init__(self):
-    #     self.actions = {
-    #         "create_file": self.create_file,
-    #         "create_folder": self.create_folder,
-    #         "open_file": self.open_file,
-    #         "open_folder": self.open_folder,
-    #         "delete_file": self.delete_file,
-    #         "delete_folder": self.delete_folder,
-    #         "rename_file": self.rename_file,
-    #         "rename_folder": self.rename_folder,
-    #         "close_file": self.close_file,
-    #         "move_file": self.move_file,
-    #         "move_folder": self.move_folder
-    #     }
-
     def create_file(self,task):
         # first=> check if the parentfolder exist in db and in machine
         # if not =>  tell user not registered or exist on machine
@@ -233,17 +218,3 @@ class FileOperationsSubModule:
 
     def move_folder(self, task):
         print('moved folder')
-
-    # def execute(self, task):
-    #     action = self.actions.get(task.action)
-    #     if action:
-    #         return action(task)
-        
-f = FileOperationsSubModule()
-# f.create_file("demo","het.txt","my name is het tejani i am Btech computer enginnering student from scet")
-# f.create_folder("demo","het") 
-# f.open_file("demo","het.txt")   
-# f.open_folder("demo","het")   
-# f.close_file("demo","het.txt")   
-# f.delete_file("ET23BTCO045","het.txt")
-# f.delete_folder("ET23BTCO045","het")

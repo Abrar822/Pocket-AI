@@ -1,3 +1,17 @@
+.main-content {
+  width: 100vw;
+}
+.main-content.light {
+  width: 100vw;
+  background: #f3f4f6;
+}
+.app-content.light {
+  background: #f3f4f6;
+}
+.app-content {
+  width: 100vw;
+  background: var(--bg);
+}
 .memory-table,
 .path-table {
   width: 700px;
@@ -16,7 +30,7 @@
     0 0 20px rgba(124, 58, 237, 0.04);
 }
 .path-table {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 .memory-table thead,
 .path-table thead {
@@ -70,7 +84,14 @@
 }
 .path-table td:nth-child(1),
 .path-table th:nth-child(1) {
-  width: 670px;
+  width: 240px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.path-table td:nth-child(2),
+.path-table th:nth-child(2) {
+  width: 450px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -171,7 +192,7 @@
   margin-top: 100px;
 }
 .search-btn {
-    border: none;
+  border: none;
   outline: none;
   padding: 10px 18px;
   border-radius: 8px;
@@ -196,4 +217,69 @@
 .insert-btn:active,
 .search-btn:active {
   transform: scale(1.05);
+}
+
+/* Light mode */
+.main-content.light .memory-table,
+.main-content.light .path-table {
+  background: #ffffff;
+  color: #1f2937;
+  border-color: #d1d5db;
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.08),
+    0 0 20px rgba(124, 58, 237, 0.03);
+}
+
+.main-content.light .memory-table thead,
+.main-content.light .path-table thead {
+  background: linear-gradient(
+    135deg,
+    rgba(124, 58, 237, 0.10),
+    rgba(0, 212, 255, 0.05)
+  );
+}
+
+.main-content.light .memory-table thead tr,
+.main-content.light .path-table thead tr {
+  border-bottom-color: #d1d5db;
+}
+
+.main-content.light .memory-table th,
+.main-content.light .path-table th {
+  color: #1f2937;
+}
+
+.main-content.light .memory-table tbody tr,
+.main-content.light .path-table tbody tr {
+  border-bottom-color: #e5e7eb;
+}
+
+.main-content.light .memory-table tbody tr:hover,
+.main-content.light .path-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.main-content.light .memory-table tbody td,
+.main-content.light .path-table tbody td {
+  color: #4b5563;
+}
+
+.main-content.light .memory-table tbody td:first-child,
+.main-content.light .path-table tbody td:first-child,
+.main-content.light .memory-table tbody td:nth-child(2) {
+  color: #1f2937;
+}
+
+.main-content.light .memory-table .ti-trash {
+  color: #6b7280;
+}
+
+.main-content.light .memory-table tbody::-webkit-scrollbar-thumb,
+.main-content.light .path-table tbody::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.3);
+}
+
+.main-content.light .memory-table tbody::-webkit-scrollbar-thumb:hover,
+.main-content.light .path-table tbody::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.5);
 }

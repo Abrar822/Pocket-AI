@@ -2,14 +2,6 @@ import subprocess
 
 
 class PowerSubModule:
-    def __init__(self):
-        self.actions = {
-            "shutdown": self.shutdown,
-            "restart": self.restart,
-            "lock": self.lock,
-            "sleep": self.sleep,
-            "hibernate": self.hibernate,
-        }
 
     def shutdown(self):
         subprocess.run(["shutdown", "/s", "/t", "0"])
@@ -25,8 +17,3 @@ class PowerSubModule:
 
     def hibernate(self):
         subprocess.run(["shutdown", "/h"])
-
-    def execute(self, task):
-        action = self.actions.get(task.action)
-        if action:
-            return action()
