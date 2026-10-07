@@ -252,13 +252,83 @@ class FileOperationsSubModule:
                 return 'Folder does not exist in parent folder.'
 
     def close_file(self, task):
-        print("Closed file")
+        filename = task.parameters.filename
+        for window in gw.getAllWindows():
+            if filename.lower() in window.title.lower():
+                window.close()
+                return "file closed successfully"
+        return "file is already close"
+
 
     def move_file(self, task):
-        print('moved file')
+        file1 = search_location(task.parameters.parent_foldername)
+        print(file1)
+        file2 = search_location(task.parameters.destination_foldername)
+        print(file2)
+        if file1 is None or  file2 is None:
+            print("file don't exists in memory")
+        else:
+            file_path_1 = Path(file1[2])
+            print(file_path_1)
+            file_path_2 = Path(file2[2])
+            print(file_path_2)
+            file_machine_1 = search_in_machine(file_path_1)
+            file_path_1 = file_machine_1 / task.parameters.filename_to_be_moved
+            print(file_path_1)
+            file_machine_2 = search_in_machine(file_path_2)
+            file_path_2 = file_machine_2
+            print(file_path_2)
+            file_path_3 = file_path_2 / task.parameters.filename_to_be_moved
+            print("SOURCE:", file_path_1)
+            print("EXISTS:", file_path_1.exists())
+            print("IS FILE:", file_path_1.is_file())
+            if file_path_1.is_file():
+                print("file is exist in parent folder")
+            else:
+                print("file doesn't exist in parent folder")
+                return None
+            if file_path_3.is_file():
+                print("file already exists in destination folder")
+                return None
+            shutil.move(str(file_path_1),str(file_path_2))
+            print("file moved successfully")
+            return file_path_2
+            
+
+
 
     def move_folder(self, task):
-        print('moved folder')
+        file1 = search_location(task.parameters.parent_foldername)
+        print(file1)
+        file2 = search_location(task.parameters.destination_foldername)
+        print(file2)
+        if file1 is None or  file2 is None:
+            print("file don't exists in memory")
+        else:
+            file_path_1 = Path(file1[2])
+            print(file_path_1)
+            file_path_2 = Path(file2[2])
+            print(file_path_2)
+            file_machine_1 = search_in_machine(file_path_1)
+            file_path_1 = file_machine_1 / task.parameters.folder_to_be_moved
+            print(file_path_1)
+            file_machine_2 = search_in_machine(file_path_2)
+            file_path_2 = file_machine_2
+            print(file_path_2)
+            file_path_3 = file_path_2 / task.parameters.folder_to_be_moved
+            print("SOURCE:", file_path_1)
+            print("EXISTS:", file_path_1.exists())
+            if file_path_1.is_dir():
+                print("folder is exist in parent folder")
+            else:
+                print("folder doesn't exist in parent folder")
+                return None
+            if file_path_3.exists():
+                print("folder already exists in destination folder")
+                return None
+            shutil.move(str(file_path_1),str(file_path_2))
+            print("folder moved successfully")
+            return file_path_3
 
     # def execute(self, task):
     #     action = self.actions.get(task.action)
