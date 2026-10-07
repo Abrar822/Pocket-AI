@@ -27,4 +27,4 @@ def generate_response(request: LLMRequestModel, req: Request):
     except Exception as err:
         req.app.state.speaker.tts("Sorry I cannot help with that")
         print(str(err))
-        return {"response": "Sorry I cannot help with that"}
+        return {"response": ["Sorry I cannot help with that"]}
