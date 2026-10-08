@@ -33,27 +33,37 @@ export default function MemoryPage({
   const searchFolder = async () => {
     try {
       let data = await search(searchInput);
-      setFolders(data);
+      setFolders(data || []);
+    } catch (err) {
+      setInformer({ msg: err.message, state: true });
+    }
+  };
+
+  const displayFolders = async () => {
+    try {
+      const data = await display();
+      setFolders(data || []);
     } catch (err) {
       setInformer({ msg: err.message, state: true });
     }
   };
 
   useEffect(() => {
-    const see = async () => {
-      let data = await display();
-      setFolders(data);
-    };
-    try {
-      see();
-    } catch (err) {
-      setInformer({ msg: err.message, state: true });
-    }
+    // const see = async () => {
+    //   let data = await display();
+    //   setFolders(data);
+    // };
+    // try {
+    //   see();
+    // } catch (err) {
+    //   setInformer({ msg: err.message, state: true });
+    // }
+    displayFolders();
   }, []);
 
   useEffect(() => {
     const execute = async () => {
-      if (searchInput.length == 0) {
+      if (searchInput.trim().length === 0) {
         await searchFolder();
       }
     };
@@ -85,11 +95,11 @@ export default function MemoryPage({
       let data = await insert(selectedFolders);
       if (data) {
         setFolders((prev) => [...prev, ...data]);
-        setInformer({msg: 'Folders inserted successfully.', state: true})
-        setSelectedFolders([])
+        setInformer({ msg: "Folders inserted successfully.", state: true });
+        setSelectedFolders([]);
       }
     } catch (err) {
-      setInformer({msg: err.message, state: true})
+      setInformer({ msg: err.message, state: true });
     }
   };
 
@@ -114,6 +124,12 @@ export default function MemoryPage({
                 value={searchInput}
                 onChange={(e) => {
                   setSearchInput(e.target.value);
+                }}
+                onKeyDown={async (e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    await searchFolder();
+                  }
                 }}
                 type="text"
                 className="h-full w-full max-w-[450px] bg-white px-3 py-2 rounded-md outline-none"
@@ -141,15 +157,15 @@ export default function MemoryPage({
                   folders.map((folder, idx) => (
                     <tr key={idx}>
                       <td>
-                        {folder.location.split("\\").pop()
-                          ? folder.location.split("\\").pop()
-                          : folder.location[0].toUpperCase()}
+                        {folder?.location?.split("\\")?.pop()
+                          ? folder?.location?.split("\\")?.pop()
+                          : folder?.location[0]?.toUpperCase()}
                       </td>
                       <td>{folder.location}</td>
                       <td
                         onClick={async () => {
                           try {
-                            let msg = await deleteFolders([folder.f_name]);
+                            let msg = await deleteFolders(folder.f_name);
                             if (msg) {
                               setInformer({
                                 msg: `Folder ${folder.f_name} deleted successfully.`,
@@ -179,9 +195,12 @@ export default function MemoryPage({
               <button className="add-location-btn" onClick={addPath}>
                 Add Path
               </button>
-              <button className="insert-btn" onClick={async () => {
-                await insertFolders()
-              }}>
+              <button
+                className="insert-btn"
+                onClick={async () => {
+                  await insertFolders();
+                }}
+              >
                 Insert Paths
               </button>
             </div>

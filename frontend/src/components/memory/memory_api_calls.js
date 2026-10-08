@@ -48,7 +48,7 @@ export async function deleteFolders(folders) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      locations: folders
+      f_name: folders
     })
   })
   let data = await response.json()

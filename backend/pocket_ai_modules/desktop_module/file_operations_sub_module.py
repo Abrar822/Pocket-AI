@@ -102,10 +102,13 @@ class FileOperationsSubModule:
             return f'Parent Folder {task.parameters.parent_foldername} not registered in Pocket AI Memory.'
         else:
             folder_path = Path(folder_in_memory[2])
+            print(folder_path)
             folder_in_machine = search_in_machine(folder_path)
             if not folder_in_machine:
                 return 'Parent Folder not found inside the machine.'
+            print(folder_in_machine)
             child_path = folder_in_machine / task.parameters.folder_to_be_opened
+            print(child_path)
             if child_path.is_dir():
                 print("given folder exists in parent folder")
                 os.startfile(child_path)
