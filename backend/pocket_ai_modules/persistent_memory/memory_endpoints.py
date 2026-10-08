@@ -97,14 +97,14 @@ def display(conn=Depends(get_connection)):
 
 # To delete the particular f_name entry
 @memory_endpoints.delete("/delete", status_code=status.HTTP_200_OK)
-def delete(delete_f_name: DeleteData, conn=Depends(get_connection)):
+def delete(delete_f_name: list[DeleteData], conn=Depends(get_connection)):
     try:
         query = """DELETE FROM memory WHERE LOWER(f_name) = ?"""
         # conn.executemany(query, [(dic.f_name,) for dic in delete_f_name])
         # conn.commit()
         cursor = conn.cursor()
         cursor.executemany(
-            query, [(f"{dic.lower()}",) for dic in delete_f_name.locations]
+            query, [(f"{dic.f_name.lower()}",) for dic in delete_f_name]
         )
         if cursor.rowcount > 0:
             conn.commit()

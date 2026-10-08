@@ -11,7 +11,7 @@ class FolderTraversalDetails(BaseModel):
 
 
 class DeleteData(BaseModel):
-    locations: list[str]
+    f_name: str
 
 
 class InsertSettingsDetails(BaseModel):
