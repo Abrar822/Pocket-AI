@@ -31,11 +31,12 @@ memory_endpoints = APIRouter()
 @memory_endpoints.post("/search", status_code=status.HTTP_200_OK)
 def search_location(search_location: SearchLocation):
     try:
+        print(search_location)
         conn = get_conn_obj()
         cursor = conn.cursor()
         query = """SELECT * FROM memory WHERE LOWER(f_name) LIKE ?"""
-        cursor.execute(query, (f'{search_location.lower()}',))
-        print(search_location.lower())
+        cursor.execute(query, (f'{search_location.f_name.lower()}',))
+        print(search_location.f_name.lower())
         data = cursor.fetchone()
         return data
     except Exception as err:
@@ -59,7 +60,7 @@ def insert_data(folder_arr: FolderTraversalDetails, conn=Depends(get_connection)
                     else:
                         foldername = path[0].lower()
                     file_details.append({
-                        'foldername': foldername,
+                        'f_name': foldername,
                         'location': str(path)
                     })
         query = """
@@ -67,7 +68,7 @@ def insert_data(folder_arr: FolderTraversalDetails, conn=Depends(get_connection)
         ON CONFLICT (f_name)
         DO UPDATE SET location = excluded.location 
         """
-        data=[(d['foldername'], d['location']) for d in file_details]
+        data=[(d['f_name'], d['location']) for d in file_details]
         cursor = conn.cursor()
         cursor.executemany(query, data)
         conn.commit()
@@ -89,6 +90,7 @@ def display(conn=Depends(get_connection)):
         cursor = conn.cursor()
         cursor.execute(query)
         data = cursor.fetchall()
+        data = [{'f_name':d[1], 'location':d[2]} for d in data]
         return data
     except Exception as err:
         raise HTTPException(
