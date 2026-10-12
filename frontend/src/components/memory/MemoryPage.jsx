@@ -64,7 +64,7 @@ export default function MemoryPage({
   useEffect(() => {
     const execute = async () => {
       if (searchInput.trim().length === 0) {
-        await searchFolder();
+        await displayFolders();
       }
     };
     execute();

@@ -37,8 +37,8 @@ def search_location(search_location: SearchLocation):
         conn = get_conn_obj()
         cursor = conn.cursor()
         query = """SELECT * FROM memory WHERE LOWER(f_name) LIKE ?"""
-        cursor.execute(query, (f'{search_location.lower()}',))
-        print(search_location.lower())
+        cursor.execute(query, (f'%{search_location.f_name.lower()}%',))
+        print(search_location.f_name.lower())
         data = cursor.fetchall()
         # data = cursor.fetchone()
         data = [{'f_name':d[1], 'location':d[2]} for d in data]
