@@ -177,7 +177,6 @@ class RenameFolder(BaseModel):
 
 
 class CloseFileParams(BaseModel):
-    parent_foldername: str
     filename: str
 
 

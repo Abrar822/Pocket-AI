@@ -177,7 +177,6 @@ desktop.move_folder
 
 desktop.close_file
 {
-    "parent_foldername": "...",
     "filename": "..."
 }
 
