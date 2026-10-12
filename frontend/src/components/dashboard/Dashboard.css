@@ -357,3 +357,71 @@
   background: #f9fafb;
   border-color: #a855f7;
 } */
+
+/* Voice-to-text status and transcript integrated into the dashboard */
+.pai-voice-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+  transform: none;
+}
+
+.pai-voice-spinner {
+  animation: paiVoiceSpin 1s linear infinite;
+}
+
+@keyframes paiVoiceSpin {
+  to { transform: rotate(360deg); }
+}
+
+.pai-voice-transcript {
+  width: min(100%, 620px);
+  box-sizing: border-box;
+  padding: 14px 18px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.14));
+  border-radius: 14px;
+  background: var(--panel, rgba(255, 255, 255, 0.04));
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.pai-voice-transcript.active {
+  border-color: var(--violet-light, #a78bfa);
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.14);
+}
+
+.pai-voice-status {
+  display: inline-block;
+  margin-bottom: 7px;
+  color: var(--violet-light, #a78bfa);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.pai-voice-transcript p {
+  margin: 0;
+  color: var(--text-dim, #a1a1aa);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.pai-voice-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  color: #f87171;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.pai-dashboard.light .pai-voice-transcript {
+  background: #fff;
+  border-color: #e5e7eb;
+}
+
+.pai-dashboard.light .pai-voice-transcript p {
+  color: #4b5563;
+}

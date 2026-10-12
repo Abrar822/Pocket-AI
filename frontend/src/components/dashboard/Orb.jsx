@@ -132,7 +132,7 @@ import { startTransition, useEffect, useId, useMemo, useRef, useState } from "re
             <svg
                 viewBox={`0 0 ${vw} ${vh}`}
                 width="100%"
-                height="auto"
+               height="100%"
                 role="img"
                 aria-label={resolvedLabel}
                 style={{ display: "block", overflow: "visible" }}
