@@ -19,7 +19,9 @@ function ChatSection({
   setChatMode,
   isUploaded,
   setIsUploaded,
-  setInformer
+  setInformer,
+  dbModified,
+  setDbModified
 }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -158,6 +160,9 @@ function ChatSection({
         }
         let temp = []
         for (let i = 0; i < data.response.length; i++) {
+          if(data.response[i].includes('Folder') || data.response[i].includes('folder')) {
+            setDbModified(true)
+          }
           temp.push(botReply = {
             text: data.response[i],
             sender: "bot",

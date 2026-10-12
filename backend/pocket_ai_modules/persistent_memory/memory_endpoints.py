@@ -9,38 +9,17 @@ from .db import get_connection, get_conn_obj
 
 memory_endpoints = APIRouter()
 
-# def find_location(search_location: SearchLocation):
-#     conn = get_conn_obj()
-#     cursor = conn.cursor()
-#     query = """SELECT * FROM memory WHERE LOWER(f_name) LIKE ?"""
-#     cursor.execute(query, (f'{search_location.lower()}',))
-#     print(search_location.lower())
-#     data = cursor.fetchone()
-#     return data
-
-# # To search for a location
-# @memory_endpoints.post("/search", status_code=status.HTTP_200_OK)
-# def search_location(search_location: SearchLocation):
-#     try:
-#         return find_location(search_location)
-#     except Exception as err:
-#         raise HTTPException(
-#             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(err)
-#         )
-
-
 @memory_endpoints.post("/search", status_code=status.HTTP_200_OK)
-def search_location(search_location: SearchLocation):
+def search_location(location: SearchLocation):
     try:
         data = []
-        print(search_location)
+        print(location)
         conn = get_conn_obj()
         cursor = conn.cursor()
         query = """SELECT * FROM memory WHERE LOWER(f_name) LIKE ?"""
-        cursor.execute(query, (f'%{search_location.f_name.lower()}%',))
-        print(search_location.f_name.lower())
+        cursor.execute(query, (f'{location.f_name.lower()}',))
+        print(location.f_name.lower())
         data = cursor.fetchall()
-        # data = cursor.fetchone()
         data = [{'f_name':d[1], 'location':d[2]} for d in data]
         return data
     except Exception as err:
@@ -107,11 +86,9 @@ def display(conn=Depends(get_connection)):
 def delete(delete_f_name: DeleteData, conn=Depends(get_connection)):
     try:
         query = """DELETE FROM memory WHERE LOWER(f_name) = ?"""
-        # conn.executemany(query, [(dic.f_name,) for dic in delete_f_name])
-        # conn.commit()
         cursor = conn.cursor()
         cursor.executemany(
-            query, delete_f_name.f_name.lower()
+            query, [(delete_f_name.f_name.lower(), )]
         )
         if cursor.rowcount > 0:
             conn.commit()
