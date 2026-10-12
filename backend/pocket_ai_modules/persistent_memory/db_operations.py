@@ -1,4 +1,5 @@
 from .db import get_conn_obj
+from pathlib import Path
 
 def delete_folder_from_memory(foldername: str):
     conn, cur = None, None
@@ -57,3 +58,31 @@ def move_folder_in_memory(foldername: str, path: str):
     finally:
         if cur: cur.close()
         if conn: conn.close()
+
+def remove_stale_paths():
+    conn = get_conn_obj()
+    data = []
+    query = """
+    SELECT * FROM memory
+    """
+    cursor = conn.cursor()
+    cursor.execute(query)
+    data = cursor.fetchall()
+    data = [{'f_name':d[1], 'location':d[2]} for d in data]
+    folder_to_be_removed = []
+    
+    for obj in data:
+        f_name = obj['f_name']
+        location = obj['location']
+        if not Path(location).is_dir():
+            folder_to_be_removed.append((f_name, ))
+
+    query = """
+    DELETE FROM memory WHERE f_name = ?
+    """
+    cursor = conn.cursor()
+    cursor.executemany(query, folder_to_be_removed)
+    conn.commit()
+
+    cursor.close()
+    conn.close()

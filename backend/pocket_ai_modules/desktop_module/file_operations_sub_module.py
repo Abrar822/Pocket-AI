@@ -5,7 +5,7 @@ from send2trash import send2trash
 from ..persistent_memory.db import get_conn_obj
 from fastapi import HTTPException, status
 import pygetwindow as gw
-from ..persistent_memory.db_operations import move_folder_in_memory, rename_folder_in_memory, delete_folder_from_memory
+from ..persistent_memory.db_operations import move_folder_in_memory, rename_folder_in_memory, delete_folder_from_memory, remove_stale_paths
 
 
 def search_location(foldername):
@@ -177,6 +177,7 @@ class FileOperationsSubModule:
                     if res:
                         msg += ' ' + res
                     print("Folder deleted successfully")
+                    remove_stale_paths()
                     return msg
                 except PermissionError:
                     print("Permission denied")
