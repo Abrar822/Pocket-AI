@@ -1,0 +1,46 @@
+import sqlite3
+from pathlib import Path
+
+db_path = Path.home() / 'Pocket-AI' / 'memory.db'
+
+def db():
+    db_path.parent.mkdir(exist_ok=True, parents=True)
+    conn = sqlite3.connect(db_path, check_same_thread=False)
+    query = """
+    CREATE TABLE IF NOT EXISTS memory (
+        id INTEGER PRIMARY KEY,
+        f_name TEXT NOT NULL UNIQUE,
+        location TEXT NOT NULL
+    )
+    """
+    conn.execute(query)
+    conn.commit()
+    conn.close()
+
+def create_keyval():
+    conn = None
+    try:
+        conn = sqlite3.connect(db_path, check_same_thread=False)
+        query = """CREATE TABLE IF NOT EXISTS keyval (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            key TEXT NOT NULL UNIQUE,
+            value TEXT NOT NULL
+        )"""
+        conn.execute(query)
+        conn.commit()
+    except:
+        if conn: conn.rollback()
+    finally:
+        if conn: conn.close()
+
+def get_connection():
+    try:
+        conn = sqlite3.connect(db_path, check_same_thread=False)
+        yield conn
+    finally:
+        conn.close()
+
+
+def get_conn_obj():
+    conn = sqlite3.connect(db_path, check_same_thread=False)
+    return conn

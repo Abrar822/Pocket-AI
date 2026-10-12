@@ -1,0 +1,926 @@
+/* =========================================================
+   MAIN BACKGROUND
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+.bg-setting {
+  width: calc(100% - 82px);
+  height: 100%;
+
+  min-width: 0;
+  min-height: 0;
+
+  margin-left: 82px;
+
+  overflow: hidden;
+
+  background: #080812;
+}
+
+.bg-setting.light {
+  background-color: #f3f4f6;
+}
+
+
+/* =========================================================
+   SETTINGS PAGE
+========================================================= */
+
+.settings-page {
+  width: min(1080px, calc(100% - 40px));
+  height: 100%;
+
+  margin: 0 auto;
+
+  padding: clamp(20px, 4vh, 45px) 0;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.settings-header {
+  width: 100%;
+
+  margin: 0 0 clamp(16px, 2.5vh, 25px);
+
+  flex-shrink: 0;
+}
+
+.settings-title h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(22px, 2vw, 32px);
+
+  font-weight: 700;
+
+  line-height: 1.2;
+}
+
+.settings-title p {
+  margin: 7px 0 0;
+
+  color: #9292a5;
+
+  font-size: clamp(12px, 1vw, 16px);
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   SETTINGS CARD
+========================================================= */
+
+.settings-card {
+  width: 100%;
+  max-width: 100%;
+
+  background: rgba(15, 15, 28, 0.85);
+
+  border: 1px solid rgba(150, 120, 220, 0.2);
+
+  border-radius: clamp(15px, 1.5vw, 24px);
+
+  overflow: hidden;
+
+  box-shadow:
+    0 0 30px rgba(100, 60, 180, 0.08);
+
+  backdrop-filter: blur(10px);
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   SETTING ROW
+   ALWAYS HORIZONTAL
+========================================================= */
+
+.setting-row {
+  width: 100%;
+
+  min-height: clamp(78px, 8vw, 105px);
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(190px, 0.85fr)
+    minmax(250px, 1.15fr);
+
+  align-items: center;
+
+  gap: clamp(12px, 2vw, 35px);
+
+  padding:
+    clamp(12px, 1.3vw, 18px)
+    clamp(18px, 3vw, 45px);
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.07);
+
+  min-width: 0;
+}
+
+.setting-row:last-of-type {
+  border-bottom: none;
+}
+
+
+/* =========================================================
+   LEFT INFORMATION
+========================================================= */
+
+.setting-info {
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: clamp(10px, 1.5vw, 20px);
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.setting-icon {
+  width: clamp(38px, 3vw, 50px);
+  height: clamp(38px, 3vw, 50px);
+
+  min-width: clamp(38px, 3vw, 50px);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: #b66cff;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(168, 85, 247, 0.22),
+      rgba(80, 50, 130, 0.08)
+    );
+
+  border:
+    1px solid rgba(168, 85, 247, 0.15);
+
+  box-shadow:
+    0 0 20px rgba(168, 85, 247, 0.08);
+}
+
+
+/* =========================================================
+   SETTING TITLE
+========================================================= */
+
+.setting-info h2 {
+  margin: 0 0 5px;
+
+  color: #ffffff;
+
+  font-size: clamp(15px, 1.35vw, 21px);
+
+  font-weight: 600;
+
+  line-height: 1.2;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   SETTING DESCRIPTION
+========================================================= */
+
+.setting-info p {
+  margin: 0;
+
+  color: #89899b;
+
+  font-size: clamp(9px, 0.85vw, 13px);
+
+  line-height: 1.3;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   OPTIONS
+========================================================= */
+
+.setting-options {
+  width: 100%;
+
+  min-width: 0;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: clamp(6px, 0.8vw, 10px);
+}
+
+
+/* =========================================================
+   OPTION BUTTON
+========================================================= */
+
+.option-button {
+  position: relative;
+
+  width: 100%;
+  min-width: 0;
+
+  height: clamp(42px, 3.5vw, 56px);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: clamp(5px, 0.7vw, 10px);
+
+  padding:
+    0 clamp(6px, 1vw, 15px);
+
+  color: #a6a6b7;
+
+  background:
+    rgba(25, 25, 40, 0.7);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.09);
+
+  border-radius:
+    clamp(8px, 0.8vw, 12px);
+
+  font-size:
+    clamp(11px, 1vw, 16px);
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    border 0.25s ease,
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.option-button:hover {
+  color: white;
+
+  background:
+    rgba(35, 30, 55, 0.9);
+
+  border-color:
+    rgba(168, 85, 247, 0.5);
+
+  transform: scale(1.03);
+}
+
+
+/* =========================================================
+   SELECTED
+========================================================= */
+
+.option-button.selected {
+  color: white;
+
+  border: 1px solid transparent;
+
+  background:
+    linear-gradient(#11111d, #11111d) padding-box,
+    linear-gradient(
+      90deg,
+      #c026ff,
+      #7c3aed,
+      #22b9ff
+    ) border-box;
+
+  box-shadow:
+    0 0 18px rgba(168, 85, 247, 0.12);
+}
+
+
+/* =========================================================
+   CHECK MARK
+========================================================= */
+
+.check {
+  position: absolute;
+
+  top: clamp(3px, 0.4vw, 5px);
+  right: clamp(3px, 0.4vw, 5px);
+
+  width: clamp(13px, 1vw, 16px);
+  height: clamp(13px, 1vw, 16px);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #c026ff,
+      #38bdf8
+    );
+
+  font-size: clamp(8px, 0.7vw, 10px);
+
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   INPUT CONTAINER
+========================================================= */
+
+.input-container {
+  width: 100%;
+
+  min-width: 0;
+
+  height: clamp(42px, 3.5vw, 56px);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: clamp(8px, 0.8vw, 12px);
+
+  padding:
+    0 clamp(12px, 1.2vw, 18px);
+
+  color: #9292a5;
+
+  background:
+    rgba(10, 10, 20, 0.7);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius:
+    clamp(8px, 0.8vw, 12px);
+
+  transition:
+    border 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+/* =========================================================
+   INPUT FOCUS
+========================================================= */
+
+.input-container:focus-within {
+  border-color: #9b5cff;
+
+  box-shadow:
+    0 0 15px rgba(155, 92, 255, 0.15);
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.input-container input {
+  width: 100%;
+
+  min-width: 0;
+
+  color: white;
+
+  background: transparent;
+
+  border: none;
+
+  outline: none;
+
+  font-size: clamp(12px, 1vw, 15px);
+}
+
+
+/* =========================================================
+   PLACEHOLDER
+========================================================= */
+
+.input-container input::placeholder {
+  color: #707083;
+}
+
+
+/* =========================================================
+   WAKE WORD
+========================================================= */
+
+.input-wrapper {
+  width: 100%;
+
+  min-width: 0;
+}
+
+.input-wrapper .input-container {
+  width: 100%;
+}
+
+
+/* =========================================================
+   VOICE SYMBOL
+========================================================= */
+
+.voice-symbol {
+  color: #b66cff;
+
+  font-size: clamp(16px, 1.3vw, 20px);
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   SAVE CONTAINER
+========================================================= */
+
+.save-container {
+  width: 100%;
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  padding:
+    clamp(10px, 1.2vw, 16px)
+    clamp(18px, 3vw, 45px);
+
+  background:
+    rgba(10, 10, 20, 0.35);
+}
+
+
+/* =========================================================
+   SAVE BUTTON
+========================================================= */
+
+.save-button {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: clamp(6px, 0.7vw, 9px);
+
+  padding:
+    clamp(9px, 0.9vw, 13px)
+    clamp(12px, 1.5vw, 22px);
+
+  color: white;
+
+  background:
+    linear-gradient(
+      90deg,
+      #c026ff,
+      #8b5cf6,
+      #22b9ff
+    );
+
+  border: none;
+
+  border-radius:
+    clamp(8px, 0.8vw, 11px);
+
+  font-size:
+    clamp(11px, 1vw, 15px);
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 0 20px rgba(168, 85, 247, 0.22);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
+
+  white-space: nowrap;
+}
+
+.save-button:hover {
+  transform: scale(1.03);
+
+  box-shadow:
+    0 0 30px rgba(168, 85, 247, 0.4);
+}
+
+.save-button:active {
+  transform: scale(0.97);
+}
+
+
+/* =========================================================
+   SMALL DESKTOP
+   ONLY SCALE DOWN
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .settings-page {
+    width: calc(100% - 30px);
+
+    padding-top: 25px;
+    padding-bottom: 30px;
+  }
+
+  .setting-row {
+    grid-template-columns:
+      minmax(180px, 0.85fr)
+      minmax(230px, 1.15fr);
+
+    min-height: 82px;
+
+    gap: 12px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .setting-info {
+    gap: 9px;
+  }
+
+  .setting-info h2 {
+    font-size: 15px;
+  }
+
+  .setting-info p {
+    font-size: 9px;
+  }
+
+  .setting-icon {
+    width: 36px;
+    height: 36px;
+
+    min-width: 36px;
+  }
+
+  .option-button {
+    height: 44px;
+
+    font-size: 11px;
+  }
+
+  .input-container {
+    height: 44px;
+  }
+
+  .input-container input {
+    font-size: 12px;
+  }
+}
+
+
+/* =========================================================
+   TAURI MINIMUM WIDTH
+   900px
+
+   STILL HORIZONTAL
+========================================================= */
+
+@media (max-width: 950px) {
+
+  .settings-page {
+    width: calc(100% - 20px);
+
+    padding-top: 18px;
+    padding-bottom: 20px;
+  }
+
+  .settings-header {
+    margin-bottom: 12px;
+  }
+
+  .settings-title h1 {
+    font-size: 22px;
+  }
+
+  .settings-title p {
+    font-size: 11px;
+  }
+
+  .settings-card {
+    border-radius: 15px;
+  }
+
+  .setting-row {
+    grid-template-columns:
+      minmax(160px, 0.8fr)
+      minmax(220px, 1.2fr);
+
+    min-height: 75px;
+
+    gap: 10px;
+
+    padding:
+      10px 15px;
+  }
+
+  .setting-info {
+    gap: 8px;
+  }
+
+  .setting-icon {
+    width: 36px;
+    height: 36px;
+
+    min-width: 36px;
+  }
+
+  .setting-info h2 {
+    font-size: 14px;
+  }
+
+  .setting-info p {
+    font-size: 8px;
+  }
+
+  .option-button {
+    height: 42px;
+
+    font-size: 10px;
+
+    gap: 5px;
+  }
+
+  .input-container {
+    height: 42px;
+
+    padding: 0 10px;
+
+    gap: 7px;
+  }
+
+  .input-container input {
+    font-size: 11px;
+  }
+
+  .voice-symbol {
+    font-size: 15px;
+  }
+
+  .save-container {
+    padding:
+      9px 15px;
+  }
+
+  .save-button {
+    padding:
+      8px 12px;
+
+    font-size: 11px;
+  }
+}
+
+
+/* =========================================================
+   SMALL HEIGHT
+   SCALE VERTICALLY WITHOUT CHANGING LAYOUT
+========================================================= */
+
+@media (max-height: 650px) {
+
+  .settings-page {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .settings-header {
+    margin-bottom: 10px;
+  }
+
+  .setting-row {
+    min-height: 68px;
+
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+
+  .setting-icon {
+    width: 34px;
+    height: 34px;
+
+    min-width: 34px;
+  }
+
+  .input-container,
+  .option-button {
+    height: 38px;
+  }
+
+  .save-container {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .save-button {
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+}
+
+
+/* =========================================================
+   LIGHT MODE
+========================================================= */
+
+.bg-setting.light {
+  background-color: #f3f4f6;
+}
+
+
+/* Typography */
+
+.bg-setting.light .settings-title h1,
+.bg-setting.light .setting-info h2 {
+  color: #111827;
+
+  -webkit-text-fill-color: #111827;
+
+  background: none;
+}
+
+.bg-setting.light .settings-title p,
+.bg-setting.light .setting-info p {
+  color: #6b7280;
+}
+
+
+/* Card */
+
+.bg-setting.light .settings-card {
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.05);
+
+  backdrop-filter: none;
+}
+
+
+/* Rows */
+
+.bg-setting.light .setting-row {
+  border-bottom:
+    1px solid #f3f4f6;
+}
+
+
+/* Icons */
+
+.bg-setting.light .setting-icon {
+  background:
+    radial-gradient(
+      circle,
+      rgba(168, 85, 247, 0.12),
+      rgba(80, 50, 130, 0.05)
+    );
+
+  border:
+    1px solid rgba(168, 85, 247, 0.2);
+
+  color: #a855f7;
+
+  box-shadow: none;
+}
+
+
+/* Unselected buttons */
+
+.bg-setting.light .option-button {
+  background: #ffffff;
+
+  border:
+    1px solid #d1d5db;
+
+  color: #4b5563;
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.bg-setting.light .option-button:hover {
+  background: #f9fafb;
+
+  border-color: #a855f7;
+
+  color: #111827;
+}
+
+
+/* Selected button */
+
+.bg-setting.light .option-button.selected {
+  color: #111827;
+
+  background-image:
+    linear-gradient(#ffffff, #ffffff),
+    linear-gradient(
+      90deg,
+      #c026ff,
+      #7c3aed,
+      #22b9ff
+    );
+
+  background-origin: border-box;
+
+  background-clip:
+    padding-box,
+    border-box;
+
+  border:
+    1px solid transparent;
+
+  box-shadow:
+    0 4px 15px rgba(168, 85, 247, 0.15);
+}
+
+
+/* Inputs */
+
+.bg-setting.light .input-container {
+  background: #ffffff;
+
+  border:
+    1px solid #d1d5db;
+
+  color: #6b7280;
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.bg-setting.light .input-container input {
+  color: #111827;
+}
+
+.bg-setting.light .input-container input::placeholder {
+  color: #9ca3af;
+}
+
+.bg-setting.light .input-container:focus-within {
+  border-color: #a855f7;
+
+  box-shadow:
+    0 0 0 3px rgba(168, 85, 247, 0.15);
+
+  background: #ffffff;
+}
+
+
+/* Save */
+
+.bg-setting.light .save-container {
+  background: #f9fafb;
+
+  border-top:
+    1px solid #e5e7eb;
+}
