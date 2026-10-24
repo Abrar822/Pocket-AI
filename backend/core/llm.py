@@ -1,11 +1,12 @@
 import requests
 import json
 from .system_prompt import system_prompt
+from .hardcoded_url import LLM_BASE_URL
 
 
 def route_task(prompt: str):
     response = requests.post(
-        "http://127.0.0.1:8080/chat/completions",
+        f"{LLM_BASE_URL}/chat/completions",
         json={
             "messages": [
                 {"role": "system", "content": system_prompt},

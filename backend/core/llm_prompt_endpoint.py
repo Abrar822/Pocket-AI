@@ -20,6 +20,8 @@ def generate_response(request: LLMRequestModel, req: Request):
         result = req.app.state.ai.execute(data.tasks)
 
         for res in result:
+            if res in ['shutdown', 'restart', 'lock', 'sleep', 'hibernate']:
+                continue
             req.app.state.speaker.tts(res)
 
         return {"response": [data.response] + result}

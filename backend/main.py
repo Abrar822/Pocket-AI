@@ -23,6 +23,8 @@ from .pocket_ai_modules.persistent_memory.memory_endpoints import memory_endpoin
 from .pocket_ai_modules.persistent_memory.settings_endpoints import settings_endpoints
 from contextlib import asynccontextmanager
 from .pocket_ai_modules.pdf_assistant_module.pdf_assistant_module import pdf_router
+from .pocket_ai_modules.desktop_module.power_endpoints import power_endpoints
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -37,13 +39,24 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://127.0.0.1:5173",
+        "http://localhost:5173",
+        "tauri://localhost",
+        "https://tauri.localhost",
+        "http://tauri.localhost",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+@app.get('/health')
+def health():
+    return {'status': '200'}
+
 app.include_router(llm_prompt_router)
 app.include_router(memory_endpoints)
 app.include_router(settings_endpoints)
 app.include_router(pdf_router)
+app.include_router(power_endpoints)

@@ -1,5 +1,7 @@
+import { API_BASE_URL } from "../config/api";
+
 export function settingConnect() {
-  return fetch("http://127.0.0.1:8000/get_user_details")
+  return fetch(`${API_BASE_URL}/get_user_details`)
     .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP ${res.status}`);

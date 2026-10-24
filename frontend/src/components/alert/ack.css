@@ -1,0 +1,81 @@
+.ack-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 100px 20px 20px;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.alert {
+  width: 380px;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 24px;
+  color: #ffffff;
+  background: var(--panel);
+  border-radius: 12px;
+  pointer-events: auto;
+}
+
+.msg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.msg span {
+  overflow-wrap: anywhere;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding-left: 60px;
+}
+
+.btn-container button {
+  min-width: 90px;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.btn-container button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.yes {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.yes:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.no {
+  background: #303846;
+  color: #ffffff;
+}
+
+.no:hover:not(:disabled) {
+  background: #414b5c;
+}

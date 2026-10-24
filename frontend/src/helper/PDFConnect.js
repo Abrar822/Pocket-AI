@@ -1,7 +1,9 @@
+import { API_BASE_URL } from "../config/api"
+
 async function PDF_upload(file) {
     const formData = new FormData()
     formData.append("file", file)
-    const response = await fetch("http://127.0.0.1:8000/pdf/upload", {
+    const response = await fetch(`${API_BASE_URL}/pdf/upload`, {
         method: "POST",
         body: formData
     })
@@ -14,7 +16,7 @@ async function PDF_upload(file) {
 }
 
 async function PDF_query(query) {
-    const response = await fetch("http://127.0.0.1:8000/pdf/query", {
+    const response = await fetch(`${API_BASE_URL}/pdf/query`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -33,7 +35,7 @@ async function PDF_query(query) {
 }
 
 async function PDF_delete() {
-    const response = await fetch("http://127.0.0.1:8000/pdf/delete", {
+    const response = await fetch(`${API_BASE_URL}/pdf/delete`, {
         method: "DELETE",
     })
     

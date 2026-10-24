@@ -225,6 +225,10 @@ class OpenApp(BaseModel):
     parameters: OpenAppParams
 
 
+class PowerType(BaseModel):
+    power_type: Literal['shutdown', 'restart', 'lock', 'sleep', 'hibernate']
+
+
 DeskTopTask = Annotated[
     SetVolume
     | SetBrightness

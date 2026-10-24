@@ -1,5 +1,7 @@
+import { API_BASE_URL } from "../config/api";
+
 export async function settingInsert(data) {
-  let response = await fetch("http://127.0.0.1:8000/insert_details", {
+  let response = await fetch(`${API_BASE_URL}/insert_details`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

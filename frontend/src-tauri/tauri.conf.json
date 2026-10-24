@@ -2,9 +2,9 @@
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Pocket-AI",
   "version": "0.1.0",
-  "identifier": "com.tauri.dev",
+  "identifier": "com.abrar.pocketai",
   "build": {
-    "frontendDist": "../build",
+    "frontendDist": "../dist",
     "devUrl": "http://localhost:5173",
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build"
@@ -15,10 +15,11 @@
         "title": "Pocket-AI",
         "width": 900,
         "height": 600,
-        "minHeight": 600,
         "minWidth": 900,
+        "minHeight": 600,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "center": true
       }
     ],
     "security": {
@@ -27,7 +28,7 @@
   },
   "bundle": {
     "active": true,
-    "targets": "all",
+    "targets": ["nsis"],
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -35,8 +36,15 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
-    "android": {
-      "debugApplicationIdSuffix": ".debug"
+    "resources": {
+      "../../backend/pocket_ai_modules/pdf_assistant_module/st_model_all_MiniLM_L6_v2/": "backend/pocket_ai_modules/pdf_assistant_module/st_model_all_MiniLM_L6_v2/",
+      "../../backend/pocket_ai_modules/text_to_speech_module/Piper_TTS/piper/": "backend/pocket_ai_modules/text_to_speech_module/Piper_TTS/piper/",
+      "../../backend/pocket_ai_modules/text_to_speech_module/Piper_TTS/voices/": "backend/pocket_ai_modules/text_to_speech_module/Piper_TTS/voices/",
+      "../../backend/core/llama_cpp/": "backend/core/llama_cpp/",
+      "../../backend/core/model/": "backend/core/model/",
+      "../../dist/PocketBackend/": "PocketBackend/",
+      "../../ai/voice.py": "ai/voice.py",
+      "../../ai/models/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/": "ai/models/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/"
     }
   }
 }

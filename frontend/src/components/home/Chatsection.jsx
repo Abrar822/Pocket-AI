@@ -1,15 +1,26 @@
 import { useState, useRef, useEffect } from "react";
 import "./Chatsection.css";
-import { PDF_upload, PDF_query, PDF_delete } from "../../helper/PDFConnect"
+
+import { PDF_upload, PDF_query, PDF_delete } from "../../helper/PDFConnect";
+
 import {
   MessageCircleMore,
   X,
   FilePlus,
   ArrowUp,
-  FileText
+  FileText,
 } from "lucide-react";
 
 import { sendPrompt } from "../../services/api";
+import Ack from "../alert/Ack";
+
+const POWER_OPERATIONS = [
+  "shutdown",
+  "restart",
+  "lock",
+  "sleep",
+  "hibernate",
+];
 
 function ChatSection({
   quickActionPrompt,
@@ -21,22 +32,23 @@ function ChatSection({
   setIsUploaded,
   setInformer,
   dbModified,
-  setDbModified
+  setDbModified,
 }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [open, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
   const [pdfName, setPdfName] = useState("");
   const [pdfFile, setPdfFile] = useState(null);
   const [uploadingPdf, setUploadingPdf] = useState(false);
 
+  const [isPowerOperation, setIsPowerOperation] = useState("");
+
   const bottomRef = useRef(null);
   const pdfUploadRef = useRef(null);
-
   const draggerRef = useRef(null);
   const chatboxRef = useRef(null);
-
 
   /* =========================================================
      TOGGLE CHAT
@@ -45,7 +57,6 @@ function ChatSection({
   const toggle = () => {
     setIsOpen((prev) => !prev);
   };
-
 
   /* =========================================================
      RESIZE CHAT BOX
@@ -59,7 +70,7 @@ function ChatSection({
 
     if (!dragger) return;
 
-    const pointerDown = () => {
+    const pointerDown = (event) => {
       if (!chatboxRef.current) return;
 
       draggable = true;
@@ -67,16 +78,18 @@ function ChatSection({
       rect = chatboxRef.current.getBoundingClientRect();
 
       document.body.style.userSelect = "none";
+
+      event.preventDefault();
     };
 
-    const pointerMove = (e) => {
+    const pointerMove = (event) => {
       if (!draggable || !chatboxRef.current) return;
 
-      const delta = rect.left - e.clientX;
+      const delta = rect.left - event.clientX;
 
       const newWidth = Math.max(
         400,
-        Math.min(840, rect.width + delta)
+        Math.min(840, rect.width + delta),
       );
 
       chatboxRef.current.style.width = `${newWidth}px`;
@@ -84,202 +97,215 @@ function ChatSection({
 
     const pointerUp = () => {
       draggable = false;
-
       document.body.style.userSelect = "";
     };
 
-    dragger.addEventListener(
-      "pointerdown",
-      pointerDown
-    );
-
-    document.addEventListener(
-      "pointermove",
-      pointerMove
-    );
-
-    document.addEventListener(
-      "pointerup",
-      pointerUp
-    );
+    dragger.addEventListener("pointerdown", pointerDown);
+    document.addEventListener("pointermove", pointerMove);
+    document.addEventListener("pointerup", pointerUp);
 
     return () => {
-      dragger.removeEventListener(
-        "pointerdown",
-        pointerDown
-      );
-
-      document.removeEventListener(
-        "pointermove",
-        pointerMove
-      );
-
-      document.removeEventListener(
-        "pointerup",
-        pointerUp
-      );
+      dragger.removeEventListener("pointerdown", pointerDown);
+      document.removeEventListener("pointermove", pointerMove);
+      document.removeEventListener("pointerup", pointerUp);
 
       document.body.style.userSelect = "";
     };
   }, []);
-
 
   /* =========================================================
      SEND MESSAGE
      ========================================================= */
 
   const sendMessage = async (messageText = input) => {
-    if (loading) return
-    if (!messageText || messageText.trim() === "") {
+    if (loading) return;
+
+    if (!messageText || !messageText.trim()) {
       return;
     }
 
     const userInput = messageText.trim();
 
-    const newMessage = {
-      text: userInput,
-      sender: "user",
-    };
-
     setMessages((prev) => [
       ...prev,
-      newMessage,
+      {
+        text: userInput,
+        sender: "user",
+      },
     ]);
 
     setInput("");
-
     setLoading(true);
 
     try {
-      let data
-      let botReply
-      if (chatMode === 'general') {
+      let data;
+
+      if (chatMode === "general") {
         data = await sendPrompt(userInput);
-        if (!data.response) {
+
+        if (!data || !Array.isArray(data.response)) {
           throw new Error("Invalid response from server");
         }
-        let temp = []
-        for (let i = 0; i < data.response.length; i++) {
-          if(data.response[i].includes('Folder') || data.response[i].includes('folder')) {
-            setDbModified(true)
+
+        const botMessages = [];
+
+        for (const item of data.response) {
+          const responseText = String(item);
+
+          const normalizedResponse = responseText
+            .trim()
+            .toLowerCase();
+
+          /*
+           * Detect an exact power-operation response.
+           * If detected, show the confirmation popup.
+           */
+          if (POWER_OPERATIONS.includes(normalizedResponse)) {
+            setIsPowerOperation(normalizedResponse);
           }
-          temp.push(botReply = {
-            text: data.response[i],
+
+          /*
+           * Update memory state when folder operations occur.
+           */
+          if (
+            responseText.includes("Folder") ||
+            responseText.includes("folder")
+          ) {
+            setDbModified(true);
+          }
+
+          botMessages.push({
+            text: responseText,
             sender: "bot",
-          })
+          });
         }
-        setMessages((prev) => [
-          ...prev,
-          ...temp,
-        ]);
-      }
-      else if (chatMode === 'pdf') {
+
+        setMessages((prev) => [...prev, ...botMessages]);
+      } else if (chatMode === "pdf") {
+        if (!pdfFile) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              text: "Please upload a PDF first.",
+              sender: "bot",
+            },
+          ]);
+
+          return;
+        }
+
         data = await PDF_query(userInput);
-        if (!data) {
-          throw new Error("Invalid response from server");
+
+        if (data == null) {
+          throw new Error("Invalid response from PDF server");
         }
-        botReply = {
-          text: data,
-          sender: "bot",
-        };
+
         setMessages((prev) => [
           ...prev,
-          botReply,
+          {
+            text: typeof data === "string"
+              ? data
+              : JSON.stringify(data),
+            sender: "bot",
+          },
         ]);
-      }
-      else {
+      } else {
         throw new Error(`Invalid chat mode: ${chatMode}`);
       }
-
-
     } catch (error) {
-      console.error("FastAPI Error:", error);
-      if (chatMode === 'pdf' && pdfFile === null) {
-        setMessages((prev) => [
-          ...prev,
-          {
-            sender: "bot",
-            text: "Please upload pdf",
-          },
-        ]);
-      }
-      else {
-        setMessages((prev) => [
-          ...prev,
-          {
-            sender: "bot",
-            text: "Sorry, I couldn't process your request.",
-          },
-        ]);
-      }
+      console.error("Chat request error:", error);
 
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "bot",
+          text:
+            chatMode === "pdf" && !pdfFile
+              ? "Please upload a PDF first."
+              : "Sorry, I couldn't process your request.",
+        },
+      ]);
     } finally {
       setLoading(false);
     }
   };
 
-  const onPdfUpload = async (e) => {
-    const file = e.target.files?.[0]
+  /* =========================================================
+     PDF UPLOAD
+     ========================================================= */
+
+  const onPdfUpload = async (event) => {
+    const file = event.target.files?.[0];
+
     if (!file) return;
+
     setUploadingPdf(true);
+
     try {
-      const data = await PDF_upload(file)
+      const data = await PDF_upload(file);
+
       if (data) {
-        setIsUploaded(true)
-        setChatMode('pdf')
-        setPdfFile(file)
+        setIsUploaded(true);
+        setChatMode("pdf");
+        setPdfFile(file);
         setPdfName(file.name);
+
         setInformer({
           state: true,
-          msg: 'PDF uploaded successfully.'
-        })
+          msg: "PDF uploaded successfully.",
+        });
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error("PDF upload error:", error);
 
       setPdfFile(null);
       setPdfName("");
       setIsUploaded(false);
       setChatMode("general");
+
       if (pdfUploadRef.current) {
         pdfUploadRef.current.value = "";
       }
 
       setInformer({
         state: true,
-        msg: "Failed to upload PDF"
+        msg: "Failed to upload PDF.",
       });
-    }
-    finally {
+    } finally {
       setUploadingPdf(false);
     }
-  }
+  };
+
+  /* =========================================================
+     PDF DELETE
+     ========================================================= */
 
   const onPDFDelete = async () => {
     try {
+      await PDF_delete();
+
       setPdfName("");
-      setPdfFile(null)
+      setPdfFile(null);
       setIsUploaded(false);
+      setChatMode("general");
+
       if (pdfUploadRef.current) {
         pdfUploadRef.current.value = "";
       }
-      await PDF_delete()
-      setChatMode('general')
-      setInformer({
-        state: true,
-        msg: 'PDF deleted successfully.'
-      })
-    }
-    catch (error) {
-      console.error(error)
-      setInformer({
-        state: true,
-        msg: 'failed to delete pdf.'
-      })
-    }
-  }
 
+      setInformer({
+        state: true,
+        msg: "PDF deleted successfully.",
+      });
+    } catch (error) {
+      console.error("PDF deletion error:", error);
+
+      setInformer({
+        state: true,
+        msg: "Failed to delete PDF.",
+      });
+    }
+  };
 
   /* =========================================================
      QUICK ACTION
@@ -292,7 +318,6 @@ function ChatSection({
     }
   }, [quickActionPrompt]);
 
-
   /* =========================================================
      AUTO SCROLL
      ========================================================= */
@@ -304,16 +329,23 @@ function ChatSection({
     });
   }, [messages, loading]);
 
-
   /* =========================================================
      RENDER
      ========================================================= */
 
   return (
     <>
-      {/* =====================================================
-          CHAT OPEN BUTTON
-          ===================================================== */}
+      {/* POWER CONFIRMATION POPUP */}
+
+      {isPowerOperation && (
+        <Ack
+          isPowerOperation={isPowerOperation}
+          setInformer={setInformer}
+          setIsPowerOperation={setIsPowerOperation}
+        />
+      )}
+
+      {/* CHAT OPEN BUTTON */}
 
       <button
         onClick={toggle}
@@ -323,33 +355,21 @@ function ChatSection({
           border: "none",
         }}
       >
-        <MessageCircleMore
-          className={`chat-icon ${theme}`}
-        />
+        <MessageCircleMore className={`chat-icon ${theme}`} />
       </button>
 
-
-      {/* =====================================================
-          CHAT CONTAINER
-          ===================================================== */}
+      {/* CHAT CONTAINER */}
 
       <div
         ref={chatboxRef}
-        className={`chat-container ${open ? "open" : "close"
-          } ${theme}`}
+        className={`chat-container ${open ? "open" : "close"} ${theme}`}
       >
-
-        {/* Resize handle */}
-
         <div
           ref={draggerRef}
           className="resize-handle"
         />
 
-
-        {/* ===================================================
-            CLOSE BUTTON
-            =================================================== */}
+        {/* CLOSE BUTTON */}
 
         <div className={`chat-X ${theme}`}>
           <button
@@ -361,17 +381,9 @@ function ChatSection({
           </button>
         </div>
 
+        {/* MESSAGE AREA */}
 
-        {/* ===================================================
-            MESSAGE AREA
-
-            ONLY THIS AREA WILL SCROLL
-            =================================================== */}
-
-        <div
-          className={`messages ${theme}`}
-        >
-
+        <div className={`messages ${theme}`}>
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -385,51 +397,40 @@ function ChatSection({
             </div>
           ))}
 
-
-          {/* Typing indicator */}
-
           {loading && (
             <div className="typing-indicator">
-              <span></span>
-              <span></span>
-              <span></span>
+              <span />
+              <span />
+              <span />
             </div>
           )}
-
-
-          {/* Auto scroll target */}
 
           <div
             ref={bottomRef}
             className="bottom-anchor"
           />
-
         </div>
 
-
-        {/* ===================================================
-            INPUT AREA
-
-            THIS WILL NOT SCROLL
-            =================================================== */}
+        {/* INPUT AREA */}
 
         <div className={`chat-input ${theme}`}>
-
           <div className="chat-mode">
-
-            {/* Select */}
             <div className="select-wrapper">
-              <select value={chatMode} onChange={(e) => setChatMode(e.target.value)}>
+              <select
+                value={chatMode}
+                onChange={(event) =>
+                  setChatMode(event.target.value)
+                }
+              >
                 <option value="general">💬 General</option>
                 <option value="pdf">📄 PDF</option>
               </select>
-              <span className="select-arrow"></span>
+
+              <span className="select-arrow" />
             </div>
 
-            {/* Uploaded PDF */}
             {isUploaded && pdfName && (
               <div className="uploaded-pdf">
-
                 <div className="uploaded-pdf-info">
                   <FileText className="pdf-icon" />
 
@@ -448,28 +449,27 @@ function ChatSection({
                 >
                   <X />
                 </button>
-
               </div>
             )}
-
           </div>
 
           <div className="chat-input-row">
-            {/* File button */}
-            <input type="file" ref={pdfUploadRef} accept=".pdf" style={{ display: 'none' }} onChange={onPdfUpload} />
+            <input
+              type="file"
+              ref={pdfUploadRef}
+              accept=".pdf"
+              style={{ display: "none" }}
+              onChange={onPdfUpload}
+            />
+
             <button
-              onClick={() => {
-                pdfUploadRef.current.click()
-              }}
-              disabled={uploadingPdf}
               type="button"
-              aria-label="Attach file"
+              onClick={() => pdfUploadRef.current?.click()}
+              disabled={uploadingPdf}
+              aria-label="Attach PDF"
             >
               <FilePlus />
             </button>
-
-
-            {/* Text input */}
 
             <textarea
               className={theme}
@@ -477,34 +477,30 @@ function ChatSection({
               rows={3}
               wrap="soft"
               placeholder="Type a message..."
-              onChange={(e) => {
-                setInput(e.target.value);
-              }}
-              onKeyDown={(e) => {
+              onChange={(event) =>
+                setInput(event.target.value)
+              }
+              onKeyDown={(event) => {
                 if (
-                  e.key === "Enter" &&
-                  !e.shiftKey
+                  event.key === "Enter" &&
+                  !event.shiftKey
                 ) {
-                  e.preventDefault();
-
+                  event.preventDefault();
                   sendMessage();
                 }
               }}
             />
 
-
-            {/* Send button */}
-
             <button
               type="button"
               onClick={() => sendMessage()}
               aria-label="Send message"
+              disabled={loading}
             >
               <ArrowUp />
             </button>
           </div>
         </div>
-
       </div>
     </>
   );

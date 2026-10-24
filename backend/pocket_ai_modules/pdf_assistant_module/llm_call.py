@@ -1,4 +1,5 @@
 import requests
+from ...core.hardcoded_url import LLM_BASE_URL
 
 def llm_call(prompt: str):
     system_prompt = """
@@ -6,7 +7,7 @@ def llm_call(prompt: str):
     """
     
     response = requests.post(
-        "http://127.0.0.1:8080/chat/completions",
+        f"{LLM_BASE_URL}/chat/completions",
         json={
             "messages": [
                 {"role": "system", "content": system_prompt},
