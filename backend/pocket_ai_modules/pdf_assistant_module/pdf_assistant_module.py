@@ -3,8 +3,12 @@ from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from langchain_core.embeddings import Embeddings
+from langchain_classic.chains import create_retrieval_chain,create_history_aware_retriever
+from langchain_core.prompts import ChatPromptTemplate,MessagesPlaceholder
+from langchain_classic.chains.combine_documents import create_stuff_documents_chain
+from langchain_core.messages import HumanMessage,AIMessage
 from sentence_transformers import SentenceTransformer
-from .llm_call import llm_call
+from .llm_call import LocalChatLLM
 import gc
 import shutil
 import uuid
@@ -40,6 +44,9 @@ if not embeddings:
 
 path_chroma = BASE_DIR / "chroma_db"
 path_uploads = BASE_DIR / "uploads"
+
+llm = LocalChatLLM()
+chat_history = []
 
 
 @pdf_router.post("/pdf/upload", status_code=status.HTTP_201_CREATED)
@@ -121,9 +128,7 @@ async def upload_pdf(file: UploadFile = File(...)):
             detail=f"Failed to upload pdf file error:{e}",
         )
 
-
 from pydantic import BaseModel
-
 
 class PDFQuery(BaseModel):
     query: str
@@ -132,7 +137,7 @@ class PDFQuery(BaseModel):
 @pdf_router.post("/pdf/query", status_code=status.HTTP_200_OK)
 async def query_pdf(request: PDFQuery):
 
-    global latest_file_id
+    global latest_file_id, chat_history, llm
 
     try:
         if latest_file_id is None:
@@ -146,33 +151,85 @@ async def query_pdf(request: PDFQuery):
             persist_directory=str(path_chroma),
             collection_metadata={"hnsw:space": "cosine"},
         )
+        
+        retriever = vector_store.as_retriever(search_kwargs={
+            "k":5,
+            "filter": {"file_id": latest_file_id}
+        })
+        
+        ## create a prompt that includes the chat history
+        contextualize_q_system_prompt = """Given a chat history and the latest user question 
+        which might reference context in the chat history, formulate a standalone question 
+        which can be understood without the chat history. Do NOT answer the question, 
+        just reformulate it if needed and otherwise return it as is."""
 
-        results = vector_store.similarity_search_with_score(
-            user_query, k=5, filter={"file_id": latest_file_id}
+        contextualize_q_prompt = ChatPromptTemplate.from_messages([
+            ("system", contextualize_q_system_prompt),
+            MessagesPlaceholder("chat_history"),
+            ("human", "{input}"),
+        ])
+        
+        history_aware_retriever = create_history_aware_retriever(
+            llm,retriever,contextualize_q_prompt
         )
-        if not results:
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="responce not found",
-            )
-        text = []
-        for i in range(len(results)):
-            text.append(results[i][0].page_content)
+        
+        qa_system_prompt = """You are an assistant for question-answering tasks. 
+        Use the following pieces of retrieved context to answer the question. 
+        If you don't know the answer, just say that you don't know. 
+        Use three sentences maximum and keep the answer concise.
 
-        prompt = f"""
-        User Query: {user_query}
-        Context From Documents: {" ".join(text)}
-        """
+        Context: {context}"""
 
-        data = llm_call(prompt)
+        qa_prompt = ChatPromptTemplate.from_messages([
+            ("system", qa_system_prompt),
+            MessagesPlaceholder("chat_history"),
+            ("human", "{input}"),
+        ])
+        
+        question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
+        
+        conversational_rag_chain = create_retrieval_chain(
+            history_aware_retriever, 
+            question_answer_chain
+        )
+        
+        result = conversational_rag_chain.invoke({
+            "chat_history": chat_history,
+            "input": user_query
+        })
+        
+        chat_history.extend([
+            HumanMessage(content=user_query),
+            AIMessage(content=result['answer'])
+        ])
+        print(chat_history)
+
+        # results = vector_store.similarity_search_with_score(
+        #     user_query, k=5, filter={"file_id": latest_file_id}
+        # )
+        # if not results:
+        #     raise HTTPException(
+        #         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        #         detail="responce not found",
+        #     )
+        # text = []
+        # for i in range(len(results)):
+        #     text.append(results[i][0].page_content)
+
+        # prompt = f"""
+        # User Query: {user_query}
+        # Context From Documents: {" ".join(text)}
+        # """
+
+        # data = llm_call(prompt)
         vector_store._client.close()
 
         del vector_store
         gc.collect()
 
-        return data["choices"][0]["message"]["content"]
+        # return data["choices"][0]["message"]["content"]
 
-        # return results
+        return result['answer']
     except HTTPException:
         raise
     except Exception as e:
@@ -184,7 +241,7 @@ async def query_pdf(request: PDFQuery):
 @pdf_router.delete("/pdf/delete", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_db_pdf():
 
-    global latest_file_id
+    global latest_file_id,chat_history
 
     try:
         vector_store = Chroma(
@@ -209,6 +266,9 @@ async def delete_db_pdf():
 
         if path_uploads.exists():
             shutil.rmtree(path_uploads)
+        
+        chat_history.clear()
+        print(chat_history)
 
         latest_file_id = None
     except Exception as e:
@@ -216,3 +276,5 @@ async def delete_db_pdf():
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"error:Delete failed: {str(e)}",
         )
+
+

@@ -21,7 +21,9 @@ function ChatSection({
   setIsUploaded,
   setInformer,
   dbModified,
-  setDbModified
+  setDbModified,
+  voiceInput,
+  setVoiceInput
 }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -127,7 +129,54 @@ function ChatSection({
   /* =========================================================
      SEND MESSAGE
      ========================================================= */
+  useEffect(() => {
+    function voiceMessage() {
+      async function exe() {
+        if (loading) return
+        if (!voiceInput || voiceInput.trim() === "") {
+          return;
+        }
+        const userInput = voiceInput.trim();
 
+        const newMessage = {
+          text: userInput,
+          sender: "user",
+        };
+
+        setMessages((prev) => [
+          ...prev,
+          newMessage,
+        ]);
+
+        setInput("");
+
+        setLoading(true);
+
+        const data = await sendPrompt(userInput);
+        if (!data.response) {
+          throw new Error("Invalid response from server");
+        }
+        let temp = []
+        for (let i = 0; i < data.response.length; i++) {
+          if (data.response[i].includes('Folder') || data.response[i].includes('folder')) {
+            setDbModified(true)
+          }
+          temp.push({
+            text: data.response[i],
+            sender: "bot",
+          })
+        }
+        setMessages((prev) => [
+          ...prev,
+          ...temp,
+        ]);
+        setLoading(false);
+      }
+      exe()
+
+    }
+    voiceMessage()
+  }, [voiceInput])
   const sendMessage = async (messageText = input) => {
     if (loading) return
     if (!messageText || messageText.trim() === "") {
@@ -160,7 +209,7 @@ function ChatSection({
         }
         let temp = []
         for (let i = 0; i < data.response.length; i++) {
-          if(data.response[i].includes('Folder') || data.response[i].includes('folder')) {
+          if (data.response[i].includes('Folder') || data.response[i].includes('folder')) {
             setDbModified(true)
           }
           temp.push(botReply = {
