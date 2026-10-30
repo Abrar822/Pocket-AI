@@ -4,6 +4,7 @@ from playwright.sync_api import sync_playwright
 from .content_extractor import generate_content
 from pathlib import Path
 from datetime import datetime
+import os
 
 
 class BrowserModule:
@@ -44,6 +45,7 @@ class BrowserModule:
         chunk_size = 6000
 
         try:
+            print('started summarisation')
             url = task.parameters.url
             if not url.startswith("http"):
                 url = f"https://{url}"
@@ -62,7 +64,7 @@ class BrowserModule:
                 chunk = text[
                     (chunk_num * chunk_size) : (chunk_num * chunk_size) + chunk_size
                 ]
-                if chunk_size == 20:
+                if chunk_num == 20:
                     break
                 if chunk:
                     content = generate_content(chunk.strip())
@@ -77,6 +79,7 @@ class BrowserModule:
                 / f"summarized_{datetime.now().strftime('%d_%m_%Y-%H-%M-%S')}.txt"
             )
             path.write_text(summarised_content, encoding="utf-8")
+            os.startfile(path)
             return "The summarized content has been saved to your Downloads folder."
         except Exception as err:
             return "Error:" + str(err)
