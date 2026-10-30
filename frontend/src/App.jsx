@@ -24,6 +24,8 @@ function Home({
   wakeWord,
   quickActionPrompt,
   setQuickActionPrompt,
+  voiceInput,
+  setVoiceInput
 }) {
   const navigate = useNavigate();
 
@@ -57,6 +59,8 @@ function Home({
           theme={theme}
           username={username}
           wakeWord={wakeWord}
+          voiceInput={voiceInput}
+          setVoiceInput={setVoiceInput}
         />
       </div>
     </div>
@@ -158,6 +162,8 @@ function App() {
   const [isUploaded, setIsUploaded] = useState(true);
 
   const [dbModified, setDbModified] = useState(false);
+
+  const [voiceInput, setVoiceInput] = useState('')
 
   /* =====================================================
      GLOBAL CHAT STATE
@@ -261,6 +267,8 @@ function App() {
               wakeWord={wakeWord}
               quickActionPrompt={quickActionPrompt}
               setQuickActionPrompt={setQuickActionPrompt}
+              voiceInput={voiceInput}
+              setVoiceInput={setVoiceInput}
             />
           }
         />
@@ -329,6 +337,8 @@ function App() {
         isUploaded={isUploaded}
         setIsUploaded={setIsUploaded}
         setInformer={setInformer}
+        voiceInput={voiceInput}
+        setVoiceInput={setVoiceInput}
       />
     </BrowserRouter>
   );

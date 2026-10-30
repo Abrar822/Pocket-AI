@@ -132,7 +132,7 @@ import { startTransition, useEffect, useId, useMemo, useRef, useState } from "re
             <svg
                 viewBox={`0 0 ${vw} ${vh}`}
                 width="100%"
-               height="100%"
+                height="auto"
                 role="img"
                 aria-label={resolvedLabel}
                 style={{ display: "block", overflow: "visible" }}
@@ -276,7 +276,7 @@ import { startTransition, useEffect, useId, useMemo, useRef, useState } from "re
                 )} */}
             </svg>
 
-            <div 
+            {/* <div 
                 style={{
                     marginTop: size * 0.08,
                     fontSize: Math.max(13, size * 0.075),
@@ -285,7 +285,7 @@ import { startTransition, useEffect, useId, useMemo, useRef, useState } from "re
                 }}
             >
                 {resolvedLabel}
-            </div>
+            </div> */}
             {/* {hint && (
                 <div
                     style={{

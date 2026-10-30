@@ -33,6 +33,8 @@ function ChatSection({
   setInformer,
   dbModified,
   setDbModified,
+  voiceInput,
+  setVoiceInput
 }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -116,119 +118,272 @@ function ChatSection({
   /* =========================================================
      SEND MESSAGE
      ========================================================= */
-
-  const sendMessage = async (messageText = input) => {
-    if (loading) return;
-
-    if (!messageText || !messageText.trim()) {
-      return;
-    }
-
-    const userInput = messageText.trim();
-
-    setMessages((prev) => [
-      ...prev,
-      {
-        text: userInput,
-        sender: "user",
-      },
-    ]);
-
-    setInput("");
-    setLoading(true);
-
-    try {
-      let data;
-
-      if (chatMode === "general") {
-        data = await sendPrompt(userInput);
-
-        if (!data || !Array.isArray(data.response)) {
-          throw new Error("Invalid response from server");
-        }
-
-        const botMessages = [];
-
-        for (const item of data.response) {
-          const responseText = String(item);
-
-          const normalizedResponse = responseText
-            .trim()
-            .toLowerCase();
-
-          /*
-           * Detect an exact power-operation response.
-           * If detected, show the confirmation popup.
-           */
-          if (POWER_OPERATIONS.includes(normalizedResponse)) {
-            setIsPowerOperation(normalizedResponse);
-          }
-
-          /*
-           * Update memory state when folder operations occur.
-           */
-          if (
-            responseText.includes("Folder") ||
-            responseText.includes("folder")
-          ) {
-            setDbModified(true);
-          }
-
-          botMessages.push({
-            text: responseText,
-            sender: "bot",
-          });
-        }
-
-        setMessages((prev) => [...prev, ...botMessages]);
-      } else if (chatMode === "pdf") {
-        if (!pdfFile) {
-          setMessages((prev) => [
-            ...prev,
-            {
-              text: "Please upload a PDF first.",
-              sender: "bot",
-            },
-          ]);
-
+  useEffect(() => {
+    function voiceMessage() {
+      async function exe() {
+        if (loading) return
+        if (!voiceInput || voiceInput.trim() === "") {
           return;
         }
+        const userInput = voiceInput.trim();
 
-        data = await PDF_query(userInput);
-
-        if (data == null) {
-          throw new Error("Invalid response from PDF server");
-        }
+        const newMessage = {
+          text: userInput,
+          sender: "user",
+        };
 
         setMessages((prev) => [
           ...prev,
+          newMessage,
+        ]);
+
+        setInput("");
+
+        setLoading(true);
+
+        const data = await sendPrompt(userInput);
+        if (!data.response) {
+          throw new Error("Invalid response from server");
+        }
+        let temp = []
+        for (let i = 0; i < data.response.length; i++) {
+          if (data.response[i].includes('Folder') || data.response[i].includes('folder')) {
+            setDbModified(true)
+          }
+          temp.push({
+            text: data.response[i],
+            sender: "bot",
+          })
+        }
+        setMessages((prev) => [
+          ...prev,
+          ...temp,
+        ]);
+        setLoading(false);
+      }
+      exe()
+
+    }
+    voiceMessage()
+  }, [voiceInput])
+  // const sendMessage = async (messageText = input) => {
+  //   if (loading) return;
+
+  //   if (!messageText || !messageText.trim()) {
+  //     return;
+  //   }
+
+  //   const userInput = messageText.trim();
+
+  //   setMessages((prev) => [
+  //     ...prev,
+  //     {
+  //       text: userInput,
+  //       sender: "user",
+  //     },
+  //   ]);
+
+  //   setInput("");
+  //   setLoading(true);
+
+  //   try {
+  //     let data;
+
+  //     if (chatMode === "general") {
+  //       data = await sendPrompt(userInput);
+
+  //       if (!data || !Array.isArray(data.response)) {
+  //         throw new Error("Invalid response from server");
+  //       }
+
+  //       const botMessages = [];
+
+  //       for (const item of data.response) {
+  //         const responseText = String(item);
+
+  //         const normalizedResponse = responseText
+  //           .trim()
+  //           .toLowerCase();
+
+  //         /*
+  //          * Detect an exact power-operation response.
+  //          * If detected, show the confirmation popup.
+  //          */
+  //         if (POWER_OPERATIONS.includes(normalizedResponse)) {
+  //           setIsPowerOperation(normalizedResponse);
+  //       let temp = []
+  //       for (let i = 0; i < data.response.length; i++) {
+  //         if (data.response[i].includes('Folder') || data.response[i].includes('folder')) {
+  //           setDbModified(true)
+  //         }
+
+  //         /*
+  //          * Update memory state when folder operations occur.
+  //          */
+  //         if (
+  //           responseText.includes("Folder") ||
+  //           responseText.includes("folder")
+  //         ) {
+  //           setDbModified(true);
+  //         }
+
+  //         botMessages.push({
+  //           text: responseText,
+  //           sender: "bot",
+  //         });
+  //       }
+
+  //       setMessages((prev) => [...prev, ...botMessages]);
+  //     } else if (chatMode === "pdf") {
+  //       if (!pdfFile) {
+  //         setMessages((prev) => [
+  //           ...prev,
+  //           {
+  //             text: "Please upload a PDF first.",
+  //             sender: "bot",
+  //           },
+  //         ]);
+
+  //         return;
+  //       }
+
+  //       data = await PDF_query(userInput);
+
+  //       if (data == null) {
+  //         throw new Error("Invalid response from PDF server");
+  //       }
+
+  //       setMessages((prev) => [
+  //         ...prev,
+  //         {
+  //           text: typeof data === "string"
+  //             ? data
+  //             : JSON.stringify(data),
+  //           sender: "bot",
+  //         },
+  //       ]);
+  //     } else {
+  //       throw new Error(`Invalid chat mode: ${chatMode}`);
+  //     }
+  //   } catch (error) {
+  //     console.error("Chat request error:", error);
+
+  //     setMessages((prev) => [
+  //       ...prev,
+  //       {
+  //         sender: "bot",
+  //         text:
+  //           chatMode === "pdf" && !pdfFile
+  //             ? "Please upload a PDF first."
+  //             : "Sorry, I couldn't process your request.",
+  //       },
+  //     ]);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  
+const sendMessage = async (messageText = input) => {
+  if (loading) return;
+
+  if (!messageText || !messageText.trim()) return;
+
+  const userInput = messageText.trim();
+
+  setMessages((prev) => [
+    ...prev,
+    { text: userInput, sender: "user" },
+  ]);
+
+  setInput("");
+  setLoading(true);
+
+  try {
+    let data;
+
+    if (chatMode === "general") {
+      data = await sendPrompt(userInput);
+
+      if (!data || !Array.isArray(data.response)) {
+        throw new Error("Invalid response from server");
+      }
+
+      const botMessages = [];
+
+      for (const item of data.response) {
+        const responseText = String(item);
+        const normalizedResponse = responseText.trim().toLowerCase();
+
+        // Detect power operations
+        if (POWER_OPERATIONS.includes(normalizedResponse)) {
+          setIsPowerOperation(normalizedResponse);
+        }
+
+        // Detect folder modifications
+        if (
+          responseText.includes("Folder") ||
+          responseText.includes("folder")
+        ) {
+          setDbModified(true);
+        }
+
+        botMessages.push({
+          text: responseText,
+          sender: "bot",
+        });
+      }
+
+      setMessages((prev) => [...prev, ...botMessages]);
+
+    } else if (chatMode === "pdf") {
+
+      if (!pdfFile) {
+        setMessages((prev) => [
+          ...prev,
           {
-            text: typeof data === "string"
-              ? data
-              : JSON.stringify(data),
+            text: "Please upload a PDF first.",
             sender: "bot",
           },
         ]);
-      } else {
-        throw new Error(`Invalid chat mode: ${chatMode}`);
+        return;
       }
-    } catch (error) {
-      console.error("Chat request error:", error);
+
+      data = await PDF_query(userInput);
+
+      if (data == null) {
+        throw new Error("Invalid response from PDF server");
+      }
 
       setMessages((prev) => [
         ...prev,
         {
+          text: typeof data === "string"
+            ? data
+            : JSON.stringify(data),
           sender: "bot",
-          text:
-            chatMode === "pdf" && !pdfFile
-              ? "Please upload a PDF first."
-              : "Sorry, I couldn't process your request.",
         },
       ]);
-    } finally {
-      setLoading(false);
+
+    } else {
+      throw new Error(`Invalid chat mode: ${chatMode}`);
     }
-  };
+
+  } catch (error) {
+    console.error("Chat request error:", error);
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        sender: "bot",
+        text: "Sorry, I couldn't process your request.",
+      },
+    ]);
+
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   /* =========================================================
      PDF UPLOAD

@@ -19,7 +19,6 @@
   border-spacing: 0;
   color: var(--text);
   margin-top: 50px;
-  align-self: flex-start;
   margin-left: 120px;
   background: var(--panel);
   border: 1px solid var(--border);
@@ -164,7 +163,6 @@
   background: var(--violet-select);
 }
 .btn-container {
-  align-self: flex-start;
   width: 700px;
   margin-left: 120px;
   margin-top: 25px;

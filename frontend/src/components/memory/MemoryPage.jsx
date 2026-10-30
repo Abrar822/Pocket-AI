@@ -12,8 +12,6 @@ export default function MemoryPage({
   collapsed,
   setCollapsed,
   setInformer,
-  dbModified,
-  setDbModified,
 }) {
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
@@ -51,27 +49,17 @@ export default function MemoryPage({
   };
 
   useEffect(() => {
+    // const see = async () => {
+    //   let data = await display();
+    //   setFolders(data);
+    // };
+    // try {
+    //   see();
+    // } catch (err) {
+    //   setInformer({ msg: err.message, state: true });
+    // }
     displayFolders();
   }, []);
-
-  useEffect(() => {
-    const exe = async () => {
-      if (dbModified) {
-        try {
-          let data = await display();
-          if (data) {
-            setFolders(data || []);
-          }
-          
-        } catch (err) {
-          setInformer({msg: 'Failed to fetch locations.', state: true})
-        } finally {
-          setDbModified(false);
-        }
-      }
-    };
-    exe();
-  }, [dbModified]);
 
   useEffect(() => {
     const execute = async () => {
@@ -131,7 +119,7 @@ export default function MemoryPage({
         />
         <main className={`main-content ${theme}`}>
           <div className="h-full w-full flex overflow-auto overflow-x-hidden justify-start flex-col items-center pt-[20px]">
-            <div className="flex justify-start items-center gap-[20px] w-full pl-[125px] h-[40px]">
+            <div className="flex justify-center items-center gap-[20px] w-full pl-[125px] h-[40px]">
               <input
                 value={searchInput}
                 onChange={(e) => {
@@ -177,15 +165,15 @@ export default function MemoryPage({
                       <td
                         onClick={async () => {
                           try {
-                            let msg = await deleteFolders(folder?.f_name);
+                            let msg = await deleteFolders(folder.f_name);
                             if (msg) {
                               setInformer({
-                                msg: `Folder ${folder?.f_name} deleted successfully.`,
+                                msg: `Folder ${folder.f_name} deleted successfully.`,
                                 state: true,
                               });
                             }
                             let arr = folders.filter(
-                              (f) => f.f_name !== folder?.f_name,
+                              (f) => f.f_name !== folder.f_name,
                             );
                             setFolders(arr);
                           } catch (err) {
